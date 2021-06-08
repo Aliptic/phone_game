@@ -301,6 +301,18 @@
         <source>Your email address has been verified.</source>
         <target>Votre adresse e-mail a été vérifiée.</target>
       </trans-unit>
+      <trans-unit id="PaInB_f" resname="No reset password token found in the URL or in the session.">
+        <source>No reset password token found in the URL or in the session.</source>
+        <target>Aucun jeton de réinitialisation de mot de passe trouvé dans l'URL ou dans la session.</target>
+      </trans-unit>
+      <trans-unit id="nH3Ef4Q" resname="There was a problem validating your reset request - %s">
+        <source>There was a problem validating your reset request - %s</source>
+        <target>Un problème est survenu lors de la validation de votre demande de réinitialisation - %s</target>
+      </trans-unit>
+      <trans-unit id="ATJ8qA9" resname="Your password reset request">
+        <source>Your password reset request</source>
+        <target>Votre demande de réinitialisation de mot de passe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
