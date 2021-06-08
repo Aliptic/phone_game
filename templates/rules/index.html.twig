@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Règles du jeu{% endblock %}
+
+{% block body %}
+    {% if rules is null %}
+        Le site n'a pas réussi à charger les règles du jeu. Veuillez contacter l'administrateur du site.
+    {% else %}
+        {{ rules.text | raw }}
+    {% endif %}
+{% endblock %}

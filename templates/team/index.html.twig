@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Présentation de l'équipe{% endblock %}
+
+{% block body %}
+    {% if team is null %}
+        Le site n'a pas réussi à charger la présentation d'équipe.
+    {% else %}
+        {{ team.text | raw }}
+    {% endif %}
+{% endblock %}
