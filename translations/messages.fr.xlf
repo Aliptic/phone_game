@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="kx3yHIM" resname="A PHP extension caused the upload to fail.">
+        <source>A PHP extension caused the upload to fail.</source>
+        <target>Une extension PHP a causé l'échec du téléchargement.</target>
+      </trans-unit>
+      <trans-unit id="jZgqcpL" resname="An empty file is not allowed.">
+        <source>An empty file is not allowed.</source>
+        <target>Un fichier vide n'est pas autorisé.</target>
+      </trans-unit>
+      <trans-unit id="pFx7T_P" resname="Cannot write temporary file to disk">
+        <source>Cannot write temporary file to disk</source>
+        <target>Impossible d'écrire le fichier temporaire sur le disque</target>
+      </trans-unit>
+      <trans-unit id="CO9kdzc" resname="Each element of this collection should satisfy its own set of constraints">
+        <source>Each element of this collection should satisfy its own set of constraints</source>
+        <target>Chaque élément de cette collection doit satisfaire son propre ensemble de contraintes</target>
+      </trans-unit>
+      <trans-unit id="VKDowX6" resname="Error">
+        <source>Error</source>
+        <target>Erreur</target>
+      </trans-unit>
+      <trans-unit id="I4nX0qK" resname="Invalid card number">
+        <source>Invalid card number</source>
+        <target>Numéro de carte invalide</target>
+      </trans-unit>
+      <trans-unit id="GECvBlL" resname="No file was uploaded">
+        <source>No file was uploaded</source>
+        <target>Aucun fichier n'a été téléchargé</target>
+      </trans-unit>
+      <trans-unit id="AsCufvw" resname="No temporary folder was configured in php.ini">
+        <source>No temporary folder was configured in php.ini</source>
+        <target>Aucun dossier temporaire n'a été configuré dans php.ini</target>
+      </trans-unit>
+      <trans-unit id="FSZ4faJ" resname="One or more of the given values is invalid">
+        <source>One or more of the given values is invalid</source>
+        <target>Une ou plusieurs des valeurs données sont invalides</target>
+      </trans-unit>
+      <trans-unit id="bQu6LZ3" resname="Please.choose a valid date interval">
+        <source>Please.choose a valid date interval</source>
+        <target>Veuillez choisir un intervalle de dates valide</target>
+      </trans-unit>
+      <trans-unit id="xbWarBk" resname="Please.enter a.number">
+        <source>Please.enter a.number</source>
+        <target>Veuillez saisir un numéro</target>
+      </trans-unit>
+      <trans-unit id="0B5NFLX" resname="Please.enter a.percentage value">
+        <source>Please.enter a.percentage value</source>
+        <target>Veuillez saisir une valeur en pourcentage</target>
+      </trans-unit>
+      <trans-unit id="OROj4yH" resname="Please.enter a.valid.URL">
+        <source>Please.enter a.valid.URL</source>
+        <target>Veuillez entrer une URL valide</target>
+      </trans-unit>
+      <trans-unit id="gnLUVv0" resname="Please.enter a.valid.birthdate">
+        <source>Please.enter a.valid.birthdate</source>
+        <target>Veuillez entrer une date de naissance valide</target>
+      </trans-unit>
+      <trans-unit id="Kl23BZH" resname="Please.enter a.valid.date and time">
+        <source>Please.enter a.valid.date and time</source>
+        <target>Veuillez entrer une date et une heure valides</target>
+      </trans-unit>
+      <trans-unit id="idKWU3g" resname="Please.enter a.valid.date">
+        <source>Please.enter a.valid.date</source>
+        <target>Veuillez entrer une date valide</target>
+      </trans-unit>
+      <trans-unit id="DL.7tEd" resname="Please.enter a.valid.email address">
+        <source>Please.enter a.valid.email address</source>
+        <target>Veuillez mettre une adresse email valide</target>
+      </trans-unit>
+      <trans-unit id="0uTDKby" resname="Please.enter a.valid.money amount">
+        <source>Please.enter a.valid.money amount</source>
+        <target>Veuillez entrer un compte d'argent valide</target>
+      </trans-unit>
+      <trans-unit id="LG59qob" resname="Please.enter a.valid.search term">
+        <source>Please.enter a.valid.search term</source>
+        <target>Veuillez saisir un terme de recherche valide</target>
+      </trans-unit>
+      <trans-unit id="dfnp5hG" resname="Please.enter a.valid.time">
+        <source>Please.enter a.valid.time</source>
+        <target>Veuillez entrer une heure valide</target>
+      </trans-unit>
+      <trans-unit id="mOxsMZp" resname="Please.enter a.valid.week">
+        <source>Please.enter a.valid.week</source>
+        <target>Veuillez entrer une semaine valide</target>
+      </trans-unit>
+      <trans-unit id="S0XFnah" resname="Please.enter an integer">
+        <source>Please.enter an integer</source>
+        <target>Veuillez saisir un nombre entier</target>
+      </trans-unit>
+      <trans-unit id="trc5D.m" resname="Please.provide a valid phone number">
+        <source>Please.provide a valid phone number</source>
+        <target>Veuillez fournir un numéro de téléphone valide</target>
+      </trans-unit>
+      <trans-unit id="9ebVMhS" resname="Please.select a valid.color">
+        <source>Please.select a valid.color</source>
+        <target>Veuillez sélectionner une couleur valide</target>
+      </trans-unit>
+      <trans-unit id="Cqfj3NX" resname="Please.select a valid.country">
+        <source>Please.select a valid.country</source>
+        <target>Veuillez sélectionner un pays valide</target>
+      </trans-unit>
+      <trans-unit id="SYitXqc" resname="Please.select a valid.currency">
+        <source>Please.select a valid.currency</source>
+        <target>Veuillez sélectionner une devise valide</target>
+      </trans-unit>
+      <trans-unit id="5l5xzQ5" resname="Please.select a valid.file">
+        <source>Please.select a valid.file</source>
+        <target>Veuillez sélectionner un fichier valide</target>
+      </trans-unit>
+      <trans-unit id="L1OWlMe" resname="Please.select a valid.language">
+        <source>Please.select a valid.language</source>
+        <target>Veuillez sélectionner une langue valide</target>
+      </trans-unit>
+      <trans-unit id="XPADSqC" resname="Please.select a valid.locale">
+        <source>Please.select a valid.locale</source>
+        <target>Veuillez sélectionner un paramètre régional valide</target>
+      </trans-unit>
+      <trans-unit id="CnfGRug" resname="Please.select a valid.option">
+        <source>Please.select a valid.option</source>
+        <target>Veuillez sélectionner une option valide</target>
+      </trans-unit>
+      <trans-unit id="iCJuSh0" resname="Please.select a valid.range">
+        <source>Please.select a valid.range</source>
+        <target>Veuillez sélectionner une plage valide</target>
+      </trans-unit>
+      <trans-unit id="_jAeqkp" resname="Please.select a valid.timezone">
+        <source>Please.select a valid.timezone</source>
+        <target>Veuillez sélectionner un fuseau horaire valide</target>
+      </trans-unit>
+      <trans-unit id="CLWBHnM" resname="The CSRF token is invalid. Please try to resubmit the form">
+        <source>The CSRF token is invalid. Please try to resubmit the form</source>
+        <target>Le jeton CSRF n'est pas valide. Veuillez essayer de renvoyer le formulaire</target>
+      </trans-unit>
+      <trans-unit id="7ABqAwq" resname="The checkbox has an invalid value">
+        <source>The checkbox has an invalid value</source>
+        <target>La case à cocher a une valeur invalide</target>
+      </trans-unit>
+      <trans-unit id="en1EIc." resname="A PHP extension caused the upload to fail">
+        <source>A PHP extension caused the upload to fail</source>
+        <target>Une extension PHP a causé l'échec du téléchargement</target>
+      </trans-unit>
+      <trans-unit id=".s8prse" resname="An empty file is not allowed">
+        <source>An empty file is not allowed</source>
+        <target>Un fichier vide n'est pas autorisé</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
