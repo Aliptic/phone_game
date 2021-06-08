@@ -3,20 +3,9 @@
 {% block title %}Règles du jeu{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Règles du jeu</h1>
-
-    <ol>
-        <li>Créer une partie et inviter des amis, si t’en as pas, tu peux aussi jouer en solo.</li>
-        <li>Chaque joueur doit écrire une phrase, bizarre tant qu’à faire et si tu es à court d'inspiration, on y a pensé.</li>
-        <li>A tes pinceaux. Avec la phrase affichée, fait ta plus belle œuvre.</li>
-        <li>Quelle phrase t'inspire ce beau dessin ?</li>
-        <li>Allez, un récap pour voir où c'est parti en couille.</li>
-    </ol>
-</div>
+    {% if rules is null %}
+        Le site n'a pas réussi à charger les règles du jeu. Veuillez contacter l'administrateur du site.
+    {% else %}
+        {{ rules.text | raw }}
+    {% endif %}
 {% endblock %}
