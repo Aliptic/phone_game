@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Présentation de l'équipe{% endblock %}
+{% block title %}{% trans %}Team presentation{% endtrans %}{% endblock %}
 
 {% block body %}
     {% if team is null %}
-        Le site n'a pas réussi à charger la présentation d'équipe.
+        {% trans %}The site failed to load the team presentation.{% endtrans %}
     {% else %}
         {{ team.text | raw }}
     {% endif %}

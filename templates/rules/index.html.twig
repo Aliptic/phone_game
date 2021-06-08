@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Règles du jeu{% endblock %}
+{% block title %}{% trans %}Game rules{% endtrans %}{% endblock %}
 
 {% block body %}
     {% if rules is null %}
-        Le site n'a pas réussi à charger les règles du jeu. Veuillez contacter l'administrateur du site.
+        {% trans %}The site failed to load the game rules. Please contact the site administrator.{% endtrans %}
     {% else %}
         {{ rules.text | raw }}
     {% endif %}
