@@ -15,8 +15,7 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
+        
         <button type="submit" class="btn">{% trans %}Register{% endtrans %}</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

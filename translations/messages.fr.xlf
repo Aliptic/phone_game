@@ -249,7 +249,7 @@
         <source>Reset password</source>
         <target>Réinitialiser le mot de passe</target>
       </trans-unit>
-      <trans-unit id="daKa221" resname="The site failed to load the game rules. Please contact the site administrator.">
+      <trans-unit id="_FNJJbr" resname="The site failed to load the game rules. Please contact the site administrator.">
         <source>The site failed to load the game rules. Please contact the site administrator.</source>
         <target>Le site n'a pas réussi à charger les règles du jeu. Veuillez contacter l'administrateur du site.</target>
       </trans-unit>
@@ -292,6 +292,14 @@
       <trans-unit id="clOcb7l" resname="The site failed to load the team presentation.">
         <source>The site failed to load the team presentation.</source>
         <target>Le site n'a pas réussi à charger la présentation d'équipe.</target>
+      </trans-unit>
+      <trans-unit id="hpWlheT" resname="Please Confirm your Email">
+        <source>Please Confirm your Email</source>
+        <target>Veuillez confirmer votre email</target>
+      </trans-unit>
+      <trans-unit id="kQWnsB7" resname="Your email address has been verified.">
+        <source>Your email address has been verified.</source>
+        <target>Votre adresse e-mail a été vérifiée.</target>
       </trans-unit>
     </body>
   </file>
