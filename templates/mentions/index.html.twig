@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mentions légales du site{% endblock %}
+{% block title %}{% trans %}Legal notice{% endtrans %}{% endblock %}
 
 {% block body %}
     {% if mentions is null %}
-        Le site n'a pas réussi à charger les mentions légales.
+        {% trans %}The site failed to load the legal notices.{% endtrans %}
     {% else %}
         {{ mentions.text | raw }}
     {% endif %}
