@@ -149,9 +149,9 @@
         <source>An empty file is not allowed</source>
         <target>Un fichier vide n'est pas autorisé</target>
       </trans-unit>
-      <trans-unit id="h.ruNV4" resname="HelloController">
-        <source>HelloController</source>
-        <target>Controller Hello</target>
+      <trans-unit id="h.ruNV4" resname="HomeController">
+        <source>HomeController</source>
+        <target>Controller Home</target>
       </trans-unit>
       <trans-unit id="OnhpU4i" resname="Home">
         <source>Home</source>
