@@ -313,6 +313,14 @@
         <source>Your password reset request</source>
         <target>Votre demande de réinitialisation de mot de passe</target>
       </trans-unit>
+      <trans-unit id="YXZ26gK" resname="Please enter a password">
+        <source>Please enter a password</source>
+        <target>Veuillez entrer un mot de passe</target>
+      </trans-unit>
+      <trans-unit id=".esazsm" resname="Your password should be at least {{ limit }} characters">
+        <source>Your password should be at least {{ limit }} characters</source>
+        <target>Votre mot de passe doit comporter au moins {{ limit }} caractères</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
