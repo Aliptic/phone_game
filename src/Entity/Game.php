@@ -18,7 +18,7 @@ class Game
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=25, options={"default": "pending"})
      */
     private $state;
 
