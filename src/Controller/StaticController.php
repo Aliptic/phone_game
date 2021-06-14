@@ -13,12 +13,22 @@ class StaticController extends AbstractController
      * @Route("/mentions", name="mentions")
      */
     public function indexMentions(): Response
-    {
-        $mentions = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'mentions']);
+    {   
+        // Vérification de l'éxistence de la table static_page
+        if ($this->getDoctrine()->getConnection()->getSchemaManager()->tablesExist(array('static_page')) == true) {
+            $mentions = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'mentions']);
+
+            return $this->render('mentions/index.html.twig', [
+                'mentions' => $mentions,
+            ]);
+        }
         
-        return $this->render('mentions/index.html.twig', [
-            'mentions' => $mentions,
-        ]);
+        else{
+            return $this->render('mentions/index.html.twig', [
+                'mentions' => null,
+            ]);
+        }
+
     }
 
     /**
@@ -26,11 +36,19 @@ class StaticController extends AbstractController
      */
     public function indexRegles(): Response
     {
-        $rules = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'rules']);
+        // Vérification de l'éxistence de la table static_page
+        if ($this->getDoctrine()->getConnection()->getSchemaManager()->tablesExist(array('static_page')) == true) {
+            $rules = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'rules']);
 
-        return $this->render('rules/index.html.twig', [
-            'rules' => $rules,
-        ]);
+            return $this->render('rules/index.html.twig', [
+                'rules' => $rules,
+            ]);
+        }
+        else{
+            return $this->render('rules/index.html.twig', [
+                'rules' => null,
+            ]);
+        }
     }
 
     /**
@@ -38,10 +56,18 @@ class StaticController extends AbstractController
      */
     public function indexTeam(): Response
     {
-        $team = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'team']);
+        // Vérification de l'éxistence de la table static_page
+        if ($this->getDoctrine()->getConnection()->getSchemaManager()->tablesExist(array('static_page')) == true) {
+            $team = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['title' => 'team']);
 
-        return $this->render('team/index.html.twig', [
-            'team' => $team,
-        ]);
+            return $this->render('team/index.html.twig', [
+                'team' => $team,
+            ]);
+        }
+        else{
+            return $this->render('team/index.html.twig', [
+                'team' => null,
+            ]);
+        }
     }
 }
