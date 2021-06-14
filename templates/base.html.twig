@@ -68,8 +68,18 @@
             <nav class="header-nav">
                 <ul>
                     <li><a href="/">{% trans %}Home{% endtrans %}</a></li>
-                    <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
-                    <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
+
+                    {% if app.user %}
+                        <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
+                        <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
+                    {% endif %}
+                        
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('user_index') }}">{% trans %}Gestion des utilisateurs{% endtrans %}</a></li>
+                    {% endif %}
+
                     <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
                 </ul>
             </nav>
