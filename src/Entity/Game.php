@@ -10,6 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game
 {
+    // The 4 different states a game could be
+    const STATE = [
+        0 => 'Pending',
+        1 => 'Canceled',
+        2 => 'Ongoing',
+        3 => 'Finished',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,9 +26,9 @@ class Game
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, options={"default": "pending"})
+     * @ORM\Column(type="string", length=25, options={"default": "Pending"})
      */
-    private $state;
+    private $state = self::STATE[0];
 
     /**
      * @ORM\Column(type="json")

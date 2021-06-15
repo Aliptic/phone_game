@@ -11,10 +11,39 @@
 <div class="example-wrapper">
     <h1>{% trans %}Waiting room{% endtrans %}</h1>
     {% if token %}
+        <table>
+            <tr><th>Liste des joueurs</th></tr>
+            
+            {% for player in players %}
+                <tr><td>{{ player }}</td></tr>
+            {% endfor %}
+        </table>
         <p>{% trans %}Invite your friends with this link : {% endtrans %}</p>
-        <a href="{{ path('player_invite') }}.?token={{ token }}">token</a>
+        
+        <!-- The text field -->
+        <input type="text" value="{{ url('player_invite') }}?token={{ token }}" id="myInput">
+        <!-- The button used to copy the text -->
+        <button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
+
     {% else %}
         <p>{% trans %}Error generating token, please contact admin{% endtrans %}</p>
     {% endif %}
 </div>
+
+<script type="text/javascript">
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("myInput");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
 {% endblock %}

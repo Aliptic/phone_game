@@ -15,7 +15,7 @@
         </div>
         <div>
             <h1>Création de partie</h1>
-            <a href="{{ path('player_invite') }}">{% trans %}Commencer{% endtrans %}</a>
+            <a href="{{ path('player_invite') }}?player={{ app.user.id }}">{% trans %}Commencer{% endtrans %}</a>
         </div>
     {% else %}
         <div class="mb-3">
