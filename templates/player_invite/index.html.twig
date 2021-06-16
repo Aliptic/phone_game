@@ -10,7 +10,8 @@
 
 <div class="example-wrapper">
     <h1>{% trans %}Waiting room{% endtrans %}</h1>
-    {% if token %}
+    {% if token and game_id > 0 %}
+        <h1>{% trans %}Game{% endtrans %} {{ game_id }}</h1>
         <table>
             <tr><th>Liste des joueurs</th></tr>
             
@@ -26,7 +27,11 @@
         <button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
 
     {% else %}
-        <p>{% trans %}Error generating token, please contact admin{% endtrans %}</p>
+        {% if game_id == 0 %}
+            <h1>{% trans %}This game link is expired, you should create a game on your own :){% endtrans %}</h1>
+        {% else %}
+            <h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
+        {% endif %}
     {% endif %}
 </div>
 
