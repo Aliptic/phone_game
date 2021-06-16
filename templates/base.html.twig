@@ -71,6 +71,7 @@
 
                     {% if app.user %}
                         <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                        <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}Mon compte{% endtrans %}</a></li>
                     {% else %}
                         <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
                         <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>

@@ -17,12 +17,13 @@ class UserType extends AbstractType
             ->add('pseudo')
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'Administrateur' => 'ROLE_ADMIN'
+                    'Administrator' => 'ROLE_ADMIN'
                 ],
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles' 
             ])
+            ->add('nb_points')
             ->add('nb_games_played')
             ->add('total_time_played')
             ->add('isVerified')

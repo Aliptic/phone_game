@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserProfile;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -127,5 +128,35 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+    
+    /**
+     * @Route("/{id}/profile", name="user_profile", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function userProfile(Request $request, User $user): Response
+    {
+        if( $this->getUser()->getId() == $user->getID() ){
+            $form = $this->createForm(UserProfile::class, $user);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('user_profile', array(
+                    'user' => $user,
+                    'id' => (string)$user->getId(),
+                ));
+            }
+
+            return $this->render('user/profile.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);
+        }
+        else{
+            return $this->redirectToRoute('index');
+        }
     }
 }

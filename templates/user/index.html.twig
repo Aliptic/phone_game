@@ -11,11 +11,12 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Pseudo</th>
-                <th>Roles</th>
-                <th>Nb_games_played</th>
-                <th>Total_time_played</th>
-                <th>IsVerified</th>
-                <th>actions</th>
+                <th>Role</th>
+                <th>Points</th>
+                <th>Games played</th>
+                <th>Total play time</th>
+                <th>Is verified</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,35 +25,35 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.pseudo }}</td>
-                
-                {# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-
-                {# <td> {{ user.roles == "" ? 'Admin' : 'Utilisateur'}}</td> #}
-                {% set isAdmin = false %}
-                {% for role in user.roles %}
-                    {% if role == "ROLE_ADMIN" %} 
-                        {% set isAdmin = true %} 
-                    {% endif %}
-                {% endfor %}
                 <td>
-                    {% if isAdmin == true %}
-                        <a href="{{ path('user_demote', {'id': user.id}) }}"> 
-                            <img src="{{ asset('img/icon_down.png') }}" width="15" height="15" alt="Demote from administrator">
-                        </a>
+                    {% if 'ROLE_ADMIN' in user.roles %}
                         Admin 
-                    {% else %} 
-                        <a href="{{ path('user_promote', {'id': user.id}) }}">
-                            <img src="{{ asset('img/icon_up.png') }}" width="15" height="15" alt="Promote to administrator">
-                        </a>
+                    {% else %}
                         Utilisateur
                     {% endif %}
                 </td>
+                <td>{{ user.nbPoints }}</td>
                 <td>{{ user.nbGamesPlayed }}</td>
                 <td>{{ user.totalTimePlayed }}</td>
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">
+                            <img src="{{ asset('img/loupe.png') }}" width="15" height="15" alt="User details">
+                    </a>
+
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <a href="{{ path('user_demote', {'id': user.id}) }}"> 
+                            <img src="{{ asset('img/icon_down.png') }}" width="15" height="15" alt="Demote from administrator">
+                        </a>
+                    {% else %} 
+                        <a href="{{ path('user_promote', {'id': user.id}) }}">
+                            <img src="{{ asset('img/icon_up.png') }}" width="15" height="15" alt="Promote to administrator">
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">
+                            <img src="{{ asset('img/wrench.png') }}" width="15" height="15" alt="Edit the user">
+                    </a>
                 </td>
             </tr>
         {% else %}
