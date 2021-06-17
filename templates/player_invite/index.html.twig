@@ -9,26 +9,28 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{% trans %}Waiting room{% endtrans %}</h1>
+    <!-- Test if a player is invited and the link is correct -->
     {% if token and game_id > 0 %}
-        <h1>{% trans %}Game{% endtrans %} {{ game_id }}</h1>
+        <h1>{% trans %}Waiting room{% endtrans %}</h1>
+        <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
         <table>
             <tr><th>Liste des joueurs</th></tr>
-            
+            <!-- List all players in the waiting room -->
+            <!-- TODO : SSE to refresh -->
             {% for player in players %}
                 <tr><td>{{ player }}</td></tr>
             {% endfor %}
         </table>
         <p>{% trans %}Invite your friends with this link : {% endtrans %}</p>
         
-        <!-- The text field -->
+        <!-- The text field with the link to invite other players in this game -->
         <input type="text" value="{{ url('player_invite') }}?token={{ token }}" id="myInput">
         <!-- The button used to copy the text -->
         <button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
 
     {% else %}
         {% if game_id == 0 %}
-            <h1>{% trans %}This game link is expired, you should create a game on your own :){% endtrans %}</h1>
+            <h1>{% trans %}Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :){% endtrans %}</h1>
         {% else %}
             <h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
         {% endif %}
