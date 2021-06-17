@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit static page{% endblock %}
+
+{% block body %}
+
+<h1>Edit Page</h1>
+    {{ form_start(formPages) }}
+        {{ form(formPages) }}
+    {{ form_end(formPages) }}
+    
+{% endblock %}

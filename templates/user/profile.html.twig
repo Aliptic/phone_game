@@ -3,29 +3,47 @@
 {% block title %}My account{% endblock %}
 
 {% block body %}
+<style>
+    .container-section {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
 
-    <h1>My account</h1>
+    .section {
+        background: #ce8888;
+    }
+</style>
+<h1>My account</h1>
+<div class="container-section">
+    <div class="section">
+        {# Changement de pseudo #}
+        {{ form_start(form) }}
 
-    {# Changement de pseudo #}
-    {{ form_start(form) }}
+        <div class="form-class-errors">
+            {{ form_errors(form) }}
+        </div>
+        <h3>My pseudo</h3>
+        {{ form_row(form.pseudo, {'label': false}) }}
+        {{ form_row(form.submit, { 'label': 'Validate' }) }}
+        {{ form_end(form) }}
 
-    <div class="form-class-errors">
-        {{ form_errors(form) }}
+        {# Affichage des stats #}
+        <h3>My records<h3>
+                <ul>
+                    <li>- I earned {{ user.nbPoints }} points</li>
+                    <li>- I played in {{ user.nbGamesPlayed }} games</li>
+                    <li>- I spent {{ user.totalTimePlayed }} minutes playing</li>
+                </ul>
+                {# Affichage changer mot de passe #}
+                <a href="{{ path('app_forgot_password_request') }}">Change my password</a>
+
+                {# Affichage historique de parties #}
     </div>
-    <h3>My pseudo</h3>
-    {{ form_row(form.pseudo, {'label': false}) }}
-    {{ form_row(form.submit, { 'label': 'Validate' }) }}
-    {{ form_end(form) }}
-
-    {# Affichage des stats #}
-    <h3>My records<h3>
-    - I earned {{ user.nbPoints }} points
-    - I played in {{ user.nbGamesPlayed }} games
-    - I spent {{ user.totalTimePlayed }} minutes playing
-
-    {# Affichage changer mot de passe #}
-    <a href="{{ path('app_forgot_password_request') }}">Change my password</a>
-
-    {# Affichage historique de parties #}
-    
+    <div class="section">
+        <img src="{{ asset('img/th.jpg') }}" width="777" height="333"> 
+    </div>
+</div>
 {% endblock %}

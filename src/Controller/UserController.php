@@ -6,11 +6,12 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserProfile;
 use App\Repository\UserRepository;
+use ContainerQkksgrB\PaginatorInterface_82dac15;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -19,17 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="user_index", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
-    }
-
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
@@ -45,7 +35,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_panel');
         }
 
         return $this->render('user/new.html.twig', [
@@ -78,7 +68,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_panel');
         }
 
         return $this->render('user/edit.html.twig', [
@@ -98,7 +88,7 @@ class UserController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_panel');
     }
 
     /**
@@ -112,7 +102,7 @@ class UserController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_panel');
     }
 
     /**
@@ -121,22 +111,22 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_panel');
     }
-    
+
     /**
      * @Route("/{id}/profile", name="user_profile", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
     public function userProfile(Request $request, User $user): Response
     {
-        if( $this->getUser()->getId() == $user->getID() ){
+        if ($this->getUser()->getId() == $user->getID()) {
             $form = $this->createForm(UserProfile::class, $user);
 
             $form->handleRequest($request);
@@ -154,8 +144,7 @@ class UserController extends AbstractController
                 'user' => $user,
                 'form' => $form->createView(),
             ]);
-        }
-        else{
+        } else {
             return $this->redirectToRoute('index');
         }
     }
