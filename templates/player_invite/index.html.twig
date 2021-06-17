@@ -14,7 +14,7 @@
         <h1>{% trans %}Waiting room{% endtrans %}</h1>
         <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
         <table>
-            <tr><th>Liste des joueurs</th></tr>
+            <tr><th>{% trans %}List of players{% endtrans %}</th></tr>
             <!-- List all players in the waiting room -->
             <!-- TODO : SSE to refresh -->
             {% for player in players %}
