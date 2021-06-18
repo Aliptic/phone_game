@@ -94,11 +94,11 @@ class PlayerInviteController extends AbstractController
                         $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
-                    dump($idArray);
+                //    dump($idArray);
 
-                    $pseudoArray=[];
+                    // retrieve pseudo in database from ids
+                /*    $pseudoArray=[];
                     foreach ($idArray as $id){
-                        // retrieve pseudo in database from ids
                         $user = $this->getDoctrine()
                         ->getRepository(User::class)
                         ->findOneBy(['id' => $id]);
@@ -109,7 +109,11 @@ class PlayerInviteController extends AbstractController
                             throw $this->createNotFoundException($message);
                         }
                         array_push($pseudoArray,$this->getUser()->getPseudo());
-                    }
+                    }*/
+                    $pseudoArray = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->findBy(array('id' => $idArray));
+                    
                     dump($pseudoArray);
 
                     // display the player waiting room
@@ -151,15 +155,11 @@ class PlayerInviteController extends AbstractController
             $entityManager->persist($game);
             $entityManager->flush();
         //    dump($game);   // verify created game
-
-            // Get the player pseudo to display in players list 
-            $pseudo=[$this->getUser()->getPseudo()];
-        //    dump($pseudo);   // verify pseudo array
             
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
                 'token' => $token,
-                'players' => $pseudo,
+                'players' => [$this->getUser()->getPseudo()],   // Get the player pseudo to display in players list
                 'game_id' => $game->getId()
             ]);
         }
