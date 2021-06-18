@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerInviteController extends AbstractController
 {
@@ -18,28 +18,24 @@ class PlayerInviteController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         // if token is passed by GET or session variable, the game is already created and it add the player to the game
-        if (isset($_GET['token']) || $this->get('session')->get('token')) 
-        {
+        if (isset($_GET['token']) || $this->get('session')->get('token')) {
             // token passed by GET
-            if (isset($_GET['token']))
-            {
+            if (isset($_GET['token'])) {
                 $token = $_GET['token'];
             }
 
             // token is in session variable
-            elseif ($this->get('session')->get('token'))
-            {
+            elseif ($this->get('session')->get('token')) {
                 $token = $this->get('session')->get('token');
             }
-            
+
             // database query with token filter
             $game = $this->getDoctrine()
                 ->getRepository(Game::class)
                 ->findOneBy(['room_token' => $token]);
-            
+
             // verify if a token exist in base, if not, the player is warned
-            if (!$game) 
-            {   
+            if (!$game) {
                 return $this->render('player_invite/index.html.twig', [
                     'controller_name' => 'PlayerInviteController',
                     'token' => $token,
@@ -47,28 +43,25 @@ class PlayerInviteController extends AbstractController
                     'game_id' => 0
                 ]);
             }
-            
+
             // if the player is not logged in or does not have any account
-            if(!$this->getUser())      
-            {
+            if (!$this->getUser()) {
                 // token saved in session variable
-                $this->get('session')->set('token', $token); 
-                
+                $this->get('session')->set('token', $token);
+
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
 
             // player is already logged
-            else
-            {
+            else {
                 $friendId = $this->getUser()->getId();
-            
-            //    dump($friend); // verify friend id
-            //    dump($game);
+
+                //    dump($friend); // verify friend id
+                //    dump($game);
 
                 // verify if the invite is not expired, 30min after the game creation
-                if($game->getInviteExpiration() <= time())  
-                {
+                if ($game->getInviteExpiration() <= time()) {
                     // delete the session variable token because it's useless now
                     $this->get('session')->clear();
 
@@ -81,23 +74,21 @@ class PlayerInviteController extends AbstractController
                     ]);
                 }
                 // the invite is valid
-                else
-                {   
+                else {
                     // extract the array of players from the game table in database
                     $idArray = $game->getUsersId();
 
                     // test if the player is not already in this game
-                    if(!in_array($friendId,$idArray))
-                    {
+                    if (!in_array($friendId, $idArray)) {
                         // add the player at the end of the array
                         array_push($idArray, $friendId);
                         $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
-                //    dump($idArray);
+                    //    dump($idArray);
 
                     // retrieve pseudo in database from ids
-                /*    $pseudoArray=[];
+                    /*    $pseudoArray=[];
                     foreach ($idArray as $id){
                         $user = $this->getDoctrine()
                         ->getRepository(User::class)
@@ -113,22 +104,21 @@ class PlayerInviteController extends AbstractController
                     $pseudoArray = $this->getDoctrine()
                         ->getRepository(User::class)
                         ->findBy(array('id' => $idArray));
-                    
+
                     dump($pseudoArray);
 
                     // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
                         'controller_name' => 'PlayerInviteController',
                         'token' => $token,
-                        'players' => $pseudoArray,
+                        'players' => $idArray,
                         'game_id' => $game->getId()
                     ]);
                 }
             }
-        }
-        else    // time to create a game
+        } else    // time to create a game
         {
-        //    $token = uniqid(); // Generate random token for a game
+            //    $token = uniqid(); // Generate random token for a game
             $token = random_bytes(5); // Generate random token for a game
             $token = bin2hex($token);
 
@@ -136,8 +126,7 @@ class PlayerInviteController extends AbstractController
             $this->get('session')->set('token', $token);
 
             // new verification, if the player is not logged in
-            if(!$this->getUser())      
-            {
+            if (!$this->getUser()) {
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
@@ -150,12 +139,12 @@ class PlayerInviteController extends AbstractController
 
             $game->setUsersId($users_id)              // Add the player id in the array
                 ->setRoomToken($token)                  // Specify the unique token of this room
-                ->setInviteExpiration(time()+(30*60));  // The invite expires after 30 minutes
-            
+                ->setInviteExpiration(time() + (30 * 60));  // The invite expires after 30 minutes
+
             $entityManager->persist($game);
             $entityManager->flush();
-        //    dump($game);   // verify created game
-            
+            //    dump($game);   // verify created game
+
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
                 'token' => $token,
