@@ -18,6 +18,12 @@ class HomeController extends AbstractController
         {
             return $this->redirectToRoute('player_invite');
         }
+    /*    elseif($this->getUser()->getId())
+        {
+            $player = $this->getUser()->getId();
+
+        }
+    */
         else 
         {
         //    $message = $translator->trans('HomeController');

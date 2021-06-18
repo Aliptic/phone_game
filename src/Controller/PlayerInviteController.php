@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,13 +51,11 @@ class PlayerInviteController extends AbstractController
             // if the player is not logged in or does not have any account
             if(!$this->getUser())      
             {
-                // token saved in variable session
+                // token saved in session variable
                 $this->get('session')->set('token', $token); 
                 
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
-                
-            //    return $this->generateUrl('app_login', ['token' => $token]);
             }
 
             // player is already logged
@@ -85,21 +84,39 @@ class PlayerInviteController extends AbstractController
                 else
                 {   
                     // extract the array of players from the game table in database
-                    $tempArray = $game->getUsersId();
+                    $idArray = $game->getUsersId();
 
                     // test if the player is not already in this game
-                    if(!in_array($friendId,$tempArray))
+                    if(!in_array($friendId,$idArray))
                     {
                         // add the player at the end of the array
-                        array_push($tempArray, $friendId);
-                        $game->setUsersId($tempArray);
+                        array_push($idArray, $friendId);
+                        $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
+                    dump($idArray);
 
+                    $pseudoArray=[];
+                    foreach ($idArray as $id){
+                        // retrieve pseudo in database from ids
+                        $user = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->findOneBy(['id' => $id]);
+
+                        if (!$user) 
+                        {   
+                            $message = $this->translator->trans('No user found in database, that is normally impossible...');
+                            throw $this->createNotFoundException($message);
+                        }
+                        array_push($pseudoArray,$this->getUser()->getPseudo());
+                    }
+                    dump($pseudoArray);
+
+                    // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
                         'controller_name' => 'PlayerInviteController',
                         'token' => $token,
-                        'players' => $game->getUsersId(),
+                        'players' => $pseudoArray,
                         'game_id' => $game->getId()
                     ]);
                 }
@@ -110,6 +127,16 @@ class PlayerInviteController extends AbstractController
         //    $token = uniqid(); // Generate random token for a game
             $token = random_bytes(5); // Generate random token for a game
             $token = bin2hex($token);
+
+            // token saved in session variable
+            $this->get('session')->set('token', $token);
+
+            // new verification, if the player is not logged in
+            if(!$this->getUser())      
+            {
+                // redirect to login/create account
+                return $this->redirectToRoute('app_login');
+            }
 
             // initialize the array users_id with the first player id
             $users_id = [$this->getUser()->getId()];
@@ -123,13 +150,16 @@ class PlayerInviteController extends AbstractController
             
             $entityManager->persist($game);
             $entityManager->flush();
+        //    dump($game);   // verify created game
 
-        //    dump($game->getId());   // verify created game id
-
+            // Get the player pseudo to display in players list 
+            $pseudo=[$this->getUser()->getPseudo()];
+        //    dump($pseudo);   // verify pseudo array
+            
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
                 'token' => $token,
-                'players' => $game->getUsersId(),
+                'players' => $pseudo,
                 'game_id' => $game->getId()
             ]);
         }

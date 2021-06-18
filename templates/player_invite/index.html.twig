@@ -27,6 +27,9 @@
         <input type="text" value="{{ url('player_invite') }}?token={{ token }}" id="myInput">
         <!-- The button used to copy the text -->
         <button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
+        
+        <!-- Link to start the game for all players -->
+        <a href="/text?game={{ game_id }}">{% trans %}Start{% endtrans %}</a>
 
     {% else %}
         {% if game_id == 0 %}

@@ -10,7 +10,7 @@
 
 <div class="example-wrapper">
     {% if app.user %}
-        <div class="mb-3">
+        <div>
             {% trans %}You are logged in as{% endtrans %} {{ app.user.pseudo }}. <a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
         </div>
         <div>
@@ -18,8 +18,10 @@
             <a href="{{ path('player_invite') }}?player={{ app.user.id }}">{% trans %}Start{% endtrans %}</a>
         </div>
     {% else %}
-        <div class="mb-3">
+        <div>
             <h1>{% trans %}The Rumor{% endtrans %}</h1>
+            <h2>{% trans %}Welcome to this wonderfull game{% endtrans %}</h2>
+            <p>{% trans %}Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.{% endtrans %}</p>
         </div>
     {% endif %}
 </div>
