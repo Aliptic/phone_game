@@ -27,10 +27,19 @@ class UserController extends AbstractController
     public function new(Request $request): Response
     {
         $user = new User();
+        dump($user);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -62,7 +71,6 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

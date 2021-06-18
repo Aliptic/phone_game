@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My account{% endblock %}
+{% block title %}{% trans %}My account{% endtrans %}{% endblock %}
 
 {% block body %}
 <style>
@@ -16,7 +16,7 @@
         background: #ce8888;
     }
 </style>
-<h1>My account</h1>
+<h1>{% trans %}My account{% endtrans %}</h1>
 <div class="container-section">
     <div class="section">
         {# Changement de pseudo #}
@@ -32,17 +32,18 @@
 
         {# Affichage des stats #}
         <h3>My records<h3>
-                <ul>
-                    <li>- I earned {{ user.nbPoints }} points</li>
-                    <li>- I played in {{ user.nbGamesPlayed }} games</li>
-                    <li>- I spent {{ user.totalTimePlayed }} minutes playing</li>
-                </ul>
-                {# Affichage changer mot de passe #}
-                <a href="{{ path('app_forgot_password_request') }}">Change my password</a>
+        <ul>
+            <li>- I earned {{ user.nbPoints }} points</li>
+            <li>- I played in {{ user.nbGamesPlayed }} games</li>
+            <li>- I spent {{ user.totalTimePlayed }} minutes playing</li>
+        </ul>
+        {# Lien changer mot de passe #}
+        <a href="{{ path('app_forgot_password_request') }}">{% trans %}Change my password{% endtrans %}</a>
 
-                {# Affichage historique de parties #}
+        {# Affichage historique de parties #}
     </div>
     <div class="section">
+        {# TODOOOOOOOOOOOOOOOO #}
         <img src="{{ asset('img/th.jpg') }}" width="777" height="333"> 
     </div>
 </div>

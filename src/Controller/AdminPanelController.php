@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Entity\StaticPage;
 use App\Repository\UserRepository;
 use App\Repository\StaticPageRepository;
-use App\Form\StaticPagesAdminForm;
 use App\Form\StaticEditForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -53,6 +52,7 @@ class AdminPanelController extends AbstractController
             ));
         }
 
+        // Generation d'une page avec seulement n résultats et un numpage
         $donnees = $this->getDoctrine()->getRepository(USer::class)->findAll();
 
         $users = $paginator->paginate(

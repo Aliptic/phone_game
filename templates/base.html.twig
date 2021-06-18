@@ -114,7 +114,6 @@
     .main {
         flex: 1;
         text-align: left;
-        background: #D9D9D9;
         overflow: auto;
         height: 100%;
     }
@@ -138,19 +137,23 @@
     <div class="wrapper">
         <header class="box header">
             <ul>
+                {# Retour à l'index #}
                 <li><a href="/">{% trans %}Home{% endtrans %}</a></li>
+
+                {# Affichage règles du jeu #}
                 <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
 
                 {# Est ce que l'utilisateur est connecté #}
                 {% if app.user %}
-                <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}Mon compte{% endtrans %}</a>
+                <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}My account{% endtrans %}</a>
                 <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
                 </li>
                 {% else %}
                 <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
                 <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
                 {% endif %}
-                {# Est ce que l'utilisteur est admin #}
+
+                {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
                 {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
                 {% endif %}

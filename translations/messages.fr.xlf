@@ -321,6 +321,70 @@
         <source>Your password should be at least {{ limit }} characters</source>
         <target>Votre mot de passe doit comporter au moins {{ limit }} caractères</target>
       </trans-unit>
+      <trans-unit id="Y4ND.sf" resname="Admin panel">
+        <source>Admin panel</source>
+        <target>Panneau admin</target>
+      </trans-unit>
+      <trans-unit id="EhVukhv" resname="Id">
+        <source>Id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="BH9Ys5T" resname="Pseudo">
+        <source>Pseudo</source>
+        <target>Pseudo</target>
+      </trans-unit>
+      <trans-unit id="FHNqLrn" resname="Role">
+        <source>Role</source>
+        <target>Role</target>
+      </trans-unit>
+      <trans-unit id="d96r4jj" resname="Points">
+        <source>Points</source>
+        <target>Points</target>
+      </trans-unit>
+      <trans-unit id="ayjJW4H" resname="Games played">
+        <source>Games played</source>
+        <target>Parties jouées</target>
+      </trans-unit>
+      <trans-unit id="y94CGrR" resname="Total play time">
+        <source>Total play time</source>
+        <target>Temps de jeu total</target>
+      </trans-unit>
+      <trans-unit id="PUtzLt4" resname="Is verified">
+        <source>Is verified</source>
+        <target>Est vérifié</target>
+      </trans-unit>
+      <trans-unit id=".4BZ3Gd" resname="Actions">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="wcIksDz" resname="Admin">
+        <source>Admin</source>
+        <target>Admin</target>
+      </trans-unit>
+      <trans-unit id="tRLZfny" resname="User">
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="bi6mN7M" resname="No records found">
+        <source>No records found</source>
+        <target>Aucuns résultat trouvé</target>
+      </trans-unit>
+      <trans-unit id="nz33U6Q" resname="Create new">
+        <source>Create new</source>
+        <target>Creer nouveau</target>
+      </trans-unit>
+      <trans-unit id="KPRXHyi" resname="Mon compte">
+        <source>Mon compte</source>
+        <target>__Mon compte</target>
+      </trans-unit>
+      <trans-unit id="tTGBpNh" resname="My account">
+        <source>My account</source>
+        <target>Mon compte</target>
+      </trans-unit>
+      <trans-unit id="_Dw4_iO" resname="Change my password">
+        <source>Change my password</source>
+        <target>Changer mon mot de passe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
