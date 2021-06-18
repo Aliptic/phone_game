@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Pseudo</th>
+                <th>Role</th>
+                <th>Points</th>
+                <th>Games played</th>
+                <th>Total play time</th>
+                <th>Is verified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.pseudo }}</td>
+                <td>
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        Admin 
+                    {% else %}
+                        Utilisateur
+                    {% endif %}
+                </td>
+                <td>{{ user.nbPoints }}</td>
+                <td>{{ user.nbGamesPlayed }}</td>
+                <td>{{ user.totalTimePlayed }}</td>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">
+                            <img src="{{ asset('img/loupe.png') }}" width="15" height="15" alt="User details">
+                    </a>
+
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <a href="{{ path('user_demote', {'id': user.id}) }}"> 
+                            <img src="{{ asset('img/icon_down.png') }}" width="15" height="15" alt="Demote from administrator">
+                        </a>
+                    {% else %} 
+                        <a href="{{ path('user_promote', {'id': user.id}) }}">
+                            <img src="{{ asset('img/icon_up.png') }}" width="15" height="15" alt="Promote to administrator">
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">
+                            <img src="{{ asset('img/wrench.png') }}" width="15" height="15" alt="Edit the user">
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Create new</a>
+{% endblock %}

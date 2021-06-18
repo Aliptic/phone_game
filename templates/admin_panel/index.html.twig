@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin panel{% endblock %}
+
+{% block body %}
+
+<style>
+    .container-section {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .section {
+    }
+</style>
+
+<h1>{% trans %}Admin panel{% endtrans %}</h1>
+
+<div class="container-section">
+    {# section flex gauche #}
+    <div class="section section-1">
+        {{ form_start(formPages) }}
+        {{ form(formPages) }}
+        {{ form_end(formPages) }}
+   
+        {# TODO #}
+        <h3>
+        TODO
+        <br>
+        Changement des règles
+        <br>
+        //
+        <br>
+        //
+        <br>
+        //
+        <br>
+        TODO
+        <br>
+        Insertion phrase
+        </h3>
+    </div>
+    {# section flex droite #}
+    {# tableau de tous les utilisateurs + actions #}
+    <div class="section section-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans %}Id{% endtrans %}</th>
+                    <th>{% trans %}Email{% endtrans %}</th>
+                    <th>{% trans %}Pseudo{% endtrans %}</th>
+                    <th>{% trans %}Role{% endtrans %}</th>
+                    <th>{% trans %}Points{% endtrans %}</th>
+                    <th>{% trans %}Games played{% endtrans %}</th>
+                    <th>{% trans %}Total play time{% endtrans %}</th>
+                    <th>{% trans %}Is verified{% endtrans %}</th>
+                    <th>{% trans %}Actions{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            {% trans %}Admin{% endtrans %}
+                        {% else %}
+                            {% trans %}User{% endtrans %}
+                        {% endif %}
+                    </td>
+                    <td>{{ user.nbPoints }}</td>
+                    <td>{{ user.nbGamesPlayed }}</td>
+                    <td>{{ user.totalTimePlayed }}</td>
+                    <td>{{ user.isVerified ? '☑' : '☐' }}</td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">
+                            <img src="{{ asset('img/loupe.png') }}" width="15" height="15" alt="User details">
+                        </a>
+                        {# chargement de la bonne img en fonction du role #}
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                        <a href="{{ path('user_demote', {'id': user.id}) }}">
+                            <img src="{{ asset('img/icon_down.png') }}" width="15" height="15"
+                                alt="Demote from administrator">
+                        </a>
+                        {% else %}
+                        <a href="{{ path('user_promote', {'id': user.id}) }}">
+                            <img src="{{ asset('img/icon_up.png') }}" width="15" height="15"
+                                alt="Promote to administrator">
+                        </a>
+                        {% endif %}
+                        {# ?? ajouter bouton de suppression ?? #}
+                        <a href="{{ path('user_edit', {'id': user.id}) }}">
+                            <img src="{{ asset('img/wrench.png') }}" width="15" height="15" alt="Edit the user">
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9">{% trans %}No records found{% endtrans %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(users) }}
+        <a href="{{ path('user_new') }}">{% trans %}Create new{% endtrans %}</a>
+    </div>
+</div>
+{% endblock %}

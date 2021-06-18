@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}User{% trans %}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Email{% endtrans %}</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Roles{% endtrans %}</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Password{% endtrans %}</th>
+                <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Pseudo{% endtrans %}</th>
+                <td>{{ user.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Nb_games_played{% endtrans %}</th>
+                <td>{{ user.nbGamesPlayed }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Total_time_played{% endtrans %}</th>
+                <td>{{ user.totalTimePlayed }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}IsVerified{% endtrans %}</th>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_panel') }}">back to list</a>
+
+    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}
