@@ -1,89 +1,174 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{% trans %}Welcome!{% endtrans %}{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% trans %}Welcome!{% endtrans %}{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+    {% block stylesheets %}
+    {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <style>
-        * {box-sizing: border-box;}
-        body {margin: 0;}
+    {% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+    {% endblock %}
+</head>
 
-        ul {
-            list-style-type: none;
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    ul {
+        list-style-type: none;
+        padding-inline-start: 10px;
+        margin-block-start: 0em;
+        margin-block-end: 0em;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+    }
+
+
+
+    .wrapper>* {
+        padding: 10px;
+    }
+
+    .header {
+        background: #3C6E71;
+
+    }
+
+    .header ul {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .header li {
+        padding-left: 77px;
+        text-align: right;
+        margin-top: 1.5rem;
+        font-size: 14pt;
+    }
+
+    .header ul>li:first-child {
+        display: flex;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        padding-left: 0px;
+        margin-top: 0rem;
+        font-size: 34pt;
+    }
+
+    
+    .header a {
+        color: #e5e5e5;
+    }
+
+    .footer {
+        flex: row;
+        background-color: #284B63;
+
+    }
+
+    .footer ul {
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer li {
+        margin: 1rem;
+    }
+
+    .footer a {
+        color: #e5e5e5;
+    }
+
+    .footer-nav a {
+        color: white;
+    }
+
+    .main {
+        flex: 1;
+        text-align: left;
+        overflow: auto;
+        height: 100%;
+    }
+
+
+    @media all and (min-width: 800px) {
+
+        .main {
+            order: 1;
         }
 
-        a {
-            text-decoration: none;
+        .footer {
+            order: 2;
         }
+    }
 
-        .main-container {
-            position: relative;
-            min-height: 100vh;
-            width: 100%;
-            max-width: 100%;
-        }
+    
+</style>
 
-        .header-nav ul {
-            display: flex;
-            align-items: center;
-        }
+<body>
+    <div class="wrapper">
+        <header class="box header">
+            <ul>
+                {# Retour à l'index #}
+                <li><a href="/">{% trans %}Home{% endtrans %}</a></li>
 
-        .header-nav li {
-            width: 25%;
-            text-align: center;
-        }
+                {# Affichage règles du jeu #}
+                <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
 
-        .footer-nav {
-            position: relative;
-            width: 100%;
-            background-color: darkblue;
-        }
+                {# Est ce que l'utilisateur est connecté #}
+                {% if app.user %}
+                <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}My account{% endtrans %}</a>
+                <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                </li>
+                {% else %}
+                <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
+                <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
+                {% endif %}
 
-        .footer-nav ul {
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .footer-nav li {
-            margin: 2rem;
-        }
-
-        .footer-nav a {
-            color: white;
-        }
-    </style>
-    <body>
-        <header>
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="/">{% trans %}Home{% endtrans %}</a></li>
-                    <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
-                    <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
-                    <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
-                </ul>
-            </nav>
+                {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
+                {% endif %}
+            </ul>
         </header>
-        <div class="main-container">
+        <div class="box main">
             {% block body %}{% endblock %}
         </div>
-        <footer>
-            <nav class="footer-nav">
-                <ul>
-                    <li><a href="{{ path('mentions') }}">{% trans %}Legal notice{% endtrans %}</a></li>
-                    <li><a href="{{ path('team') }}">{% trans %}Our team{% endtrans %}</a></li>
-                </ul>
-            </nav>
+        <footer class="box footer">
+            <ul>
+                <li><a href="{{ path('mentions') }}">{% trans %}Legal notice{% endtrans %}</a></li>
+                <li><a href="{{ path('team') }}">{% trans %}Our team{% endtrans %}</a></li>
+            </ul>
         </footer>
-    </body>
+    </div>
+</body>
+
 </html>

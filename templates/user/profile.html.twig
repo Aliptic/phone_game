@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}My account{% endtrans %}{% endblock %}
+
+{% block body %}
+<style>
+    .container-section {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .section {
+        background: #ce8888;
+    }
+</style>
+<h1>{% trans %}My account{% endtrans %}</h1>
+<div class="container-section">
+    <div class="section">
+        {# Changement de pseudo #}
+        {{ form_start(form) }}
+
+        <div class="form-class-errors">
+            {{ form_errors(form) }}
+        </div>
+        <h3>My pseudo</h3>
+        {{ form_row(form.pseudo, {'label': false}) }}
+        {{ form_row(form.submit, { 'label': 'Validate' }) }}
+        {{ form_end(form) }}
+
+        {# Affichage des stats #}
+        <h3>My records<h3>
+        <ul>
+            <li>- I earned {{ user.nbPoints }} points</li>
+            <li>- I played in {{ user.nbGamesPlayed }} games</li>
+            <li>- I spent {{ user.totalTimePlayed }} minutes playing</li>
+        </ul>
+        {# Lien changer mot de passe #}
+        <a href="{{ path('app_forgot_password_request') }}">{% trans %}Change my password{% endtrans %}</a>
+
+        {# Affichage historique de parties #}
+    </div>
+    <div class="section">
+        {# TODOOOOOOOOOOOOOOOO #}
+        <img src="{{ asset('img/th.jpg') }}" width="777" height="333"> 
+    </div>
+</div>
+{% endblock %}
