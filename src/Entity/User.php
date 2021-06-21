@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -42,14 +42,19 @@ class User implements UserInterface
     private $pseudo;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $nb_games_played;
+    private $nb_points = 0;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nb_games_played = 0;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $total_time_played;
+    private $total_time_played= 0;
 
     /**
      * @ORM\Column(type="boolean")
@@ -57,6 +62,11 @@ class User implements UserInterface
     private $isVerified = false;
 
     public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function __toString(): string
     {
         return $this->id;
     }
@@ -149,6 +159,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getNbPoints(): ?int
+    {
+        return $this->nb_points;
+    }
+
+    public function setNbPoints(int $nb_points): self
+    {
+        $this->nb_points = $nb_points;
+
+        return $this;
+    }
+
     public function getNbGamesPlayed(): ?int
     {
         return $this->nb_games_played;
@@ -184,4 +206,5 @@ class User implements UserInterface
 
         return $this;
     }
+
 }
