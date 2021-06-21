@@ -79,7 +79,7 @@ alert("Copied the text: " + copyText.value);
 {% block javascript %}
 
 	<script>
-		const url = new URL('http://localhost:8090/.well-known/mercure');
+		const url = new URL('http://localhost:8090/.well-known/mercure?topic=');
         url.searchParams.append('topic', 'http://localhost:8080/player/invite');
         const eventSource = new EventSource(url);
 
