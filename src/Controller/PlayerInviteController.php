@@ -105,7 +105,7 @@ class PlayerInviteController extends AbstractController
                         ->getRepository(User::class)
                         ->findBy(array('id' => $idArray));
 
-                    dump($pseudoArray);
+                //    dump($pseudoArray);
 
                     // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
