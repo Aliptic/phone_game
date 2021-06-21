@@ -14,10 +14,23 @@ class HomeController extends AbstractController
      */
     public function index(TranslatorInterface $translator): Response
     {
-        $message = $translator->trans('HomeController');
+        if($this->get('session')->get('token'))
+        {
+            return $this->redirectToRoute('player_invite');
+        }
+    /*    elseif($this->getUser()->getId())
+        {
+            $player = $this->getUser()->getId();
 
-        return $this->render('index/index.html.twig', [
-            'controller_name' => $message,
-        ]);
+        }
+    */
+        else 
+        {
+        //    $message = $translator->trans('HomeController');
+            
+            return $this->render('index/index.html.twig', [
+        //    'controller_name' => $message,
+            ]);
+        }
     }
 }

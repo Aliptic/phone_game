@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}The Rumor - Waiting room{% endtrans %}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <!-- Test if a player is invited and the link is correct -->
+    {% if token and game_id > 0 %}
+        <h1>{% trans %}Waiting room{% endtrans %}</h1>
+        <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
+        <table>
+            <tr><th>{% trans %}List of players{% endtrans %}</th></tr>
+            <!-- List all players in the waiting room -->
+            <!-- TODO : SSE to refresh -->
+            {% for player in players %}
+                <tr><td>{{ player }}</td></tr>
+            {% endfor %}
+        </table>
+        <p>{% trans %}Invite your friends with this link : {% endtrans %}</p>
+        
+        <!-- The text field with the link to invite other players in this game -->
+        <input type="text" value="{{ url('player_invite') }}?token={{ token }}" id="myInput">
+        <!-- The button used to copy the text -->
+        <button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
+        
+        <!-- Link to start the game for all players -->
+        <a href="/text?game={{ game_id }}">{% trans %}Start{% endtrans %}</a>
+
+    {% else %}
+        {% if game_id == 0 %}
+            <h1>{% trans %}Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :){% endtrans %}</h1>
+        {% else %}
+            <h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
+        {% endif %}
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("myInput");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
+{% endblock %}
