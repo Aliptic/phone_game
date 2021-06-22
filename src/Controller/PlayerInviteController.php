@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\User;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ class PlayerInviteController extends AbstractController
     /**
      * @Route("/player/invite", name="player_invite")
      */
-    public function index(): Response
+    public function index(HubInterface $hub): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -96,15 +97,21 @@ class PlayerInviteController extends AbstractController
                         $message = $this->translator->trans('No user found in database, that is normally impossible...');
                         throw $this->createNotFoundException($message);
                     }
+                    
+                    // Send an event tu the hub
                     $url = 'http://localhost:8080/player/invite/'.$game->getId();
+                //    dump($url);
                     $update = new Update(
                         $url,
-                        json_encode(['players' => $this->getUser()->getPseudo()])
+                        json_encode(['player' => $this->getUser()->getPseudo()]),
+                        true
                     );
 
-                    $pseudoArray = $this->getDoctrine()
+                    $hub->publish($update);
+
+                /*    $pseudoArray = $this->getDoctrine()
                         ->getRepository(User::class)
-                        ->findBy(array('id' => $idArray));
+                        ->findOneBy('id' => $idArray);*/
 
                 //    dump($pseudoArray);
 
