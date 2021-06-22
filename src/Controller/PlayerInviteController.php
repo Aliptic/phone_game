@@ -8,6 +8,7 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerInviteController extends AbstractController
@@ -38,6 +39,10 @@ class PlayerInviteController extends AbstractController
 
             // verify if a token exist in base, if not, the player is warned
             if (!$game) {
+                // token saved in session variable
+                $this->get('session')->set('token', $token);
+                
+                // player is warned there's a problem with the link
                 return $this->render('player_invite/index.html.twig', [
                     'controller_name' => 'PlayerInviteController',
                     'token' => $token,
@@ -58,6 +63,7 @@ class PlayerInviteController extends AbstractController
             // player is logged
             else {
                 $friendId = $this->getUser()->getId();
+                $friendPseudo = $this->getUser()->getPseudo();
 
                 //    dump($friend); // verify friend id
                 //    dump($game);
@@ -76,24 +82,49 @@ class PlayerInviteController extends AbstractController
                     ]);
                 }
                 // the invite is valid
-                else {
+                else 
+                {
                     // extract the array of players from the game table in database
                     $idArray = $game->getUsersId();
-
+                    
+                //    var_dump(property_exists((object)$idArray, $friendId));
                     // test if the player is not already in this game
-                    if (!in_array($friendId, $idArray)) {
+                    if (property_exists((object)$idArray, $friendId)!==true) 
+                    {
                         // add the player at the end of the array
-                        array_push($idArray, $friendId);
+                        array_push($idArray, array($friendId,$friendPseudo));
                         $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
-                    //    dump($idArray);
+                    dump($idArray);
+                    // retrieve pseudo in database from ids
+                /*    $pseudoArray=[];
+                    foreach ($idArray as $id){
+                        $user = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->findOneBy(['id' => $id]);
+                        if (!$user) 
+                        {   
+                            $message = $this->translator->trans('No user found in database, that is normally impossible...');
+                            throw $this->createNotFoundException($message);
+                        }
+                        array_push($pseudoArray,$this->getUser()->getPseudo());
+                    }*/
+                /*    $pseudoArray = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->findBy(array('id' => $idArray));
+
+                    dump($pseudoArray);*/
+                    
                     $user = $this->getDoctrine()
                         ->getRepository(User::class)
-                        ->findOneBy(['id' => $idArray]);
+                        ->findOneBy(['id' => $friendId]);
 
                     if (!$user) 
                     {   
+                        // delete the session variable token because it's useless now
+                        $this->get('session')->clear();
+                        
                         $message = $this->translator->trans('No user found in database, that is normally impossible...');
                         throw $this->createNotFoundException($message);
                     }
@@ -111,9 +142,9 @@ class PlayerInviteController extends AbstractController
 
                 /*    $pseudoArray = $this->getDoctrine()
                         ->getRepository(User::class)
-                        ->findOneBy('id' => $idArray);*/
+                        ->findBy('id' => $idArray);*/
 
-                //    dump($pseudoArray);
+                    dump($idArray);
 
                     // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
@@ -124,7 +155,8 @@ class PlayerInviteController extends AbstractController
                     ]);
                 }
             }
-        } else    // time to create a game
+        } 
+        else    // time to create a game
         {
             //    $token = uniqid(); // Generate random token for a game
             $token = random_bytes(5); // Generate random token for a game
@@ -140,12 +172,15 @@ class PlayerInviteController extends AbstractController
             }
 
             // initialize the array users_id with the first player id
-            $users_id = [$this->getUser()->getId()];
+            $users_id = array(
+                $this->getUser()->getId(),$this->getUser()->getPseudo()
+            );
+        //    dump($users_id);
 
             // Create a new game
             $game = new Game();
 
-            $game->setUsersId($users_id)              // Add the player id in the array
+            $game->setUsersId([$users_id])              // Add the player id in the array
                 ->setRoomToken($token)                  // Specify the unique token of this room
                 ->setInviteExpiration(time() + (30 * 60));  // The invite expires after 30 minutes
 

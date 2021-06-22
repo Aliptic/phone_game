@@ -33,12 +33,11 @@
 				<!-- TODO : SSE to refresh -->
 				{% for player in players %}
 					<tr>
-						<td>{{ player }}</td>
+						<td>{{ player[1] }}</td>
 					</tr>
 				{% endfor %}
 			</table>
-			<p>{% trans %}Invite your friends with this link :
-				{% endtrans %}</p>
+			<p>{% trans %}Invite your friends with this link :{% endtrans %}</p>
 
 			<!-- The text field with the link to invite other players in this game -->
 			<input
@@ -47,6 +46,7 @@
 			<button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
 
 			<!-- Link to start the game for all players -->
+			<br>
 			<a href="/text?game={{ game_id }}">{% trans %}Start{% endtrans %}</a>
 
 		{% else %}
@@ -92,7 +92,7 @@
 			window.setTimeout(() => {
 				const $alert = document.querySelector('.alert')
 				$alert.parentNode.removeChild($alert)
-			}, 2000)
+			}, 4000)
 
 		}
 	</script>
