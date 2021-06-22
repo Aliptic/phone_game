@@ -73,12 +73,28 @@
 			/* Alert the copied text */
 			alert("Copied the text: " + copyText.value);
 		}
+
+		// SSE
+		// Mercure hub url
 		const url = new URL('http://localhost:8090/.well-known/mercure');
-		url.searchParams.append('topic', 'http://localhost:8080/player/invite');
+
+		// Search parameters 
+		url.searchParams.append('topic', 'http://localhost:8080/player/invite/{{ game_id }}');
 		const eventSource = new EventSource(url);
 
 		// The callback will be called every time an update is published
-		eventSource.onmessage = e => console.log(e); // do something with the payload
+		//eventSource.onmessage = e => console.log(e); // do something with the payload
+		
+		
+		eventSource.onmessage = e => {
+			console.log(e); // do something with the payload
+			document.querySelector('h2').insertAdjacentHTML('afterend', '<div class="alert alert-success">Nouveau joueur</div>')
+			window.setTimeout(() => {
+				const $alert = document.querySelector('.alert')
+				$alert.parentNode.removeChild($alert)
+			}, 2000)
+
+		}
 	</script>
 	
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\User;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,7 @@ class PlayerInviteController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            // player is already logged
+            // player is logged
             else {
                 $friendId = $this->getUser()->getId();
 
@@ -86,21 +87,21 @@ class PlayerInviteController extends AbstractController
                         $entityManager->flush();
                     }
                     //    dump($idArray);
-
-                    // retrieve pseudo in database from ids
-                    /*    $pseudoArray=[];
-                    foreach ($idArray as $id){
-                        $user = $this->getDoctrine()
+                    $user = $this->getDoctrine()
                         ->getRepository(User::class)
-                        ->findOneBy(['id' => $id]);
+                        ->findOneBy(['id' => $idArray]);
 
-                        if (!$user) 
-                        {   
-                            $message = $this->translator->trans('No user found in database, that is normally impossible...');
-                            throw $this->createNotFoundException($message);
-                        }
-                        array_push($pseudoArray,$this->getUser()->getPseudo());
-                    }*/
+                    if (!$user) 
+                    {   
+                        $message = $this->translator->trans('No user found in database, that is normally impossible...');
+                        throw $this->createNotFoundException($message);
+                    }
+                    $url = 'http://localhost:8080/player/invite/'.$game->getId();
+                    $update = new Update(
+                        $url,
+                        json_encode(['players' => $this->getUser()->getPseudo()])
+                    );
+
                     $pseudoArray = $this->getDoctrine()
                         ->getRepository(User::class)
                         ->findBy(array('id' => $idArray));
