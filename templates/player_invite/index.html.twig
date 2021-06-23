@@ -52,6 +52,7 @@
 		{% else %}
 			{% if game_id == 0 %}
 				<h1>{% trans %}Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :){% endtrans %}</h1>
+				<a href="{{ path('index') }}">{% trans %}Start a new game{% endtrans %}</a>
 			{% else %}
 				<h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
 			{% endif %}
@@ -87,13 +88,9 @@
 		
 		
 		eventSource.onmessage = e => {
-			console.log(e); // do something with the payload
-			document.querySelector('h2').insertAdjacentHTML('afterend', '<div class="alert alert-success">Nouveau joueur</div>')
-			window.setTimeout(() => {
-				const $alert = document.querySelector('.alert')
-				$alert.parentNode.removeChild($alert)
-			}, 4000)
-
+		//	console.log(e); // do something with the payload
+			console.log(e.data);
+			document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${e.data}</td></tr>`)		
 		}
 	</script>
 	
