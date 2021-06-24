@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\User;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerInviteController extends AbstractController
@@ -13,19 +16,19 @@ class PlayerInviteController extends AbstractController
     /**
      * @Route("/player/invite", name="player_invite")
      */
-    public function index(): Response
+    public function index(HubInterface $hub): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         // if token is passed by GET or session variable, the game is already created and it add the player to the game
-        if (isset($_GET['token']) || $this->get('session')->get('token')) {
-            // token passed by GET
-            if (isset($_GET['token'])) {
+        if (isset($_GET['token']) || $this->get('session')->get('token')) 
+        {
+            if (isset($_GET['token']))  // token passed by GET
+            {
                 $token = $_GET['token'];
             }
-
-            // token is in session variable
-            elseif ($this->get('session')->get('token')) {
+            elseif ($this->get('session')->get('token'))    // token is in session variable
+            {
                 $token = $this->get('session')->get('token');
             }
 
@@ -35,30 +38,33 @@ class PlayerInviteController extends AbstractController
                 ->findOneBy(['room_token' => $token]);
 
             // verify if a token exist in base, if not, the player is warned
-            if (!$game) {
+            if (!$game) 
+            {
+                // delete the session variable token because it's useless now
+                $this->get('session')->clear();
+                
+                // player is warned there's a problem with the link
                 return $this->render('player_invite/index.html.twig', [
                     'controller_name' => 'PlayerInviteController',
-                    'token' => $token,
-                    'players' => 0,
+                    'token' => 0,
+                    'players' => [0,0],
                     'game_id' => 0
                 ]);
             }
 
             // if the player is not logged in or does not have any account
-            if (!$this->getUser()) {
+            if (!$this->getUser()) 
+            {
                 // token saved in session variable
                 $this->get('session')->set('token', $token);
 
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
-
-            // player is already logged
-            else {
+            else    // player is logged
+            {
                 $friendId = $this->getUser()->getId();
-
-                //    dump($friend); // verify friend id
-                //    dump($game);
+                $friendPseudo = $this->getUser()->getPseudo();
 
                 // verify if the invite is not expired, 30min after the game creation
                 if ($game->getInviteExpiration() <= time()) {
@@ -68,44 +74,33 @@ class PlayerInviteController extends AbstractController
                     // launches display that there is a problem
                     return $this->render('player_invite/index.html.twig', [
                         'controller_name' => 'PlayerInviteController',
-                        'token' => $token,
-                        'players' => $friendId,
+                        'token' => 0,
+                        'players' => [0,0],
                         'game_id' => 0
                     ]);
                 }
-                // the invite is valid
-                else {
+                else    // the invite is valid
+                {
                     // extract the array of players from the game table in database
                     $idArray = $game->getUsersId();
-
+                    
                     // test if the player is not already in this game
-                    if (!in_array($friendId, $idArray)) {
+                    if (!in_array(array($friendId,$friendPseudo),$idArray)) 
+                    {
                         // add the player at the end of the array
-                        array_push($idArray, $friendId);
+                        array_push($idArray, array($friendId,$friendPseudo));
                         $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
-                    //    dump($idArray);
-
-                    // retrieve pseudo in database from ids
-                    /*    $pseudoArray=[];
-                    foreach ($idArray as $id){
-                        $user = $this->getDoctrine()
-                        ->getRepository(User::class)
-                        ->findOneBy(['id' => $id]);
-
-                        if (!$user) 
-                        {   
-                            $message = $this->translator->trans('No user found in database, that is normally impossible...');
-                            throw $this->createNotFoundException($message);
-                        }
-                        array_push($pseudoArray,$this->getUser()->getPseudo());
-                    }*/
-                    $pseudoArray = $this->getDoctrine()
-                        ->getRepository(User::class)
-                        ->findBy(array('id' => $idArray));
-
-                //    dump($pseudoArray);
+                    
+                    // Send an event to the hub for a new player
+                    $url = 'http://localhost:8080/player/invite/'.$game->getId();
+                    $update = new Update(
+                        $url,
+                        json_encode(array('subject' => 'player', 'player' => $friendPseudo))
+                    );
+                    
+                    $hub->publish($update);
 
                     // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
@@ -116,39 +111,42 @@ class PlayerInviteController extends AbstractController
                     ]);
                 }
             }
-        } else    // time to create a game
+        } 
+        else    // time to create a game
         {
-            //    $token = uniqid(); // Generate random token for a game
-            $token = random_bytes(5); // Generate random token for a game
+            // Generate random token for a game
+            $token = random_bytes(5); 
             $token = bin2hex($token);
 
             // token saved in session variable
             $this->get('session')->set('token', $token);
 
             // new verification, if the player is not logged in
-            if (!$this->getUser()) {
+            if (!$this->getUser()) 
+            {
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
 
             // initialize the array users_id with the first player id
-            $users_id = [$this->getUser()->getId()];
+            $users_id = array(
+                $this->getUser()->getId(),$this->getUser()->getPseudo()
+            );
 
             // Create a new game
             $game = new Game();
 
-            $game->setUsersId($users_id)              // Add the player id in the array
+            $game->setUsersId([$users_id])              // Add the player id in the array
                 ->setRoomToken($token)                  // Specify the unique token of this room
                 ->setInviteExpiration(time() + (30 * 60));  // The invite expires after 30 minutes
 
             $entityManager->persist($game);
             $entityManager->flush();
-            //    dump($game);   // verify created game
 
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
                 'token' => $token,
-                'players' => [$this->getUser()->getPseudo()],   // Get the player pseudo to display in players list
+                'players' => [$users_id],   // Get the player pseudo to display in players list
                 'game_id' => $game->getId()
             ]);
         }
