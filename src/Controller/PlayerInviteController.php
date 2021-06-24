@@ -21,14 +21,10 @@ class PlayerInviteController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         // if token is passed by GET or session variable, the game is already created and it add the player to the game
-        if (isset($_GET['token']) || $this->get('session')->get('token')) 
-        {
-            if (isset($_GET['token']))  // token passed by GET
-            {
+        if (isset($_GET['token']) || $this->get('session')->get('token')) {
+            if (isset($_GET['token'])) {    // token passed by GET    
                 $token = $_GET['token'];
-            }
-            elseif ($this->get('session')->get('token'))    // token is in session variable
-            {
+            } elseif ($this->get('session')->get('token')) {   // token is in session variable
                 $token = $this->get('session')->get('token');
             }
 
@@ -38,8 +34,7 @@ class PlayerInviteController extends AbstractController
                 ->findOneBy(['room_token' => $token]);
 
             // verify if a token exist in base, if not, the player is warned
-            if (!$game) 
-            {
+            if (!$game) {
                 // delete the session variable token because it's useless now
                 $this->get('session')->clear();
                 
@@ -53,16 +48,13 @@ class PlayerInviteController extends AbstractController
             }
 
             // if the player is not logged in or does not have any account
-            if (!$this->getUser()) 
-            {
+            if (!$this->getUser()) {
                 // token saved in session variable
                 $this->get('session')->set('token', $token);
 
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
-            }
-            else    // player is logged
-            {
+            } else {   // player is logged
                 $friendId = $this->getUser()->getId();
                 $friendPseudo = $this->getUser()->getPseudo();
 
@@ -78,15 +70,12 @@ class PlayerInviteController extends AbstractController
                         'players' => [0,0],
                         'game_id' => 0
                     ]);
-                }
-                else    // the invite is valid
-                {
+                } else {    // the invite is valid            
                     // extract the array of players from the game table in database
                     $idArray = $game->getUsersId();
                     
                     // test if the player is not already in this game
-                    if (!in_array(array($friendId,$friendPseudo),$idArray)) 
-                    {
+                    if (!in_array(array($friendId,$friendPseudo),$idArray)) {
                         // add the player at the end of the array
                         array_push($idArray, array($friendId,$friendPseudo));
                         $game->setUsersId($idArray);
@@ -111,9 +100,7 @@ class PlayerInviteController extends AbstractController
                     ]);
                 }
             }
-        } 
-        else    // time to create a game
-        {
+        } else {    // time to create a game
             // Generate random token for a game
             $token = random_bytes(5); 
             $token = bin2hex($token);
@@ -122,8 +109,7 @@ class PlayerInviteController extends AbstractController
             $this->get('session')->set('token', $token);
 
             // new verification, if the player is not logged in
-            if (!$this->getUser()) 
-            {
+            if (!$this->getUser()) {
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
