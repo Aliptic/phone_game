@@ -14,6 +14,7 @@ class DrawingController extends AbstractController
     public function index(): Response
     {
         return $this->render('drawing/index.html.twig', [
+        // return $this->render('drawing/index.html', [
             'controller_name' => 'DrawingController',
         ]);
     }
