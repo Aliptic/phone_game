@@ -30,7 +30,6 @@
 					<th>{% trans %}List of players{% endtrans %}</th>
 				</tr>
 				<!-- List all players in the waiting room -->
-				<!-- TODO : SSE to refresh -->
 				{% for player in players %}
 					<tr>
 						<td>{{ player[1] }}</td>
@@ -84,13 +83,15 @@
 		const eventSource = new EventSource(url);
 
 		// The callback will be called every time an update is published
-		//eventSource.onmessage = e => console.log(e); // do something with the payload
-		
-		
 		eventSource.onmessage = e => {
 		//	console.log(e); // do something with the payload
-			console.log(e.data);
-			document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${e.data}</td></tr>`)		
+			let data = JSON.parse(e.data)
+			if(data.subject == 'player'){
+				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
+			}
+			if(data.subject == 'game'){
+				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
+			}
 		}
 	</script>
 	

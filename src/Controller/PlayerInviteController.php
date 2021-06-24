@@ -23,13 +23,11 @@ class PlayerInviteController extends AbstractController
         // if token is passed by GET or session variable, the game is already created and it add the player to the game
         if (isset($_GET['token']) || $this->get('session')->get('token')) 
         {
-            // token passed by GET
-            if (isset($_GET['token'])) 
+            if (isset($_GET['token']))  // token passed by GET
             {
                 $token = $_GET['token'];
             }
-            // token is in session variable
-            elseif ($this->get('session')->get('token')) 
+            elseif ($this->get('session')->get('token'))    // token is in session variable
             {
                 $token = $this->get('session')->get('token');
             }
@@ -63,9 +61,7 @@ class PlayerInviteController extends AbstractController
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
-
-            // player is logged
-            else 
+            else    // player is logged
             {
                 $friendId = $this->getUser()->getId();
                 $friendPseudo = $this->getUser()->getPseudo();
@@ -79,47 +75,32 @@ class PlayerInviteController extends AbstractController
                     return $this->render('player_invite/index.html.twig', [
                         'controller_name' => 'PlayerInviteController',
                         'token' => 0,
-                        'players' => [$friendId,$friendPseudo],
+                        'players' => [0,0],
                         'game_id' => 0
                     ]);
                 }
-                // the invite is valid
-                else 
+                else    // the invite is valid
                 {
-                    dump($friendId,$friendPseudo);
                     // extract the array of players from the game table in database
                     $idArray = $game->getUsersId();
-                    dump($idArray);
-                //    var_dump(array_key_exists($friendPseudo,$idArray));
-                //    var_dump(array_search($friendPseudo, array_map("strval", array_keys($$friendPseudo))));
-                    var_dump( array_search( $friendPseudo, $idArray, true ) );
-                    // test if the player is not already in this game
                     
-                    if (array_search($friendPseudo, array_column($idArray, '0', '1')) === 0) 
+                    // test if the player is not already in this game
+                    if (!in_array(array($friendId,$friendPseudo),$idArray)) 
                     {
                         // add the player at the end of the array
                         array_push($idArray, array($friendId,$friendPseudo));
                         $game->setUsersId($idArray);
                         $entityManager->flush();
                     }
-                    dump($idArray);
                     
-                    // Send an event tu the hub
+                    // Send an event to the hub for a new player
                     $url = 'http://localhost:8080/player/invite/'.$game->getId();
-                //    dump($url);
                     $update = new Update(
                         $url,
-                        json_encode(['player' => $friendPseudo]),
-                        true
+                        json_encode(array('subject' => 'player', 'player' => $friendPseudo))
                     );
-
+                    
                     $hub->publish($update);
-
-                /*    $pseudoArray = $this->getDoctrine()
-                        ->getRepository(User::class)
-                        ->findBy('id' => $idArray);*/
-
-                //    dump($idArray);
 
                     // display the player waiting room
                     return $this->render('player_invite/index.html.twig', [
@@ -133,15 +114,16 @@ class PlayerInviteController extends AbstractController
         } 
         else    // time to create a game
         {
-            //    $token = uniqid(); // Generate random token for a game
-            $token = random_bytes(5); // Generate random token for a game
+            // Generate random token for a game
+            $token = random_bytes(5); 
             $token = bin2hex($token);
 
             // token saved in session variable
             $this->get('session')->set('token', $token);
 
             // new verification, if the player is not logged in
-            if (!$this->getUser()) {
+            if (!$this->getUser()) 
+            {
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
             }
@@ -150,7 +132,6 @@ class PlayerInviteController extends AbstractController
             $users_id = array(
                 $this->getUser()->getId(),$this->getUser()->getPseudo()
             );
-        //    dump($users_id);
 
             // Create a new game
             $game = new Game();
@@ -161,7 +142,6 @@ class PlayerInviteController extends AbstractController
 
             $entityManager->persist($game);
             $entityManager->flush();
-            //    dump($game);   // verify created game
 
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
