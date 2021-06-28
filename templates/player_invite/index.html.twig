@@ -46,7 +46,7 @@
 
 			<!-- Link to start the game for all players -->
 			<br>
-			<a href="/text?game={{ game_id }}">{% trans %}Start{% endtrans %}</a>
+			<a href="/game/{{ game_id }}">{% trans %}Start{% endtrans %}</a>
 
 		{% else %}
 			{% if game_id == 0 %}
@@ -84,13 +84,14 @@
 
 		// The callback will be called every time an update is published
 		eventSource.onmessage = e => {
-		//	console.log(e); // do something with the payload
+			console.log(e); // do something with the payload
 			let data = JSON.parse(e.data)
 			if(data.subject == 'player'){
 				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
 			}
 			if(data.subject == 'game'){
-				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
+			//	document.querySelector('button').insertAdjacentHTML('afterend', `Compte à rebours`)
+				window.location.replace('http://localhost:8080/game/{{ game_id }}');
 			}
 		}
 	</script>
