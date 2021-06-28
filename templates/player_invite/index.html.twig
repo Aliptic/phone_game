@@ -44,9 +44,11 @@
 			<!-- The button used to copy the text -->
 			<button onclick="myFunction()">{% trans %}Copy text{% endtrans %}</button>
 
-			<!-- Link to start the game for all players -->
+			<!-- Link to start the game for the creator of the game -->
+			{% if players[0][0] == app.session.get('creator') %}
 			<br>
 			<a href="/game/{{ game_id }}">{% trans %}Start{% endtrans %}</a>
+			{% endif %}
 
 		{% else %}
 			{% if game_id == 0 %}
@@ -90,8 +92,7 @@
 				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
 			}
 			if(data.subject == 'game'){
-			//	document.querySelector('button').insertAdjacentHTML('afterend', `Compte à rebours`)
-				window.location.replace('http://localhost:8080/game/{{ game_id }}');
+				window.location.replace('http://localhost:8080/start/{{ game_id }}');
 			}
 		}
 	</script>
