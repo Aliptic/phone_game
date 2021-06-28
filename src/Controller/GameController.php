@@ -42,7 +42,8 @@ class GameController extends AbstractController
         }
         $entityManager->flush();
         
-        
+        // redirect to text controller
+    //    return $this->redirectToRoute('text');
           
         return $this->render('game/index.html.twig', [
             'controller_name' => 'GameController',
