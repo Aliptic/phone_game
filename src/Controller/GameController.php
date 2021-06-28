@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\History;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,11 +44,23 @@ class GameController extends AbstractController
         $entityManager->flush();
         
         // redirect to text controller
-    //    return $this->redirectToRoute('text');
-          
-        return $this->render('game/index.html.twig', [
-            'controller_name' => 'GameController',
-            'game_id' => $id,
-        ]);
+        // return $this->redirectToRoute('text');
+
+        $url = 'http://localhost:8080/player/invite/'.$id;
+        $update = new Update(
+            $url,
+            json_encode(['subject' => 'start'])
+        );
+        $hub->publish($update);
+
+
+        
+        // ne pas regarder à partir de là lel
+        sleep(10);
+
+        // je sais pas quoi mettre là, un controller doit toujours return
+        return new Response(
+            '<html><body>Lucky number: '.$id.'</body></html>'
+        );
     }
 }

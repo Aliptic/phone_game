@@ -89,9 +89,9 @@
 			if(data.subject == 'player'){
 				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
 			}
-			if(data.subject == 'game'){
+			if(data.subject == 'start'){
 			//	document.querySelector('button').insertAdjacentHTML('afterend', `Compte à rebours`)
-				window.location.replace('http://localhost:8080/game/{{ game_id }}');
+				window.location.replace('http://localhost:8080/start/{{ game_id }}');
 			}
 		}
 	</script>
