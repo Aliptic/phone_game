@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\User;
+use App\Entity\Sentence;
 use App\Entity\History;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,21 @@ class TextController extends AbstractController
     public function start(Request $request, int $id ): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+
+        //get a new sentence as placeholder for the textField
+        $connection = $entityManager->getConnection();
+        $statement = $connection->prepare('SELECT sentence FROM sentence s ORDER BY RAND() LIMIT 1');
+        $statement->execute();
+        $phrasePlaceholder = $statement->fetch();
+        dump($phrasePlaceholder);
+
+        //TODO:mettre le placeholder en gris si possible
         $formStart = $this->createFormBuilder()
-            ->add('phrase', TextType::class)
+            ->add('phrase', TextType::class, [
+                'label' => 'phrase',
+                'attr' => [
+                    'placeholder' => $phrasePlaceholder["sentence"],
+                ]])
             ->add('Validate', SubmitType::class, ['label' => 'Validate'])
             ->setMethod('POST')
             ->getForm();
@@ -39,6 +53,8 @@ class TextController extends AbstractController
             $history->setHistory([$phrase]);
 
             $entityManager->flush();
+
+            // une nouvelle update
         }
 
         return $this->render('text/start.html.twig', [

@@ -53,15 +53,17 @@ class GameController extends AbstractController
             json_encode(['subject' => 'start'])
         );
         $hub->publish($update);
-
-
         
         // ne pas regarder à partir de là lel
-        sleep(10);
+        sleep(30);
+
+        //récupérer toutes les premieres phrases
+
+        //new Update 'subject' => 'draw'
 
         // je sais pas quoi mettre là, un controller doit toujours return
         return new Response(
-            '<html><body>Lucky number: '.$id.'</body></html>'
+            'Lucky number: '.$id.'!'
         );
     }
 }
