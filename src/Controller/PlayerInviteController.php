@@ -107,6 +107,7 @@ class PlayerInviteController extends AbstractController
 
             // token saved in session variable
             $this->get('session')->set('token', $token);
+            $this->get('session')->set('creator', $this->getUser()->getId());
 
             // new verification, if the player is not logged in
             if (!$this->getUser()) {
@@ -116,7 +117,8 @@ class PlayerInviteController extends AbstractController
 
             // initialize the array users_id with the first player id
             $users_id = array(
-                $this->getUser()->getId(),$this->getUser()->getPseudo()
+                $this->getUser()->getId(),
+                $this->getUser()->getPseudo()
             );
 
             // Create a new game
