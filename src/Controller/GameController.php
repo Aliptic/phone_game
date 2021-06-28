@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\History;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,14 @@ class GameController extends AbstractController
             $entityManager->persist($history);
         }
         $entityManager->flush();
+
+        // Send an event to the hub for the game starting
+        $url = 'http://localhost:8080/player/invite/'.$game->getId();
+        $update = new Update(
+            $url,
+            json_encode(array('subject' => 'game', 'state' => 'start'))
+        );
+        $hub->publish($update);
         
         // redirect to text controller
     //    return $this->redirectToRoute('text');
