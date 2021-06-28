@@ -14,11 +14,11 @@ class TextController extends AbstractController
     /**
      * @Route("/start", name="start")
      */
-    public function start(Request $request): Response
+    public function start(Request $request, int $gameId ): Response
     {
         $formStart = $this->createFormBuilder()
             ->add('phrase', TextType::class)
-            ->add('Validate', SubmitType::class, ['label' => 'edit'])
+            ->add('Validate', SubmitType::class, ['label' => 'Validate'])
             ->setMethod('POST')
             ->getForm();
 
