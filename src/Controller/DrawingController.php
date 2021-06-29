@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class DrawingController extends AbstractController
 {
     /**
-     * @Route("/drawing", name="drawing")
+     * @Route("/drawing/{id}", name="drawing")
      */
-    public function index(): Response
+    public function index(int $id): Response
     {
         return $this->render('drawing/index.html.twig', [
         // return $this->render('drawing/index.html', [
