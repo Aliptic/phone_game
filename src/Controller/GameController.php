@@ -43,9 +43,6 @@ class GameController extends AbstractController
         }
         $entityManager->flush();
 
-        // redirect to text controller
-        // return $this->redirectToRoute('text');
-
         // Send an event to the hub for the game starting
         $url = 'http://localhost:8080/player/invite/'.$id;
         $update = new Update(
@@ -53,6 +50,11 @@ class GameController extends AbstractController
             json_encode(['subject' => 'start'])
         );
         $hub->publish($update);
+
+        // redirect to text controller
+        return $this->redirectToRoute('start',[
+            "id" => $id,
+        ]);
         
         // ne pas regarder à partir de là lel
         sleep(30);

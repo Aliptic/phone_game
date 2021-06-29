@@ -3,5 +3,26 @@
 {% block title %}Hello TextController!{% endblock %}
 
 {% block body %}
-{{ form(formStart) }}
+    {{ form(formStart) }}
+    <script type="text/javascript">
+        let all = {{ nb_players }}
+        console.log(all)
+		// SSE
+		// Mercure hub url
+		const url = new URL('http://localhost:8090/.well-known/mercure')
+
+		// Search parameters 
+		url.searchParams.append('topic', 'http://localhost:8080/start/{{ game_id }}')
+		const eventSource = new EventSource(url);
+
+		// The callback will be called every time an update is published
+		eventSource.onmessage = e => {
+			console.log(e); // do something with the payload
+			let data = JSON.parse(e.data)
+			if(data.subject == 'draw'){
+                console.log(data.player)
+                window.location.replace('http://localhost:8080/draw/{{ game_id }}')
+			}
+		}
+	</script>
 {% endblock %}
