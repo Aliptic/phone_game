@@ -56,7 +56,13 @@ class TextController extends AbstractController
 
             $entityManager->flush();
 
-            // une nouvelle update
+            //Vérifier que tout le monde a rempli son history
+        /*    $histories=$this->getDoctrine()
+            ->getRepository(History::class)
+            ->findBy(array('game_id' => $id)); */
+            
+                        
+            // et si oui nouvelle update pour envoyer vers drawing
             $url = 'http://localhost:8080/start/'.$id;
             $update = new Update(
                 $url,
@@ -65,15 +71,8 @@ class TextController extends AbstractController
             $hub->publish($update);
         }
 
-        $request = 'SELECT COUNT(*) FROM history WHERE game_id = '.$id;
-        $connection = $entityManager->getConnection();
-        $statement = $connection->prepare($request);
-        $statement->execute();
-        $nbplayers = $statement->fetch();
-
         return $this->render('text/start.html.twig', [
             'formStart' => $formStart->createView(),
-            'nb_players' => implode($nbplayers),
             'game_id' => $id,
         ]);
     }

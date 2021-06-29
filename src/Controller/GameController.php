@@ -55,17 +55,5 @@ class GameController extends AbstractController
         return $this->redirectToRoute('start',[
             "id" => $id,
         ]);
-        
-        // ne pas regarder à partir de là lel
-        sleep(30);
-
-        //récupérer toutes les premieres phrases
-
-        //new Update 'subject' => 'draw'
-
-        // je sais pas quoi mettre là, un controller doit toujours return
-        return new Response(
-            'Lucky number: '.$id.'!'
-        );
     }
 }
