@@ -57,18 +57,29 @@ class TextController extends AbstractController
             $entityManager->flush();
 
             //Vérifier que tout le monde a rempli son history
-        /*    $histories=$this->getDoctrine()
-            ->getRepository(History::class)
-            ->findBy(array('game_id' => $id)); */
-            
-                        
+            $query = "SELECT history FROM history h WHERE game_id = ".$id;
+            $statement = $connection->prepare($query);
+            $statement->execute();
+            $histories = $statement->fetchAll();  
+
+            $vide = 0;
+            foreach($histories as $tab) {
+                if(empty($tab)){
+                    $vide++;
+                }
+            }
+        /*    if($vide == 0) {
+                dump("tout rempli");
+            } else {
+                dump("il y a du vide");
+            }*/
             // et si oui nouvelle update pour envoyer vers drawing
-            $url = 'http://localhost:8080/start/'.$id;
+        /*    $url = 'http://localhost:8080/start/'.$id;
             $update = new Update(
                 $url,
                 json_encode(array('subject' => 'draw','player' => $history->getUserId()))
             );
-            $hub->publish($update);
+            $hub->publish($update);*/
         }
 
         return $this->render('text/start.html.twig', [
