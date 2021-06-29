@@ -64,22 +64,21 @@ class TextController extends AbstractController
 
             $vide = 0;
             foreach($histories as $tab) {
-                if(empty($tab)){
+                if($tab['history'] == "[]"){
+                    dump("vide");
                     $vide++;
                 }
             }
-        /*    if($vide == 0) {
-                dump("tout rempli");
-            } else {
-                dump("il y a du vide");
-            }*/
-            // et si oui nouvelle update pour envoyer vers drawing
-        /*    $url = 'http://localhost:8080/start/'.$id;
-            $update = new Update(
-                $url,
-                json_encode(array('subject' => 'draw','player' => $history->getUserId()))
-            );
-            $hub->publish($update);*/
+            if($vide == 0) {
+                // et si oui nouvelle update pour envoyer vers drawing
+                $url = 'http://localhost:8080/start/'.$id;
+                $update = new Update(
+                    $url,
+                    json_encode(array('subject' => 'draw','player' => $history->getUserId()))
+                );
+                $hub->publish($update);
+            }
+            
         }
 
         return $this->render('text/start.html.twig', [
