@@ -7,14 +7,16 @@ use App\Entity\User;
 use App\Entity\History;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DrawingController extends AbstractController
 {
     /**
      * @Route("/drawing/{id}", name="drawing")
      */
-    public function index(int $id): Response
+    public function index(Request $request, int $id): Response
     {   
         // on cherche à retrouver quel joueur est "l'adversaire" de notre joueur
         $game=$this->getDoctrine()
