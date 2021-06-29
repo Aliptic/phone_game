@@ -52,6 +52,10 @@ class DrawingController extends AbstractController
             ->getForm();
         $formDraw->handleRequest($request);
 
+        if ($formDraw->isSubmitted()) {
+            
+        }
+
         return $this->render('drawing/index.html.twig', [
         // return $this->render('drawing/index.html', [
             'controller_name' => 'DrawingController',
