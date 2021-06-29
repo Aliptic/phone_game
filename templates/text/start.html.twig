@@ -4,6 +4,11 @@
 
 {% block body %}
     {{ form(formStart) }}
+
+    {% if waiting == 1 %}
+		<p>{% trans %}Waiting for other players{% endtrans %}</p>
+	{% endif %}
+
     <script type="text/javascript">
 		// SSE
 		// Mercure hub url

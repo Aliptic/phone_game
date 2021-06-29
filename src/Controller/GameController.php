@@ -24,6 +24,10 @@ class GameController extends AbstractController
         ->getRepository(Game::class)
         ->findOneBy(['id' => $id]);
 
+        // update the state of the game
+        $game->setState('Ongoing');
+        $entityManager->persist($game);
+        
         // verify if an id exist in base, if not, the player is warned
         if (!$game) {
             $message = $this->translator->trans('Error verifying game id');

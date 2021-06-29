@@ -77,6 +77,12 @@ class TextController extends AbstractController
                     json_encode(array('subject' => 'draw','player' => $history->getUserId()))
                 );
                 $hub->publish($update);
+            } else {
+                return $this->render('text/start.html.twig', [
+                    'formStart' => $formStart->createView(),
+                    'game_id' => $id,
+                    'waiting' => '1',
+                ]);
             }
             
         }
@@ -84,6 +90,7 @@ class TextController extends AbstractController
         return $this->render('text/start.html.twig', [
             'formStart' => $formStart->createView(),
             'game_id' => $id,
+            'waiting' => '0',
         ]);
     }
 }
