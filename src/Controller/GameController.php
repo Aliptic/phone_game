@@ -24,6 +24,10 @@ class GameController extends AbstractController
         ->getRepository(Game::class)
         ->findOneBy(['id' => $id]);
 
+        // update the state of the game
+        $game->setState('Ongoing');
+        $entityManager->persist($game);
+        
         // verify if an id exist in base, if not, the player is warned
         if (!$game) {
             $message = $this->translator->trans('Error verifying game id');
@@ -43,9 +47,6 @@ class GameController extends AbstractController
         }
         $entityManager->flush();
 
-        // redirect to text controller
-        // return $this->redirectToRoute('text');
-
         // Send an event to the hub for the game starting
         $url = 'http://localhost:8080/player/invite/'.$id;
         $update = new Update(
@@ -53,17 +54,10 @@ class GameController extends AbstractController
             json_encode(['subject' => 'start'])
         );
         $hub->publish($update);
-        
-        // ne pas regarder à partir de là lel
-        sleep(30);
 
-        //récupérer toutes les premieres phrases
-
-        //new Update 'subject' => 'draw'
-
-        // je sais pas quoi mettre là, un controller doit toujours return
-        return new Response(
-            'Lucky number: '.$id.'!'
-        );
+        // redirect to text controller
+        return $this->redirectToRoute('start',[
+            "id" => $id,
+        ]);
     }
 }

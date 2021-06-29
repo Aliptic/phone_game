@@ -3,5 +3,28 @@
 {% block title %}Hello TextController!{% endblock %}
 
 {% block body %}
-{{ form(formStart) }}
+    {{ form(formStart) }}
+
+    {% if waiting == 1 %}
+		<p>{% trans %}Waiting for other players{% endtrans %}</p>
+	{% endif %}
+
+    <script type="text/javascript">
+		// SSE
+		// Mercure hub url
+		const url = new URL('http://localhost:8090/.well-known/mercure')
+
+		// Search parameters 
+		url.searchParams.append('topic', 'http://localhost:8080/start/{{ game_id }}')
+		const eventSource = new EventSource(url);
+
+		// The callback will be called every time an update is published
+		eventSource.onmessage = e => {
+		//	console.log(e); // do something with the payload
+			let data = JSON.parse(e.data)
+			if(data.subject == 'draw'){
+                window.location.replace('http://localhost:8080/drawing/{{ game_id }}')
+			}
+		}
+	</script>
 {% endblock %}
