@@ -56,7 +56,7 @@ class TextController extends AbstractController
 
             $entityManager->flush();
 
-            //Vérifier que tout le monde a rempli son history
+            //Check that everyone has filled in their history
             $query = "SELECT history FROM history h WHERE game_id = ".$id;
             $statement = $connection->prepare($query);
             $statement->execute();
@@ -65,19 +65,25 @@ class TextController extends AbstractController
             $vide = 0;
             foreach($histories as $tab) {
                 if($tab['history'] == "[]"){
-                    dump("vide");
                     $vide++;
                 }
             }
+
+            // if all players have validated this step
             if($vide == 0) {
-                // et si oui nouvelle update pour envoyer vers drawing
+                // new sse update to send to drawing
                 $url = 'http://localhost:8080/start/'.$id;
                 $update = new Update(
                     $url,
-                    json_encode(array('subject' => 'draw','player' => $history->getUserId()))
+                    json_encode(array('subject' => 'draw',))
                 );
                 $hub->publish($update);
-            } else {
+                
+                //in case of bug, it forces the page to redirect to the next step of the game
+                return $this->redirectToRoute('drawing',[
+                    "id" => $id,
+                ]);
+            } else {    // if a player has not still validated, it warns the other players
                 return $this->render('text/start.html.twig', [
                     'formStart' => $formStart->createView(),
                     'game_id' => $id,
