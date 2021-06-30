@@ -179,6 +179,10 @@
 </div>
 
 <script>
+    // Hidden field and form button
+    let fieldHidden = document.getElementById('form_hidden');
+    let btnValidateForm = document.getElementById('form_validate');
+
     // Shapes
     let btnfreeLine = document.getElementById('draw-freeLine');
     let btnLine = document.getElementById('draw-line');
@@ -474,6 +478,13 @@
 
     let shapePoints = [];
 
+    // Save the drawing to the hiden field
+    btnValidateForm.addEventListener('click', () => {
+      let img = canvas.toDataURL("image/png");
+      form_hidden.value = img;
+      displayFlashMessage("Plop")
+    });
+    
     // When the mouse move
     drawCanvas.addEventListener('mousemove', event => {
       if (!mouse.isDown) return;
