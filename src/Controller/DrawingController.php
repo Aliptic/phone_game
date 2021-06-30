@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\History;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +19,33 @@ class DrawingController extends AbstractController
     /**
      * @Route("/drawing/{id}", name="drawing")
      */
-    public function index(Request $request, int $id): Response
+    public function index(Request $request, int $id, HubInterface $hub): Response
     {   
-        $round = $this->get('session')->get('step') + 1;
-        $this->get('session')->set('step', $round);
+        // On vérifie que l'on ne vient pas du formulaire de cette même page
+        $round = $this->get('session')->get('step');
+        if(!isset($_POST['form'])){
+            $round ++;
+            $this->get('session')->set('step', $round);
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
+        $connection = $entityManager->getConnection();
+
+        // Count how many players are in this game
+        $query = "SELECT COUNT(*) FROM history WHERE game_id =".$id;
+        $statement = $connection->prepare($query);
+        $statement->execute();
+        $tabNbPlayers = $statement->fetch();
+        
+        // Convert the array to string to number
+        $nbPlayers = intval(implode(" ",$tabNbPlayers));
+        // dump($nbPlayers);
+        
+        // Check if all the steps have been passed
+        if($round > $nbPlayers) {
+            // send to recap
+            dump("Recap");
+        }
 
         // on cherche à retrouver quel joueur est "l'adversaire" de notre joueur
         $game=$this->getDoctrine()
@@ -38,8 +61,6 @@ class DrawingController extends AbstractController
         $myHistory=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
-        // manche actuelle
-        //$round=count($myHistory->getHistory())+1;
 
         // ATTENTION: toujours en phase de test pour l'instant
         if(($myPosition - $round)+1<0){
@@ -79,10 +100,44 @@ class DrawingController extends AbstractController
             $historyOpponent->setHistory($newhistory);
 
             $entityManager->flush();
+
+            //Check that everyone has filled in their history
+            $query = "SELECT history FROM history h WHERE game_id = ".$id;
+            $statement = $connection->prepare($query);
+            $statement->execute();
+            $histories = $statement->fetchAll();  
+            dump($histories);
+            dump("round submit: ".$round);
+            $vide = 0;
+            foreach($histories as $h) {
+            //    dump($h['history']);
+                $hArray = json_decode($h['history'], true);
+                dump($hArray);
+            //    print_r($hArray);
+                if(!isset($hArray[$round-1])){
+                    $vide++;
+                }
+            }
+            dump("nbVides: ".$vide);
+            // dump("Nb vide = ".$vide);
+            // if all players have validated this step
+            if($vide == 0) {
+                // new sse update to send to drawing
+                $url = 'http://localhost:8080/drawing/'.$id;
+                $update = new Update(
+                    $url,
+                    json_encode(array('subject' => 'text',))
+                );
+                $hub->publish($update);
+                
+                return $this->redirectToRoute('text',[
+                    "id" => $id,
+                ]);
+            }
         }
 
         return $this->render('drawing/index.html.twig', [
-        // return $this->render('drawing/index.html', [
+            'game_id' => $id,
             'controller_name' => 'DrawingController',
             'sentence' => $sentenceOpponent,
             'formDraw' => $formDraw->createView(),

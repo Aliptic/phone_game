@@ -108,9 +108,11 @@ class TextController extends AbstractController
      */
     public function text(Request $request, int $id, HubInterface $hub ): Response
     {
-        $round = $this->get('session')->get('step') + 1;
-    //    $round = 3; // only for testing
-        $this->get('session')->set('step', $round);
+        $round = $this->get('session')->get('step');
+        if(!isset($_POST['form'])){
+            $round ++;
+            $this->get('session')->set('step', $round);
+        }
         
         $entityManager = $this->getDoctrine()->getManager();
         $connection = $entityManager->getConnection();
@@ -126,7 +128,7 @@ class TextController extends AbstractController
     //    dump($nbPlayers);
         
         // Check if all the steps have been passed
-        if($round == $nbPlayers) {
+        if($round > $nbPlayers) {
             // send to recap
             dump("Recap");
         } 
