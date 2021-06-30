@@ -19,6 +19,9 @@ class DrawingController extends AbstractController
      */
     public function index(Request $request, int $id): Response
     {   
+        $round = $this->get('session')->get('step') + 1;
+        $this->get('session')->set('step', $round);
+
         $entityManager = $this->getDoctrine()->getManager();
 
         // on cherche à retrouver quel joueur est "l'adversaire" de notre joueur
@@ -37,8 +40,8 @@ class DrawingController extends AbstractController
             ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
         // manche actuelle
         //$round=count($myHistory->getHistory())+1;
-        $round=2;
-        // 
+
+        // ATTENTION: toujours en phase de test pour l'instant
         if(($myPosition - $round)+1<0){
             $offset=$round-($myPosition+1);
             dump("j'ai besoin d'un offset de: ".$offset);
@@ -48,15 +51,15 @@ class DrawingController extends AbstractController
         }
         dump("mypos ".$myPosition." round".$round);
         dump("oppos".$opponentPosition);
-        //l'id de notre adversaire que l'on va chercher dans les History
+        // l'id de notre adversaire que l'on va chercher dans les History
         $opponentId=$playersList[$opponentPosition][0];
         $historyOpponent=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
         dump("opponent id: ".$opponentId." pseudo: ".$playersList[$opponentPosition][1]);
-        //on retrouve finalement la bonne phrase à afficher
+        // on retrouve finalement la bonne phrase à afficher
         $size=count($historyOpponent->getHistory());
-        //on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
+        // on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
         $sentenceOpponent=$historyOpponent->getHistory()[$size-1];
 
         $formDraw = $this->createFormBuilder()
