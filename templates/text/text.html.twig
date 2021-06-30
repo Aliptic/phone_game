@@ -3,6 +3,9 @@
 {% block title %}TextController!{% endblock %}
 
 {% block body %}
+	<div>
+  		<img src={{ drawing }} alt={% trans %}The masterpiece{% endtrans %} />
+	</div>
     {{ form(formText) }}
 
     {% if waiting == 1 %}

@@ -107,12 +107,38 @@ class TextController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        // we try to find which player is before our player
+        $connection = $entityManager->getConnection();
+        
+        $history=$this->getDoctrine()
+            ->getRepository(History::class)
+            ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
+        dump($history);
+        
+        // we count how many players are in this game
+    /*    $nbPlayers=$this->getDoctrine()
+        ->getRepository(History::class)
+        ->findBy(array('game_id' => $id));*/
+
+        $query = "SELECT COUNT(*) FROM history WHERE game_id =".$id;
+        $statement = $connection->prepare($query);
+        $statement->execute();
+        $nbPlayers = $statement->fetch();  
+        dump($nbPlayers);
+
+        $size=count($history->getHistory());
+
+        if($size < $nbPlayers) {
+            // send to recap
+        }
+        
         $game=$this->getDoctrine()
-        ->getRepository(Game::class)
-        ->findOneBy(array('id' => $id));
-     
+            ->getRepository(Game::class)
+            ->findOneBy(array('id' => $id));
+        
         $playersList=$game->getUsersId();
+        dump($playersList);
+
+        //A continuer après manger
 
         // player's position in the ranking of players in this game
         $myPosition=array_search($this->getUser()->getId(), array_column($playersList, '0'));
@@ -135,7 +161,7 @@ class TextController extends AbstractController
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawOpponent=$historyOpponent->getHistory()[$size-1];
         
-        dump($drawOpponent);
+    //    dump($drawOpponent);
         
         $formText = $this->createFormBuilder()
             ->add('phrase', TextType::class, ['label' => 'phrase'])
@@ -145,7 +171,7 @@ class TextController extends AbstractController
         
         $formText->handleRequest($request);
 
-        if ($formText->isSubmitted()) {
+    /*    if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
             dump($phrase);
 
@@ -186,16 +212,19 @@ class TextController extends AbstractController
                 ]);
             } else {    // if a player has not still validated, it warns the other players
                 return $this->render('text/text.html.twig', [
+                    'drawing' => $drawOpponent,
                     'formText' => $formText->createView(),
                     'game_id' => $id,
                     'waiting' => '1',
                 ]);
             }
             
-        }
+        }*/
         return $this->render('text/text.html.twig', [
                 'drawing' => $drawOpponent,
                 'formText' => $formText->createView(),
+                'game_id' => $id,
+                'waiting' => '0',
         ]);
     }
 }
