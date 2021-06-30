@@ -108,20 +108,12 @@ class TextController extends AbstractController
      */
     public function text(Request $request, int $id, HubInterface $hub ): Response
     {
-        $round = $this->get('session')->get('step') + 1;
+    //    $round = $this->get('session')->get('step') + 1;
+        $round = 3; // only for testing
         $this->get('session')->set('step', $round);
         
         $entityManager = $this->getDoctrine()->getManager();
-
         $connection = $entityManager->getConnection();
-        
-    /*    $history=$this->getDoctrine()
-            ->getRepository(History::class)
-            ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
-        
-        // Calculate the step number, the count of entries in the array plus one
-        $round=count($history->getHistory()) + 1;*/
-    //    dump($hisory, $round);
         
         // Count how many players are in this game
         $query = "SELECT COUNT(*) FROM history WHERE game_id =".$id;
@@ -160,13 +152,14 @@ class TextController extends AbstractController
         
         // id of the creator that we will look for in History
         $creatorId=$playersList[$creatorPosition][0];
-    //    dump("creatorId : ".$creatorId);
+        dump("creatorId : ".$creatorId);
         $historyCreator=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $creatorId));
         
         // find the correct drawing to display
         $size=count($historyCreator->getHistory());
+        dump("Size : ".$size);
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
         
@@ -180,11 +173,11 @@ class TextController extends AbstractController
 
         if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
-        //    dump($phrase);
+            dump($phrase);
 
             $history=$this->getDoctrine()
-            ->getRepository(History::class)
-            ->findOneBy(['game_id' => $id,'user_id' => $creatorId]);
+                ->getRepository(History::class)
+                ->findOneBy(['game_id' => $id,'user_id' => $creatorId]);
 
             $newhistory=$history->getHistory();
             array_push($newhistory,$phrase);
@@ -200,10 +193,10 @@ class TextController extends AbstractController
 
             $vide = 0;
             foreach($histories as $tab) {
-                dump("Tab history :".$tab['history']);
-                if($tab['history'] == "[]"){
+                dump("Type history :".gettype($tab['history']));
+            /*    if($tab['history'] == "[]"){
                     $vide++;
-                }
+                }*/
             }
 
             // if all players have validated this step
