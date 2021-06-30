@@ -36,8 +36,8 @@ class DrawingController extends AbstractController
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
         // manche actuelle
-        $round=count($myHistory->getHistory())+1;
-        
+        //$round=count($myHistory->getHistory())+1;
+        $round=2;
         // 
         if(($myPosition - $round)+1<0){
             $offset=$round-($myPosition+1);
@@ -53,7 +53,7 @@ class DrawingController extends AbstractController
         $historyOpponent=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
-        
+        dump("opponent id: ".$opponentId." pseudo: ".$playersList[$opponentPosition][1]);
         //on retrouve finalement la bonne phrase à afficher
         $size=count($historyOpponent->getHistory());
         //on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
@@ -70,14 +70,10 @@ class DrawingController extends AbstractController
             // récuperation du dessin caché dans le form
             $drawing = $formDraw->get('hidden')->getData();
 
-            $history=$this->getDoctrine()
-                ->getRepository(History::class)
-                ->findOneBy(['game_id' => $id,'user_id' => $opponentId]);
-            
             // une façon moins moche existe surement, pas le temps déso pas déso
-            $newhistory=$history->getHistory();
+            $newhistory=$historyOpponent->getHistory();
             array_push($newhistory,$drawing);
-            $history->setHistory($newhistory);
+            $historyOpponent->setHistory($newhistory);
 
             $entityManager->flush();
         }
