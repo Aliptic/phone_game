@@ -22,6 +22,9 @@ class TextController extends AbstractController
      */
     public function start(Request $request, int $id, HubInterface $hub ): Response
     {
+        // pass the number of step in session
+        $this->get('session')->set('step', "1");
+        
         $entityManager = $this->getDoctrine()->getManager();
 
         //get a new sentence as placeholder for the textField
@@ -105,63 +108,67 @@ class TextController extends AbstractController
      */
     public function text(Request $request, int $id, HubInterface $hub ): Response
     {
+        $round = $this->get('session')->get('step') + 1;
+        $this->get('session')->set('step', $round);
+        
         $entityManager = $this->getDoctrine()->getManager();
 
         $connection = $entityManager->getConnection();
         
-        $history=$this->getDoctrine()
+    /*    $history=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
-        dump($history);
         
-        // we count how many players are in this game
-    /*    $nbPlayers=$this->getDoctrine()
-        ->getRepository(History::class)
-        ->findBy(array('game_id' => $id));*/
-
+        // Calculate the step number, the count of entries in the array plus one
+        $round=count($history->getHistory()) + 1;*/
+    //    dump($hisory, $round);
+        
+        // Count how many players are in this game
         $query = "SELECT COUNT(*) FROM history WHERE game_id =".$id;
         $statement = $connection->prepare($query);
         $statement->execute();
-        $nbPlayers = $statement->fetch();  
-        dump($nbPlayers);
-
-        $size=count($history->getHistory());
-
-        if($size < $nbPlayers) {
-            // send to recap
-        }
+        $tabNbPlayers = $statement->fetch();
         
+        // Convert the array to string to number
+        $nbPlayers = intval(implode(" ",$tabNbPlayers));
+    //    dump($nbPlayers);
+        
+        // Check if all the steps have been passed
+        if($round == $nbPlayers) {
+            // send to recap
+            dump("Recap");
+        } 
+        
+        // Retrieve the sorted player list
         $game=$this->getDoctrine()
             ->getRepository(Game::class)
             ->findOneBy(array('id' => $id));
         
         $playersList=$game->getUsersId();
-        dump($playersList);
 
-        //A continuer après manger
-
-        // player's position in the ranking of players in this game
+        // The player's position in the ranking of players in this game
         $myPosition=array_search($this->getUser()->getId(), array_column($playersList, '0'));
 
-        // opponent's position is ours -1 unless we are the first on the list
-        if($myPosition == 0) {
-            $opponentPosition = count($playersList)-1;
+        // Find the position of the creator in the player list
+        if(($myPosition - $round)+1 < 0) {
+            $offset = $round - ($myPosition + 1);
+            $creatorPosition = count($playersList) - $offset;
         } else {
-            $opponentPosition = $myPosition-1;
+            $creatorPosition = ($myPosition - $round) + 1;
         }
+        dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
         
-        // id of our "opponent" that we will look for in History
-        $opponentId=$playersList[$opponentPosition][0];
-        $historyOpponent=$this->getDoctrine()
+        // id of the creator that we will look for in History
+        $creatorId=$playersList[$creatorPosition][0];
+    //    dump("creatorId : ".$creatorId);
+        $historyCreator=$this->getDoctrine()
             ->getRepository(History::class)
-            ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
+            ->findOneBy(array('game_id' => $id,'user_id' => $creatorId));
         
         // find the correct drawing to display
-        $size=count($historyOpponent->getHistory());
+        $size=count($historyCreator->getHistory());
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
-        $drawOpponent=$historyOpponent->getHistory()[$size-1];
-        
-    //    dump($drawOpponent);
+        $drawCreator=$historyCreator->getHistory()[$size-1];
         
         $formText = $this->createFormBuilder()
             ->add('phrase', TextType::class, ['label' => 'phrase'])
@@ -171,15 +178,17 @@ class TextController extends AbstractController
         
         $formText->handleRequest($request);
 
-    /*    if ($formText->isSubmitted()) {
+        if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
-            dump($phrase);
+        //    dump($phrase);
 
             $history=$this->getDoctrine()
             ->getRepository(History::class)
-            ->findOneBy(['game_id' => $id,'user_id' => $this->getUser()->getId()]);
+            ->findOneBy(['game_id' => $id,'user_id' => $creatorId]);
 
-            $history->setHistory([$phrase]);
+            $newhistory=$history->getHistory();
+            array_push($newhistory,$phrase);
+            $history->setHistory($newhistory);
 
             $entityManager->flush();
             
@@ -191,13 +200,14 @@ class TextController extends AbstractController
 
             $vide = 0;
             foreach($histories as $tab) {
+                dump("Tab history :".$tab['history']);
                 if($tab['history'] == "[]"){
                     $vide++;
                 }
             }
 
             // if all players have validated this step
-            if($vide == 0) {
+        /*    if($vide == 0) {
                 // new sse update to send to drawing
                 $url = 'http://localhost:8080/text/'.$id;
                 $update = new Update(
@@ -217,11 +227,11 @@ class TextController extends AbstractController
                     'game_id' => $id,
                     'waiting' => '1',
                 ]);
-            }
+            }*/
             
-        }*/
+        }
         return $this->render('text/text.html.twig', [
-                'drawing' => $drawOpponent,
+                'drawing' => $drawCreator,
                 'formText' => $formText->createView(),
                 'game_id' => $id,
                 'waiting' => '0',
