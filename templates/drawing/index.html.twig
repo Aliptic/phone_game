@@ -22,6 +22,10 @@
       /* height: 100%; */
    }
 
+   .sentence-container {
+      text-align: center;
+    }
+
    #canvas {
       border: 1px black solid;
       order: 1;
@@ -117,6 +121,10 @@
 
 </style>
 
+<div class="sentence-container">
+  {% trans %}Sentence you have to draw:{% endtrans %}<br>{{ sentence }}
+</div>
+
 <div class="canvas-container">
   <canvas id="canvas"></canvas>
   <canvas id="drawCanvas"></canvas>
@@ -166,7 +174,15 @@
   <div id="img-result"></div>
 </div>
 
+<div class="validate-drawing">
+  {{ form(formDraw) }}
+</div>
+
 <script>
+    // Hidden field and form button
+    let fieldHidden = document.getElementById('form_hidden');
+    let btnValidateForm = document.getElementById('form_validate');
+
     // Shapes
     let btnfreeLine = document.getElementById('draw-freeLine');
     let btnLine = document.getElementById('draw-line');
@@ -462,6 +478,13 @@
 
     let shapePoints = [];
 
+    // Save the drawing to the hiden field
+    btnValidateForm.addEventListener('click', () => {
+      let img = canvas.toDataURL("image/png");
+      form_hidden.value = img;
+      displayFlashMessage("Plop")
+    });
+    
     // When the mouse move
     drawCanvas.addEventListener('mousemove', event => {
       if (!mouse.isDown) return;
@@ -563,7 +586,7 @@
       // event.preventDefault();
       let img = canvas.toDataURL("image/png");
       let imgEl = "<img src='" + img + "'/>"
-
+      console.log(img);
       // document.getElementById('img-result').innerHTML = imgEl;
       window.open(img, 'Image', 'width=img.style.width,height=img.style.height,resizable=1');
       // document.write(imgEl);
@@ -595,4 +618,5 @@
   // bkImageURL="url(http://cssdeck.com/uploads/media/items/3/3yiC6Yq.jpg)";
   // document.body.style.backgroundImage = bkImageURL;
 </script>
+
 {% endblock %}
