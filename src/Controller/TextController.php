@@ -108,8 +108,8 @@ class TextController extends AbstractController
      */
     public function text(Request $request, int $id, HubInterface $hub ): Response
     {
-    //    $round = $this->get('session')->get('step') + 1;
-        $round = 3; // only for testing
+        $round = $this->get('session')->get('step') + 1;
+    //    $round = 3; // only for testing
         $this->get('session')->set('step', $round);
         
         $entityManager = $this->getDoctrine()->getManager();
@@ -148,18 +148,19 @@ class TextController extends AbstractController
         } else {
             $creatorPosition = ($myPosition - $round) + 1;
         }
-        dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
+    //    dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
         
         // id of the creator that we will look for in History
         $creatorId=$playersList[$creatorPosition][0];
-        dump("creatorId : ".$creatorId);
+    //    dump("creatorId : ".$creatorId);
         $historyCreator=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $creatorId));
         
         // find the correct drawing to display
         $size=count($historyCreator->getHistory());
-        dump("Size : ".$size);
+    //    dump("Size : ".$size);
+    
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
         
@@ -173,7 +174,7 @@ class TextController extends AbstractController
 
         if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
-            dump($phrase);
+        //    dump($phrase);
 
             $history=$this->getDoctrine()
                 ->getRepository(History::class)
@@ -192,15 +193,17 @@ class TextController extends AbstractController
             $histories = $statement->fetchAll();  
 
             $vide = 0;
-            foreach($histories as $tab) {
-                dump("Type history :".gettype($tab['history']));
-            /*    if($tab['history'] == "[]"){
+            foreach($histories as $h) {
+            //    dump($h['history']);
+                $hArray = json_decode($h['history'], true);
+            //    print_r($hArray);
+                if(!isset($hArray[$round-1])){
                     $vide++;
-                }*/
+                }
             }
-
+        //    dump("Nb vide = ".$vide);
             // if all players have validated this step
-        /*    if($vide == 0) {
+            if($vide == 0) {
                 // new sse update to send to drawing
                 $url = 'http://localhost:8080/text/'.$id;
                 $update = new Update(
@@ -215,12 +218,12 @@ class TextController extends AbstractController
                 ]);
             } else {    // if a player has not still validated, it warns the other players
                 return $this->render('text/text.html.twig', [
-                    'drawing' => $drawOpponent,
+                    'drawing' => $drawCreator,
                     'formText' => $formText->createView(),
                     'game_id' => $id,
                     'waiting' => '1',
                 ]);
-            }*/
+            }
             
         }
         return $this->render('text/text.html.twig', [
