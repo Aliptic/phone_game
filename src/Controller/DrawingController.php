@@ -72,6 +72,7 @@ class DrawingController extends AbstractController
         $historyOpponent=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
+        
         dump("opponent id: ".$opponentId." pseudo: ".$playersList[$opponentPosition][1]);
         // on retrouve finalement la bonne phrase à afficher
         $size=count($historyOpponent->getHistory());

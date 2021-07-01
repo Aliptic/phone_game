@@ -509,7 +509,6 @@
 
     // Save the drawing to the hiden field
     btnValidateForm.addEventListener('click', () => {
-      console.log(canvas);
       let img = canvas.toDataURL("image/png");
       form_hidden.value = img;
       displayFlashMessage("Dessin envoyé!")

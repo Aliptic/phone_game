@@ -47,7 +47,6 @@ class TextController extends AbstractController
 
         if ($formStart->isSubmitted()) {
             $phrase = $formStart->get('phrase')->getData();
-        //    dump($phrase);
 
             $history=$this->getDoctrine()
             ->getRepository(History::class)
@@ -148,21 +147,22 @@ class TextController extends AbstractController
         } else {
             $creatorPosition = ($myPosition - $round) + 1;
         }
-    //    dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
+        
+        // dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
         
         // id of the creator that we will look for in History
         $creatorId=$playersList[$creatorPosition][0];
-    //    dump("creatorId : ".$creatorId);
         $historyCreator=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $creatorId));
         
-        // maybe we can better this part
         // find the correct drawing to display
-        $size=count($historyCreator->getHistory());
-    
-        // takes size-1 to fall back on the correct drawing in case it is a second phase of text
-        $drawCreator=$historyCreator->getHistory()[$size-1];
+        // if we have already submited, we display the second last entry
+        if(!isset($_POST['form'])){
+            $drawCreator=$historyCreator->getHistory()[count($historyCreator->getHistory())-1];
+        } else {
+            $drawCreator=$historyCreator->getHistory()[$round-2];
+        }
         
         $formText = $this->createFormBuilder()
             ->add('phrase', TextType::class, ['label' => 'phrase'])
