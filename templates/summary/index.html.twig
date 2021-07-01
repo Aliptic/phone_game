@@ -9,7 +9,24 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ controller_name }}</h1>
+    <h1>{% trans %}Summary{% endtrans %}</h1>
+    <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
+    <div>
+        <table>
+			{% for s in summaries %}
+				<tr>
+					<th>{{ s['pseudo'] }}</th>
+                    {% for step in s['history'] %}
+                        {% if step starts with 'data:image/png;base64,' %}
+                            <td><img src={{ step }}></td>
+                        {% else %}
+                            <td>{{ step }}</td>
+                        {% endif %}
+                    {% endfor %}
+                
+				</tr>
+			{% endfor %}
+		</table>
+    </div>
 </div>
-
 {% endblock %}
