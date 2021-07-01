@@ -165,7 +165,7 @@ class TextController extends AbstractController
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
         
-        $formText = $this->createFormBuilder(array("allow_extra_fields" => true)
+        $formText = $this->createFormBuilder(array("allow_extra_fields" => true))
             ->add('phrase', TextType::class, ['label' => 'phrase'])
             ->add('validate', SubmitType::class, ['label' => 'validate'])
             ->setMethod('POST')
