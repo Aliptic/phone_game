@@ -32,16 +32,15 @@ class TextController extends AbstractController
         $statement = $connection->prepare('SELECT sentence FROM sentence s ORDER BY RAND() LIMIT 1');
         $statement->execute();
         $phrasePlaceholder = $statement->fetch();
-    //    dump($phrasePlaceholder);
 
-        //TODO:mettre le placeholder en gris si possible
-        $formStart = $this->createFormBuilder()
+        // "allow_extra_fields" => true est peut être une faille de sécurité?
+        $formStart = $this->createFormBuilder(array("allow_extra_fields" => true))
             ->add('phrase', TextType::class, [
                 'label' => 'phrase',
                 'attr' => [
                     'placeholder' => $phrasePlaceholder["sentence"],
                 ]])
-            ->add('Validate', SubmitType::class, ['label' => 'Validate'])
+            ->add('validate', SubmitType::class, ['label' => 'Validate'])
             ->setMethod('POST')
             ->getForm();
 
@@ -166,9 +165,9 @@ class TextController extends AbstractController
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
         
-        $formText = $this->createFormBuilder()
+        $formText = $this->createFormBuilder(array("allow_extra_fields" => true)
             ->add('phrase', TextType::class, ['label' => 'phrase'])
-            ->add('Validate', SubmitType::class, ['label' => 'Validate'])
+            ->add('validate', SubmitType::class, ['label' => 'validate'])
             ->setMethod('POST')
             ->getForm();
         

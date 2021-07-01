@@ -569,6 +569,18 @@
         <source>The Rumor - My account</source>
         <target>Le jeu du téléphone - Mon compte</target>
       </trans-unit>
+      <trans-unit id="hRyndPe" resname="You can add a new sentence for players">
+        <source>You can add a new sentence for players</source>
+        <target>Vous pouvez ajouter une nouvelle phrase</target>
+      </trans-unit>
+      <trans-unit id="34mkIdz" resname="Submit me">
+        <source>Submit me</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit id="5hAEW_S" resname="List of our users">
+        <source>List of our users</source>
+        <target>Liste de nos utilisateurs</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

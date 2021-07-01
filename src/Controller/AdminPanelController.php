@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\StaticPage;
+use App\Entity\Sentence;
 use App\Repository\UserRepository;
 use App\Repository\StaticPageRepository;
 use App\Form\StaticEditForm;
@@ -35,13 +36,14 @@ class AdminPanelController extends AbstractController
                 'choices' => $pagesRepository->findAll(),
                 'choice_label' => 'title',
             ])
+            ->add()
             ->add('edit', SubmitType::class, ['label' => 'edit'])
             ->setMethod('POST')
             ->getForm();
 
         $formPages->handleRequest($request);
 
-        // 
+        // récupération de la page à éditer et renvoi vers l'éditeur
         if ($formPages->isSubmitted()) {
             // TODO:ameliorer
             $page = $formPages->get('title')->getData();
@@ -50,6 +52,32 @@ class AdminPanelController extends AbstractController
             return $this->redirectToRoute('static_edit', array(
                 'id' => $id,
             ));
+        }
+
+        $formSentence = $this->createFormBuilder()
+            ->add('phrase', TextType::class, [
+                'label' => 'phrase',
+                'attr' => [
+                    'placeholder' => "..Blablabla..",
+                ]])
+            ->add('validate', SubmitType::class, ['label' => 'Validate'])
+            ->setMethod('GET')
+            ->getForm();
+
+        $formSentence->handleRequest($request);
+
+        if ($formSentence->isSubmitted()) {
+            $phrase = $formSentence->get('phrase')->getData();
+        
+            $sentence = new Sentence();
+            $sentence->setSentence($phrase);
+            $sentence->setType("start");
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($sentence);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_panel');
         }
 
         // Generation d'une page avec seulement n résultats et un numpage
@@ -64,6 +92,7 @@ class AdminPanelController extends AbstractController
         return $this->render('admin_panel/index.html.twig', [
             'users' => $users,
             'formPages' => $formPages->createView(),
+            'formSentence' => $formSentence->createView(),
         ]);
     }
 

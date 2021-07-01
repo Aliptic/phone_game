@@ -58,19 +58,14 @@ class DrawingController extends AbstractController
         //position du joueur dans le classement des joueurs de cette partie
         $myPosition=array_search($this->getUser()->getId(), array_column($playersList, '0'));
 
-        $myHistory=$this->getDoctrine()
-            ->getRepository(History::class)
-            ->findOneBy(array('game_id' => $id,'user_id' => $this->getUser()->getId()));
-
         // ATTENTION: toujours en phase de test pour l'instant
         if(($myPosition - $round)+1<0){
             $offset=$round-($myPosition+1);
-            dump("j'ai besoin d'un offset de: ".$offset);
+
             $opponentPosition=count($playersList)-$offset;
         }else{
             $opponentPosition = ($myPosition - $round)+1;
         }
-        // dump("mypos ".$myPosition." round".$round);
 
         // l'id de notre adversaire que l'on va chercher dans les History
         $opponentId=$playersList[$opponentPosition][0];
@@ -87,7 +82,7 @@ class DrawingController extends AbstractController
             $sentenceOpponent=$historyOpponent->getHistory()[$round];
         }
 
-        $formDraw = $this->createFormBuilder()
+        $formDraw = $this->createFormBuilder(array("allow_extra_fields" => true))
             ->add('validate', SubmitType::class, ['label' => 'Validate'])
             ->add('hidden', HiddenType::class)
             ->setMethod('POST')

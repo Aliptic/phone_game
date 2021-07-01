@@ -17,6 +17,14 @@
 
     .section {
     }
+
+    .form-inline {
+        display: inline;
+    }
+
+    .table {
+        border: 1px solid black;
+    }
 </style>
 
 <h1>{% trans %}Admin panel{% endtrans %}</h1>
@@ -25,7 +33,7 @@
     {# section flex gauche #}
     <div class="section section-1">
         {{ form_start(formPages) }}
-        {{ form(formPages) }}
+            {{ form(formPages) }}
         {{ form_end(formPages) }}
    
         {# TODO #}
@@ -39,15 +47,21 @@
         //
         <br>
         //
-        <br>
-        TODO
-        <br>
-        Insertion phrase
         </h3>
+        <div class="form-sentence">
+            {{ form_label(formSentence.phrase, 'You can add a new sentence for players'|trans ) }}
+            <br>
+            {# pourquoi ça ne s'affiche jamais inline??? #}
+            <div class="form-inline">
+                {{ form_widget(formSentence.phrase) }}
+                {{ form_row(formSentence.validate, { 'label': 'Submit me'|trans }) }}
+            </div>
+        </div>
     </div>
     {# section flex droite #}
     {# tableau de tous les utilisateurs + actions #}
     <div class="section section-2">
+        {% trans %}List of our users{% endtrans %}
         <table class="table">
             <thead>
                 <tr>
@@ -109,7 +123,6 @@
             </tbody>
         </table>
         {{ knp_pagination_render(users) }}
-        <a href="{{ path('user_new') }}">{% trans %}Create new user{% endtrans %}</a>
     </div>
 </div>
 {% endblock %}
