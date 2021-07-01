@@ -125,7 +125,6 @@ class TextController extends AbstractController
         
         // Convert the array to string to number
         $nbPlayers = intval(implode(" ",$tabNbPlayers));
-    //    dump($nbPlayers);
         
         // Check if all the steps have been passed
         if($round > $nbPlayers) {
@@ -159,9 +158,9 @@ class TextController extends AbstractController
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $creatorId));
         
+        // maybe we can better this part
         // find the correct drawing to display
         $size=count($historyCreator->getHistory());
-    //    dump("Size : ".$size);
     
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
@@ -176,7 +175,6 @@ class TextController extends AbstractController
 
         if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
-        //    dump($phrase);
 
             $history=$this->getDoctrine()
                 ->getRepository(History::class)
@@ -196,14 +194,13 @@ class TextController extends AbstractController
 
             $vide = 0;
             foreach($histories as $h) {
-            //    dump($h['history']);
                 $hArray = json_decode($h['history'], true);
-            //    print_r($hArray);
+                
                 if(!isset($hArray[$round-1])){
                     $vide++;
                 }
             }
-        //    dump("Nb vide = ".$vide);
+            
             // if all players have validated this step
             if($vide == 0) {
                 // new sse update to send to drawing

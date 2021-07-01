@@ -53,7 +53,6 @@ class DrawingController extends AbstractController
             ->findOneBy(array('id' => $id));
         
         $playersList=$game->getUsersId();
-        dump($playersList);
 
         //position du joueur dans le classement des joueurs de cette partie
         $myPosition=array_search($this->getUser()->getId(), array_column($playersList, '0'));
@@ -70,8 +69,8 @@ class DrawingController extends AbstractController
         }else{
             $opponentPosition = ($myPosition - $round)+1;
         }
-        dump("mypos ".$myPosition." round".$round);
-        dump("oppos".$opponentPosition);
+        // dump("mypos ".$myPosition." round".$round);
+
         // l'id de notre adversaire que l'on va chercher dans les History
         $opponentId=$playersList[$opponentPosition][0];
         $historyOpponent=$this->getDoctrine()
@@ -82,6 +81,10 @@ class DrawingController extends AbstractController
         $size=count($historyOpponent->getHistory());
         // on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
         $sentenceOpponent=$historyOpponent->getHistory()[$size-1];
+
+        if(isset($_POST['form']) && $size>=$round){
+            $sentenceOpponent=$historyOpponent->getHistory()[$round];
+        }
 
         $formDraw = $this->createFormBuilder()
             ->add('validate', SubmitType::class, ['label' => 'Validate'])
@@ -106,20 +109,16 @@ class DrawingController extends AbstractController
             $statement = $connection->prepare($query);
             $statement->execute();
             $histories = $statement->fetchAll();  
-            dump($histories);
-            dump("round submit: ".$round);
+            
             $vide = 0;
             foreach($histories as $h) {
-            //    dump($h['history']);
                 $hArray = json_decode($h['history'], true);
-                dump($hArray);
-            //    print_r($hArray);
+                
                 if(!isset($hArray[$round-1])){
                     $vide++;
                 }
             }
-            dump("nbVides: ".$vide);
-            // dump("Nb vide = ".$vide);
+
             // if all players have validated this step
             if($vide == 0) {
                 // new sse update to send to drawing
@@ -133,14 +132,23 @@ class DrawingController extends AbstractController
                 return $this->redirectToRoute('text',[
                     "id" => $id,
                 ]);
+            } else {    
+                // if a player has not still validated, it warns the other players
+                return $this->render('drawing/index.html.twig', [
+                    'game_id' => $id,
+                    'sentence' => $sentenceOpponent,
+                    'formDraw' => $formDraw->createView(),
+                    'waiting' => '1',
+                    'drawing' => $drawing,
+                ]);
             }
-        }
+        } 
 
         return $this->render('drawing/index.html.twig', [
             'game_id' => $id,
-            'controller_name' => 'DrawingController',
             'sentence' => $sentenceOpponent,
             'formDraw' => $formDraw->createView(),
+            'waiting' => '0',
         ]);
     }
 }

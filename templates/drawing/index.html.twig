@@ -22,6 +22,10 @@
       /* height: 100%; */
    }
 
+   #modal-dialog{
+     display: none;
+   }
+
    .sentence-container {
       text-align: center;
     }
@@ -37,6 +41,11 @@
       /* border: 1px solid black; */
       /* top:0;
       left:0; */
+    }
+
+    .drawing {
+      border: 1px black solid;
+      order: 1;
     }
 
     .btn-container {
@@ -122,12 +131,22 @@
 </style>
 
 <div class="sentence-container">
-  {% trans %}Sentence you have to draw:{% endtrans %}<br>{{ sentence }}
+  {% trans %}Try to draw this sentence:{% endtrans %}<br>{{ sentence }}
+
+  {% if waiting == 1 %}
+        <p>{% trans %}Waiting for other players{% endtrans %}</p>
+  {% endif %}
 </div>
 
 <div class="canvas-container">
-  <canvas id="canvas"></canvas>
-  <canvas id="drawCanvas"></canvas>
+  {% if waiting == 1 %}
+    <div class="drawing">
+      <img src={{drawing}} alt="My drawing" />
+    </div>
+  {% else %}
+    <canvas id="canvas"></canvas>
+    <canvas id="drawCanvas"></canvas>
+  
 
   <div class="btn-container">
     <button id="clear-canvas">Clear Canvas</button>
@@ -141,9 +160,7 @@
     <button id="draw-rectangleFill">Rectangle fill</button>
     <button id="draw-triangle">Triangle</button>
     <button id="draw-triangleFill">Triangle Fill</button>
-
-    <button id="export-image">Export</button>
-    <button id="end-drawing">Terminer</button>
+    {{ form(formDraw) }}
 
     <div class="slider-container">
       <input type="range" min="1" max="10" value="1" class="slider" id="myRange">
@@ -164,7 +181,7 @@
   <div class="flash-message" id="flashMessage" data-duration="5000">
     <p>This is a flash message</p>
   </div>
-
+  {% endif %}
   <dialog open id="modal-dialog">
     <div class='modal-title' id="modal-title">Would you...?</div>
     <input type='button' value='yes' id='btnYes' />
@@ -172,10 +189,6 @@
   </dialog>
 
   <div id="img-result"></div>
-</div>
-
-<div class="validate-drawing">
-  {{ form(formDraw) }}
 </div>
 
 <script>
@@ -214,12 +227,11 @@
     let colorRecap = document.getElementById("color-recap");
 
     // End drawing
-    let endDrawing = document.getElementById("end-drawing");
+    // let endDrawing = document.getElementById("end-drawing");
 
     // Clear and export
     let btnClearCanvas = document.getElementById('clear-canvas');
     let btnEraseCanvas = document.getElementById('erase-canvas');
-    let btnExportImage = document.getElementById('export-image')
 
     // Audio
     let audio = document.getElementById("myAudio");
@@ -332,7 +344,7 @@
       btnYes.addEventListener('click', () => { modal.removeAttribute("open") });
       btnNo.addEventListener('click', () => { alert("no") });
     }
-    displayModal();
+    //displayModal();
 
     function displayFlashMessage(message) {
       document.getElementById('flashMessage').innerText = message;
@@ -595,17 +607,6 @@
       currentDrawingShape = drawingShapes.erase;
       displayFlashMessage("Eraser selected")
     });
-
-    // Export the image
-    btnExportImage.addEventListener('click', event => {
-      // event.preventDefault();
-      let img = canvas.toDataURL("image/png");
-      let imgEl = "<img src='" + img + "'/>"
-      console.log(img);
-      // document.getElementById('img-result').innerHTML = imgEl;
-      window.open(img, 'Image', 'width=img.style.width,height=img.style.height,resizable=1');
-      // document.write(imgEl);
-    })
 
     // Slider stroke with
     slider.addEventListener('input', event => {
