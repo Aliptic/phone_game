@@ -82,7 +82,7 @@ class DrawingController extends AbstractController
             $sentenceOpponent=$historyOpponent->getHistory()[$round];
         }
 
-        $formDraw = $this->createFormBuilder(array("allow_extra_fields" => true))
+        $formDraw = $this->createFormBuilder()
             ->add('validate', SubmitType::class, ['label' => 'Validate'])
             ->add('hidden', HiddenType::class)
             ->setMethod('POST')
@@ -95,7 +95,7 @@ class DrawingController extends AbstractController
 
             // une façon moins moche existe surement, pas le temps déso pas déso
             $newhistory=$historyOpponent->getHistory();
-            array_push($newhistory,$drawing);
+            $newhistory[$round-1]=$drawing;
             $historyOpponent->setHistory($newhistory);
 
             $entityManager->flush();

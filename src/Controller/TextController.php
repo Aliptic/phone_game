@@ -33,8 +33,7 @@ class TextController extends AbstractController
         $statement->execute();
         $phrasePlaceholder = $statement->fetch();
 
-        // "allow_extra_fields" => true est peut être une faille de sécurité?
-        $formStart = $this->createFormBuilder(array("allow_extra_fields" => true))
+        $formStart = $this->createFormBuilder()
             ->add('phrase', TextType::class, [
                 'label' => 'phrase',
                 'attr' => [
@@ -165,7 +164,7 @@ class TextController extends AbstractController
         // takes size-1 to fall back on the correct drawing in case it is a second phase of text
         $drawCreator=$historyCreator->getHistory()[$size-1];
         
-        $formText = $this->createFormBuilder(array("allow_extra_fields" => true))
+        $formText = $this->createFormBuilder()
             ->add('phrase', TextType::class, ['label' => 'phrase'])
             ->add('validate', SubmitType::class, ['label' => 'validate'])
             ->setMethod('POST')
@@ -181,7 +180,7 @@ class TextController extends AbstractController
                 ->findOneBy(['game_id' => $id,'user_id' => $creatorId]);
 
             $newhistory=$history->getHistory();
-            array_push($newhistory,$phrase);
+            $newhistory[$round-1]=$phrase;
             $history->setHistory($newhistory);
 
             $entityManager->flush();

@@ -12,10 +12,7 @@
 	{% endif %}
 
     <script type="text/javascript">
-		if( {{ waiting }} == 1){
-			var btnValidate= document.getElementById("form_validate");
-			btnValidate.disabled = true;
-		}
+	
 		// SSE
 		// Mercure hub url
 		const url = new URL('http://localhost:8090/.well-known/mercure')
