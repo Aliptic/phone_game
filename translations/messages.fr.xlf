@@ -385,6 +385,190 @@
         <source>Change my password</source>
         <target>Changer mon mot de passe</target>
       </trans-unit>
+      <trans-unit id="EufqHgG" resname="The Rumor - Edit static page">
+        <source>The Rumor - Edit static page</source>
+        <target>Le jeu du téléphone - Modifier les pages statiques</target>
+      </trans-unit>
+      <trans-unit id="Hxkn8E7" resname="Edit static pages">
+        <source>Edit static pages</source>
+        <target>Modifier les pages statiques</target>
+      </trans-unit>
+      <trans-unit id="vMpM6U1" resname="The Rumor - Admin panel">
+        <source>The Rumor - Admin panel</source>
+        <target>Le jeu du téléphone - Panneau d'administration</target>
+      </trans-unit>
+      <trans-unit id="hDMatXa" resname="Create new user">
+        <source>Create new user</source>
+        <target>Créer un nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="bsdQOUh" resname="The Rumor">
+        <source>The Rumor</source>
+        <target>Le jeu du téléphone</target>
+      </trans-unit>
+      <trans-unit id="W0rNzKP" resname="The Rumor - Drawing step">
+        <source>The Rumor - Drawing step</source>
+        <target>Le jeu du téléphone - Etape de dessin</target>
+      </trans-unit>
+      <trans-unit id="J9AQaWZ" resname="Try to draw this sentence:">
+        <source>Try to draw this sentence:</source>
+        <target>Essayez de dessiner cette phrase :</target>
+      </trans-unit>
+      <trans-unit id="s6H9qxw" resname="Waiting for other players">
+        <source>Waiting for other players</source>
+        <target>En attente d'autres joueurs</target>
+      </trans-unit>
+      <trans-unit id="jD_UTim" resname="Clear Canvas">
+        <source>Clear Canvas</source>
+        <target>Nettoyer la toile</target>
+      </trans-unit>
+      <trans-unit id="aG7uPGz" resname="Eraser">
+        <source>Eraser</source>
+        <target>Gomme</target>
+      </trans-unit>
+      <trans-unit id="dd3GWx0" resname="Free Line">
+        <source>Free Line</source>
+        <target>Crayon</target>
+      </trans-unit>
+      <trans-unit id="14Us0NJ" resname="Line">
+        <source>Line</source>
+        <target>Ligne</target>
+      </trans-unit>
+      <trans-unit id="uT07zs." resname="Circle">
+        <source>Circle</source>
+        <target>Cercle</target>
+      </trans-unit>
+      <trans-unit id="mXdcvVO" resname="Circle fill">
+        <source>Circle fill</source>
+        <target>Cercle plein</target>
+      </trans-unit>
+      <trans-unit id="AwaZYij" resname="Rectangle">
+        <source>Rectangle</source>
+        <target>Rectangle</target>
+      </trans-unit>
+      <trans-unit id="y3C3Slb" resname="Rectangle fill">
+        <source>Rectangle fill</source>
+        <target>Rectangle plein</target>
+      </trans-unit>
+      <trans-unit id="oCUmkbX" resname="Triangle">
+        <source>Triangle</source>
+        <target>Triangle</target>
+      </trans-unit>
+      <trans-unit id="5ReZDOq" resname="Triangle Fill">
+        <source>Triangle Fill</source>
+        <target>Triangle plein</target>
+      </trans-unit>
+      <trans-unit id="5AFMttn" resname="The Rumor - Game">
+        <source>The Rumor - Game</source>
+        <target>Le jeu du téléphone - Partie</target>
+      </trans-unit>
+      <trans-unit id="Fi33GD4" resname="Game creation">
+        <source>Game creation</source>
+        <target>Création de partie</target>
+      </trans-unit>
+      <trans-unit id="5LufHs6" resname="Start">
+        <source>Start</source>
+        <target>Démarrer</target>
+      </trans-unit>
+      <trans-unit id="SeNwhJX" resname="Welcome to this wonderfull game">
+        <source>Welcome to this wonderfull game</source>
+        <target>Bienvenue dans ce merveilleux jeu</target>
+      </trans-unit>
+      <trans-unit id="uP.uepq" resname="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.">
+        <source>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.</source>
+        <target>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.</target>
+      </trans-unit>
+      <trans-unit id="tBO69fE" resname="The Rumor - Legal notice">
+        <source>The Rumor - Legal notice</source>
+        <target>Le jeu du téléphone - Mentions légales</target>
+      </trans-unit>
+      <trans-unit id="Tpa1OuW" resname="The Rumor - Waiting room">
+        <source>The Rumor - Waiting room</source>
+        <target>Le jeu du téléphone - Salle d'attente</target>
+      </trans-unit>
+      <trans-unit id="6CDPxaX" resname="Waiting room">
+        <source>Waiting room</source>
+        <target>Salle d'attente</target>
+      </trans-unit>
+      <trans-unit id="XEEqJiC" resname="Game">
+        <source>Game</source>
+        <target>Partie</target>
+      </trans-unit>
+      <trans-unit id="2S0n2HP" resname="List of players">
+        <source>List of players</source>
+        <target>Liste des joueurs</target>
+      </trans-unit>
+      <trans-unit id="Shvt0A." resname="Invite your friends with this link :">
+        <source>Invite your friends with this link :</source>
+        <target>Invitez vos amis avec ce lien :</target>
+      </trans-unit>
+      <trans-unit id="sKyc6oa" resname="Copy text">
+        <source>Copy text</source>
+        <target>Copier le texte</target>
+      </trans-unit>
+      <trans-unit id="ySo1_2f" resname="Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :)">
+        <source>Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :)</source>
+        <target>Désolé, ce lien de jeu est invalide ou a expiré, vous devriez vérifier votre lien ou créer une partie vous-même :)</target>
+      </trans-unit>
+      <trans-unit id="UBY5yBk" resname="Start a new game">
+        <source>Start a new game</source>
+        <target>Commencer une nouvelle partie</target>
+      </trans-unit>
+      <trans-unit id="NnxkYVE" resname="Error generating token, please contact admin">
+        <source>Error generating token, please contact admin</source>
+        <target>Erreur lors de la génération du jeton, veuillez contacter l'administrateur</target>
+      </trans-unit>
+      <trans-unit id="cxPBPfr" resname="The Rumor - Register">
+        <source>The Rumor - Register</source>
+        <target>Le jeu du téléphone - S'inscrire</target>
+      </trans-unit>
+      <trans-unit id="b0hUoE4" resname="The Rumor - Password Reset Email Sent">
+        <source>The Rumor - Password Reset Email Sent</source>
+        <target>Le jeu du téléphone - E-mail de réinitialisation du mot de passe envoyé</target>
+      </trans-unit>
+      <trans-unit id="jqebaLj" resname="The Rumor - Reset your password">
+        <source>The Rumor - Reset your password</source>
+        <target>Le jeu du téléphone - Réinitialiser le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="ua_cgF3" resname="The Rumor - Game rules">
+        <source>The Rumor - Game rules</source>
+        <target>Le jeu du téléphone - Règles du jeu</target>
+      </trans-unit>
+      <trans-unit id="Zle3Kss" resname="The Rumor - Log in!">
+        <source>The Rumor - Log in!</source>
+        <target>Le jeu du téléphone - Connexion</target>
+      </trans-unit>
+      <trans-unit id="9.0X2Q9" resname="The Rumor - Summary">
+        <source>The Rumor - Summary</source>
+        <target>Le jeu du téléphone - Récapitulatif</target>
+      </trans-unit>
+      <trans-unit id="jnapSsg" resname="Summary">
+        <source>Summary</source>
+        <target>Récapitulatif</target>
+      </trans-unit>
+      <trans-unit id="ghyB5S_" resname="Text step">
+        <source>Text step</source>
+        <target>Étape de texte</target>
+      </trans-unit>
+      <trans-unit id="Y2EZu_w" resname="The masterpiece">
+        <source>The masterpiece</source>
+        <target>Le chef-d'œuvre</target>
+      </trans-unit>
+      <trans-unit id="0HZugrq" resname="The Rumor - Edit user">
+        <source>The Rumor - Edit user</source>
+        <target>Le jeu du téléphone - Modifier l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="mDN3Of6" resname="The Rumor - User index">
+        <source>The Rumor - User index</source>
+        <target>Le jeu du téléphone - Index des utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="lbU9dMf" resname="The Rumor - New user">
+        <source>The Rumor - New user</source>
+        <target>Le jeu du téléphone - Nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="CFgdfQT" resname="The Rumor - My account">
+        <source>The Rumor - My account</source>
+        <target>Le jeu du téléphone - Mon compte</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

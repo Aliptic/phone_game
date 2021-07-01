@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Register{% endtrans %}{% endblock %}
+{% block title %}
+    {% trans %}The Rumor - Register{% endtrans %}
+{% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
