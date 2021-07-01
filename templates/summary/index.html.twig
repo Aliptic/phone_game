@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Summary{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{% trans %}Summary{% endtrans %}</h1>
+    <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
+    <div>
+        <table>
+			{% for s in summaries %}
+				<tr>
+					<th>{{ s['pseudo'] }}</th>
+                    {% for step in s['history'] %}
+                        {% if step starts with 'data:image/png;base64,' %}
+                            <td><img src={{ step }}></td>
+                        {% else %}
+                            <td>{{ step }}</td>
+                        {% endif %}
+                    {% endfor %}
+                
+				</tr>
+			{% endfor %}
+		</table>
+    </div>
+</div>
+{% endblock %}
