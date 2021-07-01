@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit static page{% endblock %}
+{% block title %}
+    {% trans %}The Rumor - Edit static page{% endtrans %}
+{% endblock %}
 
 {% block body %}
-<h1>TODO: enlever champs title</h1>
-<h1>Edit Page</h1>
+
+<h1>{% trans %}Edit static pages{% endtrans %}</h1>
     {{ form_start(formPages) }}
         {{ form(formPages) }}
     {{ form_end(formPages) }}

@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TextController!{% endblock %}
+{% block title %}
+	{% trans %}Text step{% endtrans %}
+{% endblock %}
 
 {% block body %}
     {{ form(formStart) }}

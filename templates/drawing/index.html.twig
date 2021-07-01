@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drawing{% endblock %}
+{% block title %}
+    {% trans %}The Rumor - Drawing step{% endtrans %}
+{% endblock %}
 
 {% block body %}
 <style>
@@ -131,7 +133,7 @@
 </style>
 
 <div class="sentence-container">
-  {% trans %}Try to draw this sentence:{% endtrans %}<br>{{ sentence }}
+  <h2>{% trans %}Try to draw this sentence:{% endtrans %}</h2><br>{{ sentence }}
 
   {% if waiting == 1 %}
         <p>{% trans %}Waiting for other players{% endtrans %}</p>
@@ -149,17 +151,17 @@
   
 
   <div class="btn-container">
-    <button id="clear-canvas">Clear Canvas</button>
-    <button id="erase-canvas">Erase Canvas</button>
+    <button id="clear-canvas">{% trans %}Clear Canvas{% endtrans %}</button>
+    <button id="erase-canvas">{% trans %}Eraser{% endtrans %}</button>
 
-    <button id="draw-freeLine">Free Line</button>
-    <button id="draw-line">Line</button>
-    <button id="draw-circle">Circle</button>
-    <button id="draw-circleFill">Circle fill</button>
-    <button id="draw-rectangle">Rectangle</button>
-    <button id="draw-rectangleFill">Rectangle fill</button>
-    <button id="draw-triangle">Triangle</button>
-    <button id="draw-triangleFill">Triangle Fill</button>
+    <button id="draw-freeLine">{% trans %}Free Line{% endtrans %}</button>
+    <button id="draw-line">{% trans %}Line{% endtrans %}</button>
+    <button id="draw-circle">{% trans %}Circle{% endtrans %}</button>
+    <button id="draw-circleFill">{% trans %}Circle fill{% endtrans %}</button>
+    <button id="draw-rectangle">{% trans %}Rectangle{% endtrans %}</button>
+    <button id="draw-rectangleFill">{% trans %}Rectangle fill{% endtrans %}</button>
+    <button id="draw-triangle">{% trans %}Triangle{% endtrans %}</button>
+    <button id="draw-triangleFill">{% trans %}Triangle Fill{% endtrans %}</button>
     {{ form(formDraw) }}
 
     <div class="slider-container">
