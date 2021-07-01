@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
+use App\Entity\History;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +27,16 @@ class SummaryController extends AbstractController
         // update the state of the game to finished
         $game->setState('Finished');
         $entityManager->persist($game);
+
+        // durée de la partie en secondes
+        $gamelength = time() - $game->getTime();
         
+        $this->getUser()->setTotalTimePlayed($this->getUser()->getTotalTimePlayed() + $gamelength);
+        $this->getUser()->setNbGamesPlayed($this->getUser()->getNbGamesPlayed()+1);
+        
+        $entityManager->persist($this->getUser());
+        $entityManager->flush();
+
         // Retrieve everyone's history with pseudos
         $query = "SELECT u.pseudo, h.history FROM history h INNER JOIN user u WHERE h.user_id = u.id AND h.game_id = ".$id;
         $statement = $connection->prepare($query);

@@ -127,7 +127,7 @@ class PlayerInviteController extends AbstractController
             $game->setUsersId([$users_id])              // Add the player id in the array
                 ->setRoomToken($token)                  // Specify the unique token of this room
                 ->setInviteExpiration(time() + (30 * 60));  // The invite expires after 30 minutes
-
+            
             $entityManager->persist($game);
             $entityManager->flush();
 
