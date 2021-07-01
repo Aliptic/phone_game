@@ -43,8 +43,9 @@ class DrawingController extends AbstractController
         
         // Check if all the steps have been passed
         if($round > $nbPlayers) {
-            // send to recap
-            dump("Recap");
+            return $this->redirectToRoute('summary', array(
+                'id' => $id,
+            ));
         }
 
         // on cherche à retrouver quel joueur est "l'adversaire" de notre joueur
