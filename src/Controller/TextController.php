@@ -29,7 +29,7 @@ class TextController extends AbstractController
 
         //get a new sentence as placeholder for the textField
         $connection = $entityManager->getConnection();
-        $statement = $connection->prepare('SELECT sentence FROM sentence s ORDER BY RAND() LIMIT 1');
+        $statement = $connection->prepare('SELECT sentence FROM sentence s WHERE type = "start" ORDER BY RAND() LIMIT 1');
         $statement->execute();
         $phrasePlaceholder = $statement->fetch();
 
