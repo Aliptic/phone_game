@@ -87,6 +87,7 @@ class SummaryController extends AbstractController
         return $this->render('summary/history.html.twig', [
             'controller_name' => 'Summary',
             'game_id' => $id,
+            'player_id' => $this->getUser()->getId(),
             'summaries' => $summaries,
         ]);
     }

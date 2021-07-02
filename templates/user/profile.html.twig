@@ -60,14 +60,14 @@
             <tbody>
                 {% for game in games %}
                 <tr>
-                    <td>{{ game.inviteexpiration|date("m/d/Y")  }}</td>
+                    <td>{{ game.inviteexpiration|date("d/m/y")  }}</td>
                     <td>
                         {% for user in game.usersId %}
                             {{ user[1] }}
                         {% endfor %}
                     </td>
                     <td>{{ game.time }}</td>
-                    <td><a href="{{ path('history', {'id': game.id}) }}">yeet</a></td>
+                    <td><a href="{{ path('history', {'id': game.id}) }}">{% trans %}See{% endtrans %}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

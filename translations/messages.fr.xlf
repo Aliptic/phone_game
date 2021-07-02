@@ -617,6 +617,14 @@
         <source>I never played in any game</source>
         <target>Je n'ai encore jamais joué</target>
       </trans-unit>
+      <trans-unit id="xl4mYPh" resname="Back to my profile">
+        <source>Back to my profile</source>
+        <target>Retour vers mon profile</target>
+      </trans-unit>
+      <trans-unit id="aGMGfrC" resname="See">
+        <source>See</source>
+        <target>Voir</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
