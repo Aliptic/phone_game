@@ -49,7 +49,7 @@ class GameController extends AbstractController
         $entityManager->flush();
 
         // Send an event to the hub for the game starting
-        $url = $this->getParameter('mercure.host').'invite/'.$id;
+        $url = $this->getParameter('mercure.host').'player/invite/'.$id;
         $update = new Update(
             $url,
             json_encode(['subject' => 'start'])
