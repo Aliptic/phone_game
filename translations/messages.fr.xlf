@@ -625,6 +625,14 @@
         <source>See</source>
         <target>Voir</target>
       </trans-unit>
+      <trans-unit id="gZeQUWD" resname="It's your time to vote!">
+        <source>It's your time to vote!</source>
+        <target>C'est l'heure de voter!</target>
+      </trans-unit>
+      <trans-unit id="bfQ5AtY" resname="Thank you for voting!">
+        <source>Thank you for voting!</source>
+        <target>Merci d'avoir voté!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

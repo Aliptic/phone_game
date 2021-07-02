@@ -32,6 +32,11 @@ class History
      */
     private $history = [];
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $HasVoted;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class History
     public function setHistory(array $history): self
     {
         $this->history = $history;
+
+        return $this;
+    }
+
+    public function getHasVoted(): ?bool
+    {
+        return $this->HasVoted;
+    }
+
+    public function setHasVoted(bool $HasVoted): self
+    {
+        $this->HasVoted = $HasVoted;
 
         return $this;
     }

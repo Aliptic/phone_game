@@ -50,6 +50,11 @@ class Game
      */
     private $invite_expiration;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $VoteSentence;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,6 +116,18 @@ class Game
     public function setInviteExpiration(int $invite_expiration): self
     {
         $this->invite_expiration = $invite_expiration;
+
+        return $this;
+    }
+
+    public function getVoteSentence(): ?string
+    {
+        return $this->VoteSentence;
+    }
+
+    public function setVoteSentence(?string $VoteSentence): self
+    {
+        $this->VoteSentence = $VoteSentence;
 
         return $this;
     }

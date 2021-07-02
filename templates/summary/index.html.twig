@@ -69,7 +69,26 @@
       height: auto;
       margin: 0 auto;
     }
-
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #7aa8b7;
+        border-radius: 6px;
+        outline: none;
+    }
+    .button-grey {
+      display: inline-block;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #414D52;
+      border-radius: 6px;
+      outline: none;
+    }
     /* Clear floats after the tab */
     /* .clearfix::after {
       content: "";
@@ -104,7 +123,27 @@
     </div>
     {% endfor %}
 </div>
-
+<div class="summary-votes">
+  <h3>
+    {% trans %}It's your time to vote!{% endtrans %}
+    <br>
+    {{ sentenceVote }}
+  </h3>
+  {% for id in ids %}
+    {% if id[0] != myId %}
+      {% if hasVoted == 0 %}
+      <a class="button" href="{{ path('votefor', {'id': id[0],'gameId': game_id}) }}">
+        {{ id[1] }}
+      </a>
+      {% else %}
+        <span class="button-grey" > {{ id[1] }} </span>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if hasVoted == 1 %}
+    <br><span>{% trans %}Thank you for voting!{% endtrans %}</span>
+  {% endif %}
+</div>
 <script>
     // let tabs = document.querySelectorAll('.tablinks')
 
@@ -114,6 +153,8 @@
     //     // openCity(event)
     //   })
     // })
+
+
 
     function openCity(evt, cityName) {
       let i, tabcontent, tablinks;
