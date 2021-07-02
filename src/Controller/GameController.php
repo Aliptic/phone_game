@@ -43,7 +43,8 @@ class GameController extends AbstractController
             $history = new History();
             $history->setGameId($id)
                 ->setUserId($player[0])
-                ->setHistory([]);
+                ->setHistory([])
+                ->setHasVoted(0);
             $entityManager->persist($history);
         }
         $entityManager->flush();

@@ -125,9 +125,16 @@ class PlayerInviteController extends AbstractController
             // Create a new game
             $game = new Game();
 
+            $connection = $entityManager->getConnection();
+            $statement = $connection->prepare('SELECT sentence FROM sentence s WHERE type = "vote" ORDER BY RAND() LIMIT 1');
+            $statement->execute();
+            $sentenceVote = $statement->fetch();
+            dump($sentenceVote);
+
             $game->setUsersId([$users_id])              // Add the player id in the array
                 ->setRoomToken($token)                  // Specify the unique token of this room
-                ->setInviteExpiration(time() + (30 * 60));  // The invite expires after 30 minutes
+                ->setInviteExpiration(time() + (30 * 60))  // The invite expires after 30 minutes
+                ->setVoteSentence($sentenceVote["sentence"]);
             
             $entityManager->persist($game);
             $entityManager->flush();
