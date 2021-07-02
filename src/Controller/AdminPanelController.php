@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -36,7 +37,6 @@ class AdminPanelController extends AbstractController
                 'choices' => $pagesRepository->findAll(),
                 'choice_label' => 'title',
             ])
-            ->add()
             ->add('edit', SubmitType::class, ['label' => 'edit'])
             ->setMethod('POST')
             ->getForm();
@@ -58,8 +58,14 @@ class AdminPanelController extends AbstractController
             ->add('phrase', TextType::class, [
                 'label' => 'phrase',
                 'attr' => [
-                    'placeholder' => "..Blablabla..",
+                    'placeholder' => "Une jambe en mousse",
                 ]])
+            ->add('type', ChoiceType::class, [
+                    'choices'  => [
+                        'start' => 'start',
+                        'vote' => 'vote',
+                    ],
+                ])
             ->add('validate', SubmitType::class, ['label' => 'Validate'])
             ->setMethod('GET')
             ->getForm();
@@ -68,10 +74,11 @@ class AdminPanelController extends AbstractController
 
         if ($formSentence->isSubmitted()) {
             $phrase = $formSentence->get('phrase')->getData();
-        
+            $type = $formSentence->get('type')->getData();
+
             $sentence = new Sentence();
             $sentence->setSentence($phrase);
-            $sentence->setType("start");
+            $sentence->setType($type);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sentence);

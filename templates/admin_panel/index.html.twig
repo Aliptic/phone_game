@@ -48,15 +48,16 @@
         <br>
         //
         </h3>
-        <div class="form-sentence">
+        
+        {{ form_start(formSentence) }}
             {{ form_label(formSentence.phrase, 'You can add a new sentence for players'|trans ) }}
             <br>
             {# pourquoi ça ne s'affiche jamais inline??? #}
-            <div class="form-inline">
-                {{ form_widget(formSentence.phrase) }}
-                {{ form_row(formSentence.validate, { 'label': 'Submit me'|trans }) }}
-            </div>
-        </div>
+            {{ form_widget(formSentence.phrase) }}
+            {{ form_widget(formSentence.type) }}
+            {{ form_widget(formSentence.validate, { 'label': 'Validate'|trans }) }}
+            
+        {{ form_end(formSentence) }}
     </div>
     {# section flex droite #}
     {# tableau de tous les utilisateurs + actions #}

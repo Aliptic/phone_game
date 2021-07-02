@@ -581,6 +581,22 @@
         <source>List of our users</source>
         <target>Liste de nos utilisateurs</target>
       </trans-unit>
+      <trans-unit id="QGEau92" resname="Validate">
+        <source>Validate</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="hwpXW43" resname="My records">
+        <source>My records</source>
+        <target>Mon palmarès</target>
+      </trans-unit>
+      <trans-unit id="WtTBcRd" resname="Pseudos">
+        <source>Pseudos</source>
+        <target>Pseudos</target>
+      </trans-unit>
+      <trans-unit id="rclWBaG" resname="Length">
+        <source>Length</source>
+        <target>Durée</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -36,7 +36,7 @@ class PlayerInviteController extends AbstractController
             // verify if a token exist in base, if not, the player is warned
             if (!$game) {
                 // delete the session variable token because it's useless now
-                $this->get('session')->clear();
+                $this->get('session')->set('token', NULL);
                 
                 // player is warned there's a problem with the link
                 return $this->render('player_invite/index.html.twig', [
@@ -61,7 +61,7 @@ class PlayerInviteController extends AbstractController
                 // verify if the invite is not expired, 30min after the game creation
                 if ($game->getInviteExpiration() <= time()) {
                     // delete the session variable token because it's useless now
-                    $this->get('session')->clear();
+                    $this->get('session')->set('token', NULL);
 
                     // launches display that there is a problem
                     return $this->render('player_invite/index.html.twig', [

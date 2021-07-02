@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Game;
+use App\Entity\History;
 use App\Form\UserType;
 use App\Form\UserProfile;
 use App\Repository\UserRepository;
-use ContainerQkksgrB\PaginatorInterface_82dac15;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -131,7 +132,7 @@ class UserController extends AbstractController
      * @Route("/{id}/profile", name="user_profile", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function userProfile(Request $request, User $user): Response
+    public function userProfile(Request $request, User $user, PaginatorInterface $paginator): Response
     {
         if ($this->getUser()->getId() == $user->getID()) {
             $form = $this->createForm(UserProfile::class, $user);
@@ -147,9 +148,28 @@ class UserController extends AbstractController
                 ));
             }
 
+            $myHistory = $this->getDoctrine()
+                ->getRepository(History::class)
+                ->findBy(['user_id' => $this->getUser()->getId()]);
+            
+            $allGames = [];
+            foreach($myHistory as $h){
+                $game = $this->getDoctrine()
+                    ->getRepository(Game::class)
+                    ->findOneBy(['id' => $h->getGameId()]);
+                $allGames[] = $game;
+            }
+
+            $games = $paginator->paginate(
+                $allGames, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                7 // Nombre de résultats par page
+            );
+
             return $this->render('user/profile.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),
+                'games' => $games,
             ]);
         } else {
             return $this->redirectToRoute('index');

@@ -23,15 +23,16 @@ class SummaryController extends AbstractController
         $game = $this->getDoctrine()
             ->getRepository(Game::class)
             ->findOneBy(['id' => $id]);
-
-        // update the state of the game to finished
-        $game->setState('Finished');
-        $entityManager->persist($game);
-
-        // durée de la partie en secondes
-        $gamelength = time() - $game->getTime();
         
-        $this->getUser()->setTotalTimePlayed($this->getUser()->getTotalTimePlayed() + $gamelength);
+        if($game->getState()=='Ongoing'){
+            $game->setState('Finished');
+            $gamelength = time() - $game->getTime();
+
+            $game->setTime($gamelength);
+            $entityManager->persist($game);
+        }
+        
+        $this->getUser()->setTotalTimePlayed($this->getUser()->getTotalTimePlayed() + $game->getTime());
         $this->getUser()->setNbGamesPlayed($this->getUser()->getNbGamesPlayed()+1);
         
         $entityManager->persist($this->getUser());

@@ -15,7 +15,7 @@
     }
 
     .section {
-        background: #ce8888;
+        
     }
 </style>
 <h1>{% trans %}My account{% endtrans %}</h1>
@@ -33,12 +33,13 @@
         {{ form_end(form) }}
 
         {# Affichage des stats #}
-        <h3>My records<h3>
+        <h3>{% trans %}My records{% endtrans %}<h3>
         <ul>
-            <li>- I earned {{ user.nbPoints }} points</li>
-            <li>- I played in {{ user.nbGamesPlayed }} games</li>
-            <li>- I spent {{ user.totalTimePlayed }} minutes playing</li>
+            <li>- J'ai gagné {{ user.nbPoints }} points</li>
+            <li>- J'ai participé à {{ user.nbGamesPlayed }} parties</li>
+            <li>- J'ai passé {{ (user.totalTimePlayed/60)|round(1, 'floor') }} minutes à jouer</li>
         </ul>
+        <br>
         {# Lien changer mot de passe #}
         <a href="{{ path('app_forgot_password_request') }}">{% trans %}Change my password{% endtrans %}</a>
 
@@ -46,7 +47,31 @@
     </div>
     <div class="section">
         {# TODOOOOOOOOOOOOOOOO #}
-        <img src="{{ asset('img/th.jpg') }}" width="777" height="333"> 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans %}Id{% endtrans %}</th>
+                    <th>{% trans %}Pseudos{% endtrans %}</th>
+                    <th>{% trans %}Length{% endtrans %}</th>
+                    <th>{% trans %}Summary{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td>{{ game.id }}</td>
+                    <td>
+                        {% for user in game.usersId %}
+                            {{ user[1] }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ game.time }}</td>
+                    <td>TODO</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(games) }}
     </div>
 </div>
 {% endblock %}
