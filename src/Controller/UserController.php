@@ -165,7 +165,7 @@ class UserController extends AbstractController
                 $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
                 7 // Nombre de résultats par page
             );
-
+            
             return $this->render('user/profile.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),

@@ -597,6 +597,26 @@
         <source>Length</source>
         <target>Durée</target>
       </trans-unit>
+      <trans-unit id="dLykEIj" resname="My pseudo">
+        <source>My pseudo</source>
+        <target>Mon pseudo</target>
+      </trans-unit>
+      <trans-unit id="KYRboqb" resname="Games I played">
+        <source>Games I played</source>
+        <target>Parties jouées</target>
+      </trans-unit>
+      <trans-unit id="mcQKtAW" resname="Date">
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="tVBJvn8" resname="Joueurs">
+        <source>Joueurs</source>
+        <target>Joueurs</target>
+      </trans-unit>
+      <trans-unit id="2kpatpA" resname="I never played in any game">
+        <source>I never played in any game</source>
+        <target>Je n'ai encore jamais joué</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

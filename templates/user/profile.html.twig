@@ -27,7 +27,7 @@
         <div class="form-class-errors">
             {{ form_errors(form) }}
         </div>
-        <h3>My pseudo</h3>
+        <h3>{% trans %}My pseudo{% endtrans %}</h3>
         {{ form_row(form.pseudo, {'label': false}) }}
         {{ form_row(form.submit, { 'label': 'Validate' }) }}
         {{ form_end(form) }}
@@ -46,12 +46,13 @@
         {# Affichage historique de parties #}
     </div>
     <div class="section">
-        {# TODOOOOOOOOOOOOOOOO #}
+        <h3>{% trans %}Games I played{% endtrans %}</h3>
+        {% if games[0] is defined %}
         <table class="table">
             <thead>
                 <tr>
-                    <th>{% trans %}Id{% endtrans %}</th>
-                    <th>{% trans %}Pseudos{% endtrans %}</th>
+                    <th>{% trans %}Date{% endtrans %}</th>
+                    <th>{% trans %}Joueurs{% endtrans %}</th>
                     <th>{% trans %}Length{% endtrans %}</th>
                     <th>{% trans %}Summary{% endtrans %}</th>
                 </tr>
@@ -59,19 +60,22 @@
             <tbody>
                 {% for game in games %}
                 <tr>
-                    <td>{{ game.id }}</td>
+                    <td>{{ game.inviteexpiration|date("m/d/Y")  }}</td>
                     <td>
                         {% for user in game.usersId %}
                             {{ user[1] }}
                         {% endfor %}
                     </td>
                     <td>{{ game.time }}</td>
-                    <td>TODO</td>
+                    <td><a href="{{ path('history', {'id': game.id}) }}">yeet</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {{ knp_pagination_render(games) }}
+        {% else %}
+            {% trans %}I never played in any game{% endtrans %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
