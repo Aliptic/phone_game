@@ -58,8 +58,8 @@ class PlayerInviteController extends AbstractController
                 $friendId = $this->getUser()->getId();
                 $friendPseudo = $this->getUser()->getPseudo();
 
-                // verify if the invite is not expired, 30min after the game creation
-                if ($game->getInviteExpiration() <= time()) {
+               // verify if the invite is not expired, 30min after the game creation or the game is alreday started or finished
+               if ($game->getInviteExpiration() <= time() || $game->getState() != 'Pending') {
                     // delete the session variable token because it's useless now
                     $this->get('session')->set('token', NULL);
 
