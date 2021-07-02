@@ -78,10 +78,11 @@
 
 		// SSE
 		// Mercure hub url
-		const url = new URL('http://localhost:8090/.well-known/mercure');
+		const url = new URL('{{ mercure_hub }}');
+		console.log(url)
 
 		// Search parameters 
-		url.searchParams.append('topic', 'http://localhost:8080/player/invite/{{ game_id }}');
+		url.searchParams.append('topic', '{{ mercure_host }}player/invite/{{ game_id }}');
 		const eventSource = new EventSource(url);
 
 		// The callback will be called every time an update is published
@@ -94,7 +95,7 @@
 
 			if(data.subject == 'start'){
 			//	document.querySelector('button').insertAdjacentHTML('afterend', `Compte à rebours`)
-				window.location.replace('http://localhost:8080/start/{{ game_id }}');
+				window.location.replace('{{ mercure_host }}start/{{ game_id }}');
 			}
 		}
 	</script>

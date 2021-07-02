@@ -7,12 +7,12 @@ use App\Entity\User;
 use App\Entity\History;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Mercure\HubInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DrawingController extends AbstractController
 {
@@ -119,7 +119,7 @@ class DrawingController extends AbstractController
             // if all players have validated this step
             if($vide == 0) {
                 // new sse update to send to drawing
-                $url = 'http://localhost:8080/drawing/'.$id;
+                $url = $this->getParameter('mercure.host').'drawing/'.$id;
                 $update = new Update(
                     $url,
                     json_encode(array('subject' => 'text',))
