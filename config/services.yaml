@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.locales: [fr, en]
+    mercure.hub: '%env(MERCURE_HUB)%'
+    mercure.host: '%env(MERCURE_HOST)%'
 
 services:
     # default configuration for services in *this* file

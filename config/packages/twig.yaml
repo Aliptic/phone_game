@@ -5,3 +5,6 @@ twig:
     exception_controller: null
     paths:
         '%kernel.project_dir%/vendor/knplabs/knp-paginator-bundle/templates': KnpPaginator
+    globals:
+        mercure_hub: '%env(MERCURE_HUB)%'
+        mercure_host: '%env(MERCURE_HOST)%'

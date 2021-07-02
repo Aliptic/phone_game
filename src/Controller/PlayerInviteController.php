@@ -83,7 +83,7 @@ class PlayerInviteController extends AbstractController
                     }
                     
                     // Send an event to the hub for a new player
-                    $url = 'http://localhost:8080/player/invite/'.$game->getId();
+                    $url = $this->getParameter('mercure.host').'invite/'.$game->getId();
                     $update = new Update(
                         $url,
                         json_encode(array('subject' => 'player', 'player' => $friendPseudo))

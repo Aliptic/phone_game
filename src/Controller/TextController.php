@@ -203,7 +203,7 @@ class TextController extends AbstractController
             // if all players have validated this step
             if($vide == 0) {
                 // new sse update to send to drawing
-                $url = 'http://localhost:8080/text/'.$id;
+                $url = $this->getParameter('mercure.host').'text/'.$id;
                 $update = new Update(
                     $url,
                     json_encode(array('subject' => 'draw',))

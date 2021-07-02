@@ -18,10 +18,10 @@
 	
 		// SSE
 		// Mercure hub url
-		const url = new URL('http://localhost:8090/.well-known/mercure')
+		const url = new URL('{{ mercure_hub }}')
 
 		// Search parameters 
-		url.searchParams.append('topic', 'http://localhost:8080/text/{{ game_id }}')
+		url.searchParams.append('topic', '{{ mercure_host }}text/{{ game_id }}')
 		const eventSource = new EventSource(url);
 
 		// The callback will be called every time an update is published
@@ -29,7 +29,7 @@
 		//	console.log(e); // do something with the payload
 			let data = JSON.parse(e.data)
 			if(data.subject == 'draw'){
-                window.location.replace('http://localhost:8080/drawing/{{ game_id }}')
+                window.location.replace('{{ mercure_host }}drawing/{{ game_id }}')
 			}
 		}
 	</script>
