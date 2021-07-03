@@ -33,12 +33,6 @@ class SummaryController extends AbstractController
             $game->setTime($gamelength);
             $entityManager->persist($game);
         }
-        
-        $this->getUser()->setTotalTimePlayed($this->getUser()->getTotalTimePlayed() + $game->getTime());
-        $this->getUser()->setNbGamesPlayed($this->getUser()->getNbGamesPlayed()+1);
-        
-        $entityManager->persist($this->getUser());
-        $entityManager->flush();
 
         // Retrieve everyone's history with pseudos
         $query = "SELECT u.pseudo, h.history FROM history h INNER JOIN user u WHERE h.user_id = u.id AND h.game_id = ".$id;
@@ -51,6 +45,7 @@ class SummaryController extends AbstractController
             $summaries[$i]['history'] = json_decode($summaries[$i]['history'], true);
             dump($summaries[$i]['history']);
         }
+        dump($summaries);
 
         // on verifie que l'on a pas déjà voté pour changer l'affichage
         $hasVoted = 0;
@@ -59,6 +54,12 @@ class SummaryController extends AbstractController
             ->findOneBy(['game_id' => $id , 'user_id' => $this->getUser()->getId()]);
         if($history->getHasVoted()==1) {
             $hasVoted = 1;
+        } else {
+            $this->getUser()->setTotalTimePlayed($this->getUser()->getTotalTimePlayed() + $game->getTime());
+            $this->getUser()->setNbGamesPlayed($this->getUser()->getNbGamesPlayed()+1);
+
+            $entityManager->persist($this->getUser());
+            $entityManager->flush();
         }
 
         $sentenceVote = $game->getVoteSentence();
