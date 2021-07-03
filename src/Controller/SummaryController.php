@@ -34,18 +34,16 @@ class SummaryController extends AbstractController
             $entityManager->persist($game);
         }
 
-        // Retrieve everyone's history with pseudos
-        $query = "SELECT u.pseudo, h.history FROM history h INNER JOIN user u WHERE h.user_id = u.id AND h.game_id = ".$id;
-        $statement = $connection->prepare($query);
-        $statement->execute();
-        $summaries = $statement->fetchAll();
-        
-        // decode json to array before passing it to twig
-        for($i=0;$i < count($summaries); $i++) {
-            $summaries[$i]['history'] = json_decode($summaries[$i]['history'], true);
-            dump($summaries[$i]['history']);
+        // get histories
+        $histories = $this->getDoctrine()
+            ->getRepository(History::class)
+            ->findBy(['game_id' => $id]);
+
+        $summaries = [];
+        foreach($histories as $h){
+            $summaries [] = $h->getHistory();
         }
-        dump($summaries);
+        
 
         // on verifie que l'on a pas déjà voté pour changer l'affichage
         $hasVoted = 0;
@@ -66,7 +64,6 @@ class SummaryController extends AbstractController
         if($sentenceVote == NULL){
             $sentenceVote = "Qui a été le meilleur déssinateur?";
         }
-        dump($sentenceVote);
 
         return $this->render('summary/index.html.twig', [
             'game_id' => $id,
@@ -86,22 +83,14 @@ class SummaryController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $connection = $entityManager->getConnection();
         
-        // database query for Game table with id filter
-        $game = $this->getDoctrine()
-            ->getRepository(Game::class)
-            ->findOneBy(['id' => $id]);
+        // get histories
+        $histories = $this->getDoctrine()
+            ->getRepository(History::class)
+            ->findBy(['game_id' => $id]);
 
-        // Retrieve everyone's history with pseudos
-        $query = "SELECT u.pseudo, h.history FROM history h INNER JOIN user u WHERE h.user_id = u.id AND h.game_id = ".$id;
-        $statement = $connection->prepare($query);
-        $statement->execute();
-        $summaries = $statement->fetchAll();
-        // dump($summaries);
-        
-        // decode json to array before passing it to twig
-        for($i=0;$i < count($summaries); $i++) {
-            $summaries[$i]['history'] = json_decode($summaries[$i]['history'], true);
-            dump($summaries[$i]['history']);
+        $summaries = [];
+        foreach($histories as $h){
+            $summaries [] = $h->getHistory();
         }
 
         return $this->render('summary/history.html.twig', [

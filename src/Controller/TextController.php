@@ -52,8 +52,8 @@ class TextController extends AbstractController
             ->getRepository(History::class)
             ->findOneBy(['game_id' => $id,'user_id' => $this->getUser()->getId()]);
 
-            $history->setHistory([$phrase]);
-
+            $history->setHistory(["0"=>["0" => $this->getUser()->getPseudo(), "1" => $phrase]]);
+            
             $entityManager->flush();
 
             //Check that everyone has filled in their history
@@ -159,9 +159,9 @@ class TextController extends AbstractController
         // find the correct drawing to display
         // if we have already submited, we display the second last entry
         if(!isset($_POST['form'])){
-            $drawCreator=$historyCreator->getHistory()[count($historyCreator->getHistory())-1];
+            $drawCreator=$historyCreator->getHistory()[count($historyCreator->getHistory())-1]["1"];
         } else {
-            $drawCreator=$historyCreator->getHistory()[$round-2];
+            $drawCreator=$historyCreator->getHistory()[$round-2]["1"];
         }
         
         $formText = $this->createFormBuilder()
@@ -180,7 +180,7 @@ class TextController extends AbstractController
                 ->findOneBy(['game_id' => $id,'user_id' => $creatorId]);
 
             $newhistory=$history->getHistory();
-            $newhistory[$round-1]=$phrase;
+            $newhistory[$round-1]=["0" => $this->getUser()->getPseudo(), "1" => $phrase];
             $history->setHistory($newhistory);
 
             $entityManager->flush();

@@ -39,7 +39,6 @@ class DrawingController extends AbstractController
         
         // Convert the array to string to number
         $nbPlayers = intval(implode(" ",$tabNbPlayers));
-        // dump($nbPlayers);
         
         // Check if all the steps have been passed
         if($round > $nbPlayers) {
@@ -73,14 +72,13 @@ class DrawingController extends AbstractController
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
         
-        dump("opponent id: ".$opponentId." pseudo: ".$playersList[$opponentPosition][1]);
         // on retrouve finalement la bonne phrase à afficher
         $size=count($historyOpponent->getHistory());
         // on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
-        $sentenceOpponent=$historyOpponent->getHistory()[$size-1];
+        $sentenceOpponent=$historyOpponent->getHistory()[$size-1]["1"];
 
         if(isset($_POST['form']) && $size>=$round){
-            $sentenceOpponent=$historyOpponent->getHistory()[$round];
+            $sentenceOpponent=$historyOpponent->getHistory()[$round]["1"];
         }
 
         $formDraw = $this->createFormBuilder()
@@ -96,7 +94,7 @@ class DrawingController extends AbstractController
 
             // une façon moins moche existe surement, pas le temps déso pas déso
             $newhistory=$historyOpponent->getHistory();
-            $newhistory[$round-1]=$drawing;
+            $newhistory[$round-1]=["0" => $this->getUser()->getPseudo(), "1" => $drawing];
             $historyOpponent->setHistory($newhistory);
 
             $entityManager->flush();

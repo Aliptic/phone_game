@@ -89,6 +89,15 @@
       border-radius: 6px;
       outline: none;
     }
+    .text-img-step {
+      line-height: 30px;
+      color: black;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      border: 1px solid;
+      border-radius: 10px;
+      padding: 7px;
+      margin: 14px;
+    }
     /* Clear floats after the tab */
     /* .clearfix::after {
       content: "";
@@ -101,28 +110,28 @@
     
 <h2>{% trans %}Game{% endtrans %} {{ game_id }}</h2>
 
+<!-- Summary section -->
 <div class="summary-recap">
     <div class="tab">
-        {% for s in summaries|slice(0, 1) %}
-            <button class="tablinks" onmouseover="openCity(event, '{{ s['pseudo'] }}')" id="defaultOpen">{{ s['pseudo'] }}</button>
-        {% endfor %}
-        {% for s in summaries|slice(1) %}
-            <button class="tablinks" onmouseover="openCity(event, '{{ s['pseudo'] }}')">{{ s['pseudo'] }}</button>
+        {% for s in summaries %}
+            <button class="tablinks" onmouseover="openCity(event, '{{ s[0][0] }}')">{{ s[0][0] }}</button>
         {% endfor %}
     </div>
     
     {% for s in summaries %}
-    <div id="{{ s['pseudo'] }}" class="tabcontent">
-        {% for step in s['history'] %}
-            {% if step starts with 'data:image/png;base64,' %}
-                <img src={{ step }}>
+    <div id="{{ s[0][0] }}" class="tabcontent">
+        {% for step in s %}
+            {% if step[1] starts with 'data:image/png;base64,' %}
+                <div class="text-img-step">{{ step[0] }} : <img src={{ step[1] }}></div>
             {% else %}
-                <p>{{ step }}</p>
+                <div class="text-img-step">{{ step[0] }} : {{ step[1] }}</div>
             {% endif %}
         {% endfor %}
     </div>
     {% endfor %}
 </div>
+
+<!-- Voting section -->
 <div class="summary-votes">
   <h3>
     {% trans %}It's your time to vote!{% endtrans %}
@@ -170,6 +179,8 @@
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " active";
     }
-    document.getElementById("defaultOpen").onmouseover();
+    var elements = document.getElementsByClassName('tablinks');
+    var requiredElement = elements[0];
+    requiredElement.onmouseover();
 </script>
 {% endblock %}
