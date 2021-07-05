@@ -6,10 +6,19 @@
 
 {% block body %}
 
-<h1>{% trans %}Edit static pages{% endtrans %}</h1>
+<style>
+
+    .form {
+        height:200px;
+    }
+
+</style>
+
+<h1>{% trans %}Edit static page: {% endtrans %} {{ title }}</h1>
     {{ form_start(formPages) }}
         {{ form_widget(formPages.text) }}
-        {{ form_widget(formPages.edit) }}
+        <br>
+        {{ form_widget(formPages.edit, {'label': 'Edit'|trans }) }}
     {{ form_end(formPages) }}
     
 {% endblock %}

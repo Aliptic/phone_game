@@ -633,6 +633,22 @@
         <source>Thank you for voting!</source>
         <target>Merci d'avoir voté!</target>
       </trans-unit>
+      <trans-unit id="NRyb4R7" resname="Edit static page:">
+        <source>Edit static page:</source>
+        <target>Edition de la page:</target>
+      </trans-unit>
+      <trans-unit id="RkxP.QG" resname="Edit">
+        <source>Edit</source>
+        <target>Editer</target>
+      </trans-unit>
+      <trans-unit id="Z6Zi4cU" resname="Invitation pending :">
+        <source>Invitation pending :</source>
+        <target>Invitation en attente :</target>
+      </trans-unit>
+      <trans-unit id="_V1Wg7D" resname="Total time played">
+        <source>Total time played</source>
+        <target>Temps de jeu total</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

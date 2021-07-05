@@ -113,9 +113,10 @@ class AdminPanelController extends AbstractController
         $formPages = $this->createFormBuilder($page)
             ->add('text', FroalaEditorType::class, [
                 'froala_language'      => 'fr',
-                'froala_toolbarInline' => true,
+                'froala_toolbarSticky' => true,
                 'froala_tableColors'   => ['#FFFFFF', '#FF0000'],
-                'froala_saveParams'    => ['id' => 'myEditorField'],
+                'froala_saveInterval'    => 0,
+                'froala_height' => 470,
             ])
             ->add('edit', SubmitType::class, ['label' => 'edit'])
             ->setMethod('POST')
@@ -131,6 +132,7 @@ class AdminPanelController extends AbstractController
 
         return $this->render('admin_panel/edit_static.html.twig', [
             'formPages' => $formPages->createView(),
+            'title' => $page->getTitle(),
         ]);
     }
 }
