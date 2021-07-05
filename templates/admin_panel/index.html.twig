@@ -33,26 +33,16 @@
     {# section flex gauche #}
     <div class="section section-1">
         {{ form_start(formPages) }}
-            {{ form(formPages) }}
+            {{ form_label(formPages.title, 'Edit the static pages'|trans ) }}
+            <br>
+            {{ form_widget(formPages.title) }}
+            {{ form_widget(formPages.edit, { 'label': 'Edit'|trans }) }}
         {{ form_end(formPages) }}
-   
-        {# TODO #}
-        <h3>
-        TODO
         <br>
-        Changement des règles
         <br>
-        //
-        <br>
-        //
-        <br>
-        //
-        </h3>
-        
         {{ form_start(formSentence) }}
             {{ form_label(formSentence.phrase, 'You can add a new sentence for players'|trans ) }}
             <br>
-            {# pourquoi ça ne s'affiche jamais inline??? #}
             {{ form_widget(formSentence.phrase) }}
             {{ form_widget(formSentence.type) }}
             {{ form_widget(formSentence.validate, { 'label': 'Validate'|trans }) }}
