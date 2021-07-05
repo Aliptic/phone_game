@@ -24,6 +24,10 @@ class TextController extends AbstractController
     {
         // pass the number of step in session
         $this->get('session')->set('step', "1");
+
+        // retrieves the time defined for each step
+        $timer = $this->get('session')->get('timer');
+
         
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -97,6 +101,7 @@ class TextController extends AbstractController
             'formStart' => $formStart->createView(),
             'game_id' => $id,
             'waiting' => '0',
+            'timer' => $timer,
         ]);
     }
 
@@ -110,6 +115,9 @@ class TextController extends AbstractController
             $round ++;
             $this->get('session')->set('step', $round);
         }
+        
+        // retrieves the time defined for each step
+        $timer = $this->get('session')->get('timer');
         
         $entityManager = $this->getDoctrine()->getManager();
         $connection = $entityManager->getConnection();
@@ -220,6 +228,7 @@ class TextController extends AbstractController
                 'formText' => $formText->createView(),
                 'game_id' => $id,
                 'waiting' => '1',
+                'timer' => $timer,
             ]);   
         }
         return $this->render('text/text.html.twig', [
@@ -227,6 +236,7 @@ class TextController extends AbstractController
                 'formText' => $formText->createView(),
                 'game_id' => $id,
                 'waiting' => '0',
+                'timer' => $timer,
         ]);
     }
 }

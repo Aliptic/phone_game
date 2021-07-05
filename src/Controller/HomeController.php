@@ -27,8 +27,6 @@ class HomeController extends AbstractController
             $game = $this->getDoctrine()
                 ->getRepository(Game::class)
                 ->findOneBy(['room_token' => $token]);
-            
-            $numGame = $game->getId();
                 
             // verify if a token exist in base, if not, the player is warned
             if (!$game) {
@@ -37,6 +35,7 @@ class HomeController extends AbstractController
             } else {
                 $invitation = 1;
             }
+            $numGame = $game->getId();
         }
         // Retrieve everyone's stats ordered by nb games playes, nb points and total time played   
         $ranking=array(
