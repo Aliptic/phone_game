@@ -5,14 +5,18 @@
 {% endblock %}
 
 {% block body %}
+	{% if waiting == 0 %}
 	<p id="timer">{% trans %}Remaining time{% endtrans %}</p>
+	{% endif %}
+
     {{ form(formStart) }}
 
     {% if waiting == 1 %}
-		<p>{% trans %}Waiting for other players{% endtrans %}</p>
+	<p>{% trans %}Waiting for other players{% endtrans %}</p>
 	{% endif %}
 
     <script type="text/javascript">
+	{% if waiting == 0 %}
 		// Set the date we're counting down to
 		var countDownDate = new Date().getTime()+({{ timer }}*1000);
 		const music = new Audio('{{ url('index') }}/sound/bips.mp3');
@@ -45,6 +49,7 @@
 				document.form.submit()
 			}
 		}, 1000);
+	{% endif %}
 
 		// SSE
 		// Mercure hub url
