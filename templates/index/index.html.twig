@@ -75,80 +75,21 @@
                 </th>
             </tr>
         </table>
-            <div id="GamesDesc" class="tabcontent">
+            {% for r in ranking %}
+            <div id={{ r[0] }} class="tabcontent">
                 <table>
-                {% for r in ranking[0] %}
-                
-                    <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
-                </tr>
-                
-                {% endfor %}
-                </table>
-            </div>
-            <div id="GamesAsc" class="tabcontent">
-                <table>
-                {% for r in ranking[1] %}
+                {% for ru in r[1] %}
                 <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
+                    <td>{{ ru['pseudo'] }}</td>
+                    <td>{{ ru['nb_games_played'] }}</td>
+                    <td>{{ ru['nb_points'] }}</td>
+                    <td>{{ ru['total_time_played'] }}</td>
                 </tr>
                 {% endfor %}
                 </table>
             </div>
-            <div id="PointsDesc" class="tabcontent">
-                <table>
-                {% for r in ranking[2] %}
-                <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
-            <div id="PointsAsc" class="tabcontent">
-                <table>
-                {% for r in ranking[3] %}
-                <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
-            <div id="TimeDesc" class="tabcontent">
-                <table>
-                {% for r in ranking[4] %}
-                <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
-            <div id="TimeAsc" class="tabcontent">
-                <table>
-                {% for r in ranking[5] %}
-                <tr>
-                    <td>{{ r['pseudo'] }}</td>
-                    <td>{{ r['nb_games_played'] }}</td>
-                    <td>{{ r['nb_points'] }}</td>
-                    <td>{{ r['total_time_played'] }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
+            {% endfor %}
+            
     </div>
 </div>
 
@@ -167,7 +108,7 @@
     elmnt.style.backgroundColor = color;
 
     }
-    // Get the element with id="defaultOpen" and click on it
+    // Get the element with id="defaultOpen" and click on it to display on page loading
     document.getElementById("defaultOpen").click();
 </script>
 

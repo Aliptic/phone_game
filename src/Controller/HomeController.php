@@ -45,13 +45,14 @@ class HomeController extends AbstractController
         }
         // Retrieve everyone's stats ordered by nb games playes, nb points and total time played   
         $ranking=array(
-            $userRepository->rank('nb_games_played','DESC'),
-            $userRepository->rank('nb_games_played','ASC'),
-            $userRepository->rank('nb_points','DESC'),
-            $userRepository->rank('nb_points','ASC'),
-            $userRepository->rank('total_time_played','DESC'),
-            $userRepository->rank('total_time_played','ASC')
+            array('GamesDesc',$userRepository->rank('nb_games_played','DESC')),
+            array('GamesAsc',$userRepository->rank('nb_games_played','ASC')),
+            array('PointsDesc',$userRepository->rank('nb_points','DESC')),
+            array('PointsAsc',$userRepository->rank('nb_points','ASC')),
+            array('TimeDesc',$userRepository->rank('total_time_played','DESC')),
+            array('TimeAsc',$userRepository->rank('total_time_played','ASC'))
         );
+        dump($ranking);
         
         //    $message = $translator->trans('HomeController');
         return $this->render('index/index.html.twig', [
