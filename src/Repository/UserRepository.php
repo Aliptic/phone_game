@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -50,6 +51,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     
+    /**
+     *
+     * @return User[] Returns an array of players ordered by $filter
+     */
+    public function rank($filter, $order)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.nb_games_played > 0')
+            ->orderBy('u.'.$filter, $order)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?User

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Repository\User;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -13,7 +15,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(TranslatorInterface $translator): Response
+    public function index(TranslatorInterface $translator, UserRepository $userRepository): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $connection = $entityManager->getConnection(); 
@@ -41,11 +43,15 @@ class HomeController extends AbstractController
             }
         //    return $this->redirectToRoute('player_invite');
         }
-        // Retrieve everyone's history with pseudos
-        $queryNbGames = "SELECT u.pseudo, u.nb_games_played, u.total_time_played, u.nb_points FROM user u WHERE 1";
-        $statement = $connection->prepare($queryNbGames);
-        $statement->execute();
-        $ranking = $statement->fetchAll();
+        // Retrieve everyone's stats ordered by nb games playes, nb points and total time played   
+        $ranking=array(
+            array('GamesDesc',$userRepository->rank('nb_games_played','DESC')),
+            array('GamesAsc',$userRepository->rank('nb_games_played','ASC')),
+            array('PointsDesc',$userRepository->rank('nb_points','DESC')),
+            array('PointsAsc',$userRepository->rank('nb_points','ASC')),
+            array('TimeDesc',$userRepository->rank('total_time_played','DESC')),
+            array('TimeAsc',$userRepository->rank('total_time_played','ASC'))
+        );
         dump($ranking);
         
         //    $message = $translator->trans('HomeController');
