@@ -14,8 +14,9 @@
 
     <script type="text/javascript">
 		// Set the date we're counting down to
-		var countDownDate = new Date().getTime()+({{ timer }}*1000);
-		console.log(countDownDate)
+		var countDownDate = new Date().getTime()+(10*1000);
+		const music = new Audio('{{ url('index') }}/sound/bips.mp3');
+
 		// Update the count down every 1 second
 		var x = setInterval(function() {
 			// Get today's date and time
@@ -27,14 +28,21 @@
 			// Time in seconds
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-			console.log(seconds)
+
 			// Display the result in the element with id="timer"
 			document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
-
-			// If the count down is finished, write some text
+			console.log(distance)
+			
+			// Play a sound when there is less than 4 sec
+			if (distance < 3000) {
+				music.play()
+				music.loop = false
+			}
+			// If the count down is finished, validate the form
 			if (distance < 0) {
-				clearInterval(x);
-				document.getElementById("timer").innerHTML = "EXPIRED";
+				clearInterval(x)
+				document.getElementById("timer").innerHTML = "STOP"
+				document.form.submit()
 			}
 		}, 1000);
 

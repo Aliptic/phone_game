@@ -31,6 +31,9 @@ class SummaryController extends AbstractController
 
             $game->setTime($gamelength);
             $entityManager->persist($game);
+            
+            // delete token session variable
+            $this->get('session')->set('token', NULL);
         }
 
         // get histories
