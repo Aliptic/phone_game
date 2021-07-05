@@ -52,44 +52,41 @@
     {% endif %}
     <div>
         <h2>{% trans %}Ranking - Top 10{% endtrans %}</h2>
-        <table>
+        {% for r in ranking %}
+        <div id={{ r[0] }} class="tabcontent">
+            <table>
             <tr>
-                <th>Pseudo</th>
-                <th>
-                    <span>{% trans %}Games played{% endtrans %}
-                        <a href="#" onclick="openRank('GamesDesc', this, 'white')" id="defaultOpen">⏷</a>
-                        <a href="#" onclick="openRank('GamesAsc', this, 'white')">⏶</a>
-                    </span>
-                </th>
-                <th>
-                    <span>{% trans %}Points{% endtrans %}
-                        <a href="#" onclick="openRank('PointsDesc', this, 'white')">⏷</a>
-                        <a href="#" onclick="openRank('PointsAsc', this, 'white')">⏶</a>
-                    </span>
-                </th>
-                <th>
-                    <span>{% trans %}Played time{% endtrans %}
-                        <a href="#" onclick="openRank('TimeDesc', this, 'white')">⏷</a>
-                        <a href="#" onclick="openRank('TimeAsc', this, 'white')">⏶</a>
-                    </span>
-                </th>
+            <th>Pseudo</th>
+            <th>
+                <span>{% trans %}Games played{% endtrans %}
+                    <a href="#" onclick="openRank('GamesDesc', this, 'white')" id="defaultOpen">⏷</a>
+                    <a href="#" onclick="openRank('GamesAsc', this, 'white')">⏶</a>
+                </span>
+            </th>
+            <th>
+                <span>{% trans %}Points{% endtrans %}
+                    <a href="#" onclick="openRank('PointsDesc', this, 'white')">⏷</a>
+                    <a href="#" onclick="openRank('PointsAsc', this, 'white')">⏶</a>
+                </span>
+            </th>
+            <th>
+                <span>{% trans %}Played time{% endtrans %}
+                    <a href="#" onclick="openRank('TimeDesc', this, 'white')">⏷</a>
+                    <a href="#" onclick="openRank('TimeAsc', this, 'white')">⏶</a>
+                </span>
+            </th>
+        </tr>
+            {% for ru in r[1] %}
+            <tr>
+                <td>{{ ru['pseudo'] }}</td>
+                <td>{{ ru['nb_games_played'] }}</td>
+                <td>{{ ru['nb_points'] }}</td>
+                <td>{{ ru['total_time_played'] }}</td>
             </tr>
-        </table>
-            {% for r in ranking %}
-            <div id={{ r[0] }} class="tabcontent">
-                <table>
-                {% for ru in r[1] %}
-                <tr>
-                    <td>{{ ru['pseudo'] }}</td>
-                    <td>{{ ru['nb_games_played'] }}</td>
-                    <td>{{ ru['nb_points'] }}</td>
-                    <td>{{ ru['total_time_played'] }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
             {% endfor %}
-            
+            </table>
+        </div>
+        {% endfor %}
     </div>
 </div>
 
