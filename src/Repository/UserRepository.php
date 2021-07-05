@@ -50,6 +50,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     
+    /**
+     *
+     * @return User[] Returns an array of players ordered by $value
+     */
+    public function rank($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.nb_games_played > 0')
+            ->orderBy('u.'.$value, 'DESC')
+        //    ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?User
