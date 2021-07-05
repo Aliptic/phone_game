@@ -3,11 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Repository\User;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -15,11 +13,9 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $connection = $entityManager->getConnection(); 
-        
+        // declare some variables to 0 when a player arrive for the first time
         $invitation = 0;
         $numGame = 0;
         
@@ -41,7 +37,6 @@ class HomeController extends AbstractController
             } else {
                 $invitation = 1;
             }
-        //    return $this->redirectToRoute('player_invite');
         }
         // Retrieve everyone's stats ordered by nb games playes, nb points and total time played   
         $ranking=array(
@@ -52,11 +47,8 @@ class HomeController extends AbstractController
             array('TimeDesc',$userRepository->rank('total_time_played','DESC')),
             array('TimeAsc',$userRepository->rank('total_time_played','ASC'))
         );
-        dump($ranking);
         
-        //    $message = $translator->trans('HomeController');
         return $this->render('index/index.html.twig', [
-        //    'controller_name' => $message,
             'invitation' => $invitation,
             'numGame' => $numGame,
             'ranking' => $ranking,

@@ -54,96 +54,99 @@ class PlayerInviteController extends AbstractController
 
                 // redirect to login/create account
                 return $this->redirectToRoute('app_login');
-            } else {   // player is logged
-                $friendId = $this->getUser()->getId();
-                $friendPseudo = $this->getUser()->getPseudo();
-
-               // verify if the invite is not expired, 30min after the game creation or the game is alreday started or finished
-               if ($game->getInviteExpiration() <= time() || $game->getState() != 'Pending') {
-                    // delete the session variable token because it's useless now
-                    $this->get('session')->set('token', NULL);
-
-                    // launches display that there is a problem
-                    return $this->render('player_invite/index.html.twig', [
-                        'controller_name' => 'PlayerInviteController',
-                        'token' => 0,
-                        'players' => [0,0],
-                        'game_id' => 0
-                    ]);
-                } else {    // the invite is valid            
-                    // extract the array of players from the game table in database
-                    $idArray = $game->getUsersId();
-                    
-                    // test if the player is not already in this game
-                    if (!in_array(array($friendId,$friendPseudo),$idArray)) {
-                        // add the player at the end of the array
-                        array_push($idArray, array($friendId,$friendPseudo));
-                        $game->setUsersId($idArray);
-                        $entityManager->flush();
-                    }
-                    
-                    // Send an event to the hub for a new player
-                    $url = $this->getParameter('mercure.host').'player/invite/'.$game->getId();
-                    
-                    $update = new Update(
-                        $url,
-                        json_encode(array('subject' => 'player', 'player' => $friendPseudo))
-                    );
-                    
-                    $hub->publish($update);
-
-                    // display the player waiting room
-                    return $this->render('player_invite/index.html.twig', [
-                        'controller_name' => 'PlayerInviteController',
-                        'token' => $token,
-                        'players' => $idArray,
-                        'game_id' => $game->getId()
-                    ]);
-                }
-            }
-        } else {    // time to create a game
-            // Generate random token for a game
-            $token = random_bytes(5); 
-            $token = bin2hex($token);
-
-            // token saved in session variable
-            $this->get('session')->set('token', $token);
-            $this->get('session')->set('creator', $this->getUser()->getId());
-
-            // new verification, if the player is not logged in
-            if (!$this->getUser()) {
-                // redirect to login/create account
-                return $this->redirectToRoute('app_login');
-            }
-
-            // initialize the array users_id with the first player id
-            $users_id = array(
-                $this->getUser()->getId(),
-                $this->getUser()->getPseudo()
-            );
-
-            // Create a new game
-            $game = new Game();
-
-            $connection = $entityManager->getConnection();
-            $statement = $connection->prepare('SELECT sentence FROM sentence s WHERE type = "vote" ORDER BY RAND() LIMIT 1');
-            $statement->execute();
-            $sentenceVote = $statement->fetch();
-
-            $game->setUsersId([$users_id])              // Add the player id in the array
-                ->setRoomToken($token)                  // Specify the unique token of this room
-                ->setInviteExpiration(time() + (30 * 60))  // The invite expires after 30 minutes
-                ->setVoteSentence($sentenceVote["sentence"]);
+            } 
             
-            $entityManager->persist($game);
-            $entityManager->flush();
+            // player is logged, retrieve his id and pseudo
+            $friendId = $this->getUser()->getId();
+            $friendPseudo = $this->getUser()->getPseudo();
 
+            // verify if the invite is not expired, 30min after the game creation or the game is alreday started or finished
+            if ($game->getInviteExpiration() <= time() || $game->getState() != 'Pending') {
+                // delete the session variable token because it's useless now
+                $this->get('session')->set('token', NULL);
+
+                // launches display that there is a problem
+                return $this->render('player_invite/index.html.twig', [
+                    'controller_name' => 'PlayerInviteController',
+                    'token' => 0,
+                    'players' => [0,0],
+                    'game_id' => 0
+                ]);
+            } 
+            // the invite is valid            
+            // extract the array of players from the game table in database
+            $idArray = $game->getUsersId();
+            
+            // test if the player is not already in this game
+            if (!in_array(array($friendId,$friendPseudo),$idArray)) {
+                // add the player at the end of the array
+                array_push($idArray, array($friendId,$friendPseudo));
+                $game->setUsersId($idArray);
+                $entityManager->flush();
+            }
+            
+            // Send an event to the hub for a new player
+            $url = $this->getParameter('mercure.host').'player/invite/'.$game->getId();
+            
+            $update = new Update(
+                $url,
+                json_encode(array('subject' => 'player', 'player' => $friendPseudo))
+            );
+            
+            $hub->publish($update);
+
+            // display the player waiting room
             return $this->render('player_invite/index.html.twig', [
                 'controller_name' => 'PlayerInviteController',
                 'token' => $token,
-                'players' => [$users_id],   // Get the player pseudo to display in players list
+                'players' => $idArray,
                 'game_id' => $game->getId()
             ]);
+        } 
+        // time to create a game
+        
+        // Generate random token for a game
+        $token = random_bytes(5); 
+        $token = bin2hex($token);
+
+        // token saved in session variable
+        $this->get('session')->set('token', $token);
+        $this->get('session')->set('creator', $this->getUser()->getId());
+
+        // new verification, if the player is not logged in
+        if (!$this->getUser()) {
+            // redirect to login/create account
+            return $this->redirectToRoute('app_login');
         }
+
+        // initialize the array users_id with the first player id
+        $users_id = array(
+            $this->getUser()->getId(),
+            $this->getUser()->getPseudo()
+        );
+
+        // Create a new game
+        $game = new Game();
+
+        $connection = $entityManager->getConnection();
+        $statement = $connection->prepare('SELECT sentence FROM sentence s WHERE type = "vote" ORDER BY RAND() LIMIT 1');
+        $statement->execute();
+        $sentenceVote = $statement->fetch();
+
+        $game->setUsersId([$users_id])              // Add the player id in the array
+            ->setRoomToken($token)                  // Specify the unique token of this room
+            ->setInviteExpiration(time() + (30 * 60))  // The invite expires after 30 minutes
+            ->setVoteSentence($sentenceVote["sentence"]);
+        
+        $entityManager->persist($game);
+        $entityManager->flush();
+
+        return $this->render('player_invite/index.html.twig', [
+            'controller_name' => 'PlayerInviteController',
+            'token' => $token,
+            'players' => [$users_id],   // Get the player pseudo to display in players list
+            'game_id' => $game->getId()
+        ]);
+        
     }
 }
