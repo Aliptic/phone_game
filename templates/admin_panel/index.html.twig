@@ -9,7 +9,7 @@
 <style>
     .container-section {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         flex-direction: row;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -25,6 +25,27 @@
     .table {
         border: 1px solid black;
     }
+
+    .table a {
+        text-decoration: none;
+    }
+
+    .table-header{
+        text-align: center;
+        margin-block-start: 0em;
+        margin-block-end: 0.5em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
+
+    .knp-footer{
+        text-align: center;
+        margin-block-start: 0.5em;
+    }
+
+    .knp-footer a{
+        text-decoration: none;
+    }
 </style>
 
 <h1>{% trans %}Admin panel{% endtrans %}</h1>
@@ -32,13 +53,15 @@
 <div class="container-section">
     {# section flex gauche #}
     <div class="section section-1">
+        <h3 class="table-header">
+            {% trans %}Admin actions{% endtrans %}
+        </h3>
         {{ form_start(formPages) }}
             {{ form_label(formPages.title, 'Edit the static pages'|trans ) }}
             <br>
             {{ form_widget(formPages.title) }}
             {{ form_widget(formPages.edit, { 'label': 'Edit'|trans }) }}
         {{ form_end(formPages) }}
-        <br>
         <br>
         {{ form_start(formSentence) }}
             {{ form_label(formSentence.phrase, 'You can add a new sentence for players'|trans ) }}
@@ -52,7 +75,9 @@
     {# section flex droite #}
     {# tableau de tous les utilisateurs + actions #}
     <div class="section section-2">
-        {% trans %}List of our users{% endtrans %}
+        <h3 class="table-header">
+            {% trans %}List of our users{% endtrans %}
+        </h3>
         <table class="table">
             <thead>
                 <tr>
@@ -113,7 +138,9 @@
                 {% endfor %}
             </tbody>
         </table>
-        {{ knp_pagination_render(users) }}
+        <div class="knp-footer">
+            {{ knp_pagination_render(users) }}
+        </div>
     </div>
 </div>
 {% endblock %}

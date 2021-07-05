@@ -26,17 +26,6 @@
         box-sizing: border-box;
     }
 
-    ul {
-        list-style-type: none;
-        padding-inline-start: 10px;
-        margin-block-start: 0em;
-        margin-block-end: 0em;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
     .wrapper {
         display: flex;
         flex-direction: column;
@@ -48,42 +37,78 @@
         padding: 10px;
     }
 
-    .header {
-        background: #3C6E71;
+    /**
+    * Images a now responsive
+    */
+    .main-header img {
+        max-width: 300px;
+        height: auto;
+        margin-top: 7px;
     }
 
-    .header ul {
+    .main-header {
+        background: #318CE7;
+        box-shadow: inset 0px 0px 20px 7px rgb(0 38 72 / 31%);
+    }
+
+    /**
+    * Limit the container in
+    * width for big screens
+    */
+    .header-container {
+        max-width: 100%;
+        margin: 0 auto;
+        
+    }
+
+    .header-container h1{
+        margin: 0 auto;
+    }
+
+    /**
+    * By using display: flex
+    * Logo and nav are in 2 cols
+    * align-items make them
+    * vertically centered
+    * justify-content distribute
+    * horizontal spaces around
+    * and flex-wrap break the
+    * things in two lines in
+    * small screens
+    */
+    .main-header .header-container {
         display: flex;
-        justify-content: flex-end;
         align-items: center;
-        flex-direction: row;
+        justify-content: space-around;
         flex-wrap: wrap;
     }
 
-    .header li {
-        padding-left: 77px;
-        text-align: right;
-        margin-top: 1.5rem;
-        font-size: 14pt;
+    /**
+    * The followings are to
+    * make things more
+    * clean and airy
+    * and contents centered
+    */
+    .main-nav ul {
+        text-align: center;
     }
-
-    .header ul>li:first-child {
-        display: flex;
-        position: absolute;
-        left: 10px;
-        top: 10px;
-        padding-left: 0px;
-        margin-top: 0rem;
-        font-size: 34pt;
+    .main-nav li {
+        display: inline;
     }
-    
-    .header a {
-        color: #e5e5e5;
+    .main-nav a {
+        display: inline-block;
+        padding: .5em 1.5em;
+        font-size: 0.83em;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #dfefff;
+        text-decoration: none;
     }
 
     .footer {
         flex: row;
-        background-color: #284B63;
+        background-color: #001b58;
 
     }
 
@@ -96,11 +121,15 @@
     }
 
     .footer li {
-        margin: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        list-style-type: none;
     }
 
     .footer a {
-        color: #e5e5e5;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.83em;
     }
 
     .footer-nav a {
@@ -112,17 +141,43 @@
         text-align: left;
         overflow: auto;
         height: 100%;
+        background: #ffffff;
     }
 
+    ul {
+        list-style-type: none;
+        padding-inline-start: 10px;
+        margin-block-start: 0em;
+        margin-block-end: 0em;
+    }
 
-    @media all and (min-width: 800px) {
+    a {
+        text-decoration: none;
+    }
 
-        .main {
-            order: 1;
+    table {
+        border: 1px solid black;
+    }
+
+    @media (min-width: 1160px) {
+        .main-header .header-container {
+            justify-content: space-between;
         }
+    }
 
-        .footer {
-            order: 2;
+    @media (max-width: 1160px) {
+        .main-header img {
+            max-width: 170px;
+            height: auto;
+        }
+        .main-nav a {
+            display: inline-block;
+            padding: .5em 1em;
+            font-size: 0.7em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
         }
     }
 
@@ -131,29 +186,34 @@
 
 <body>
     <div class="wrapper">
-        <header class="box header">
-            <ul>
+        <header class="main-header">
+            <div class="header-container">
                 {# Retour à l'index #}
-                <li><a href="/">{% trans %}Home{% endtrans %}</a></li>
+                <h1 class="mh-logo">
+                    <a href="/" ><img src="{{ asset('img/LaRumeur.svg') }}" alt="Home"></a>
+                </h1>
+                <nav class="main-nav">
+                    <ul class="main-nav-list">
+                        {# Affichage règles du jeu #}
+                        <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
 
-                {# Affichage règles du jeu #}
-                <li><a href="{{ path('rules') }}">{% trans %}Game rules{% endtrans %}</a></li>
+                        {# Est ce que l'utilisateur est connecté #}
+                        {% if app.user %}
+                        <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}My account{% endtrans %}</a>
+                        <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                        </li>
+                        {% else %}
+                        <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
+                        <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
+                        {% endif %}
 
-                {# Est ce que l'utilisateur est connecté #}
-                {% if app.user %}
-                <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}My account{% endtrans %}</a>
-                <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
-                </li>
-                {% else %}
-                <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
-                <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
-                {% endif %}
-
-                {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
-                {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
-                {% endif %}
-            </ul>
+                        {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </header>
         <div class="box main">
             {% block body %}{% endblock %}
