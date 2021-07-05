@@ -8,3 +8,5 @@ twig:
     globals:
         mercure_hub: '%env(MERCURE_HUB)%'
         mercure_host: '%env(MERCURE_HOST)%'
+    form_themes:
+        - '@KMSFroalaEditor/Form/froala_widget.html.twig'

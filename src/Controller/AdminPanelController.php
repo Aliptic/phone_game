@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Knp\Component\Pager\PaginatorInterface;
+use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 
 class AdminPanelController extends AbstractController
 {
@@ -109,8 +110,17 @@ class AdminPanelController extends AbstractController
      */
     public function editStatic(Request $request, StaticPage $page): Response
     {
-        $formPages = $this->createForm(StaticEditForm::class, $page);
-
+        $formPages = $this->createFormBuilder($page)
+            ->add('text', FroalaEditorType::class, [
+                'froala_language'      => 'fr',
+                'froala_toolbarInline' => true,
+                'froala_tableColors'   => ['#FFFFFF', '#FF0000'],
+                'froala_saveParams'    => ['id' => 'myEditorField'],
+            ])
+            ->add('edit', SubmitType::class, ['label' => 'edit'])
+            ->setMethod('POST')
+            ->getForm();
+        
         $formPages->handleRequest($request);
 
         if ($formPages->isSubmitted() && $formPages->isValid()) {
