@@ -148,8 +148,6 @@ class TextController extends AbstractController
             $creatorPosition = ($myPosition - $round) + 1;
         }
         
-        // dump("myPos :".$myPosition." round :".$round, "creatorPos : ".$creatorPosition);
-        
         // id of the creator that we will look for in History
         $creatorId=$playersList[$creatorPosition][0];
         $historyCreator=$this->getDoctrine()
@@ -214,15 +212,15 @@ class TextController extends AbstractController
                 return $this->redirectToRoute('drawing',[
                     "id" => $id,
                 ]);
-            } else {    // if a player has not still validated, it warns the other players
-                return $this->render('text/text.html.twig', [
-                    'drawing' => $drawCreator,
-                    'formText' => $formText->createView(),
-                    'game_id' => $id,
-                    'waiting' => '1',
-                ]);
-            }
+            }     
             
+            // if a player has not still validated, it warns the other players
+            return $this->render('text/text.html.twig', [
+                'drawing' => $drawCreator,
+                'formText' => $formText->createView(),
+                'game_id' => $id,
+                'waiting' => '1',
+            ]);   
         }
         return $this->render('text/text.html.twig', [
                 'drawing' => $drawCreator,
