@@ -1,154 +1,263 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% trans %}The Rumor - Drawing step{% endtrans %}
+{% trans %}The Rumor - Drawing step{% endtrans %}
 {% endblock %}
 
 {% block body %}
 <style>
-   .canvas-container {
-      /* margin: 0; */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-      flex-wrap: wrap;
-      overflow: hidden;
-      /* margin-top: 20px; */
-      /* height: 100%; */
-   }
+  .canvas-container {
+    /* margin: 0; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 
-   #modal-dialog{
-     display: none;
-   }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: hidden;
+    /* margin-top: 20px; */
+    /* height: 100%; */
+  }
 
-   .sentence-container {
-      text-align: center;
-    }
+  #modal-dialog {
+    display: none;
+  }
 
-   #canvas {
-      border: 1px black solid;
-      order: 1;
-      /* background-color: wheat; */
-    }
-   
-    #drawCanvas {
-      position: absolute;
-      /* border: 1px solid black; */
-      /* top:0;
-      left:0; */
-    }
+  .sentence-container {
+    text-align: center;
+  }
 
-    .drawing {
-      border: 1px black solid;
-      order: 1;
-    }
+  #canvas {
+    border: 1px black solid;
+    order: 1;
+    /* background-color: wheat; */
+  }
 
-    .btn-container {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      order: 2;
-      width: 150px;
-      height: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      margin-left: 1em;
-    }
+  #drawCanvas {
+    position: absolute;
+    /* border: 1px solid black; */
+    /* top:0;
+    left:0; */
+  }
 
-    .flash-message {
-      position: absolute;
-      /* bottom: 0%;
-      left: 0%; */
-      top: 0%;
-      left: 50%;
-      transform: translate(-50%, -80%);
-      background-color: red;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 1s ease-in;
-      padding: 20px 35px;
-      border-radius: 15px;
-      color: white;
-      font-size: 16px;
-      /* width: 100px;
-      height: 40px; */
-    }
+  .drawing {
+    border: 1px black solid;
+    order: 1;
+  }
 
-    .flash-message.isVisible {
-      opacity: 1;
-      visibility: visible;
-      top: 20%;
-    }
+  .btn-container {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    /* transform: translateY(-50%); */
+    order: 2;
+    width: 110px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 1em;
+  }
 
-    .colors-container {
-      position: absolute;
-      top: 0%;
-      right: 0;
-      width: 200px;
-      height: inherit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-right: 1em;
-      background-color: #d3d3d3;
-    }
+  .flash-message {
+    position: absolute;
+    /* bottom: 0%;
+    left: 0%; */
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    background-color: red;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 1s ease-in;
+    padding: 20px 35px;
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+    /* width: 100px;
+    height: 40px; */
+  }
 
-    .palette {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+  .flash-message.isVisible {
+    opacity: 1;
+    visibility: visible;
+    top: 20%;
+  }
 
-    .color {
-      cursor: pointer;
-      width: 50px;
-      height: 50px;
-      margin: 5px;
-      /* outline: 1px green; */
-    }
+  .colors-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 0%;
+    right: 0;
+    width: 200px;
+    height: 500px;
+    margin-right: 1em;
+    background-color: #d3d3d3;
+  }
 
-    .color:hover {
-      transform: scale(0.98);
-      box-shadow: 2px 2px 10px black;
-    }
+  .new-palette {
+    width: 100%;
+    color: black;
+    border: none;
+    outline: none;
+    padding: 7px 12px;
+    /* margin-bottom: 2em; */
+  }
 
-    .color-recap {
-      width: 100%;
-      height: 75px;
-      border: none;
-    }
+  .new-palette:active {
+    transform: scale(0.98);
+    /* box-shadow: 2px 2px 3px black; */
+  }
 
+  .palette {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .color {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    /* outline: 1px green; */
+  }
+
+  .color:hover {
+    transform: scale(0.98);
+    box-shadow: 2px 2px 10px black;
+  }
+
+  .color-recap {
+    width: 100%;
+    height: 70px;
+    border: 1px solid black;
+  }
+
+  .btn-container button {
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+    border: none;
+    background-color: #acacac;
+    cursor: pointer;
+  }
+
+  .btn-container button:hover {
+    background-color: #cfcccc;
+  }
+
+  .btn-container button::before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    /* top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  }
+
+  #erase-canvas::before {
+    background-image: url('./img/eraser.png');
+    background-size: cover;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    left: 0;
+  }
+
+  #draw-freeLine::before {
+    background-image: url('./img/free.png');
+    background-size: cover;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    left: 0;
+  }
+
+  #draw-line::before {
+    width: 50%;
+    height: 2px;
+    background: black;
+  }
+
+  #draw-circle::before {
+    width: 20px;
+    height: 20px;
+    /* background: red; */
+    border-radius: 50%;
+    border: 1px solid black;
+  }
+
+  #draw-circleFill::before {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    border: 1px solid black;
+  }
+
+  #draw-rectangle::before {
+    width: 40%;
+    height: 20%;
+    border: 1px solid black;
+  }
+
+  #draw-rectangleFill::before {
+    width: 45%;
+    height: 25%;
+    background-color: black;
+  }
+
+  #draw-rectangleFill::before {
+    width: 45%;
+    height: 25%;
+    background-color: black;
+  }
+
+  #draw-triangle::before {
+    content: '\25B3';
+    font-size: 1.5em;
+  }
+
+  #draw-triangleFill::before {
+    content: '\25b2';
+    font-size: 1.5em;
+  }
+
+  .slider-container {
+    margin-left: 40px;
+  }
 </style>
-
 <div class="sentence-container">
   <h2>{% trans %}Try to draw this sentence:{% endtrans %}</h2><br>{{ sentence }}
 
   {% if waiting == 1 %}
-        <p>{% trans %}Waiting for other players{% endtrans %}</p>
+  <p>{% trans %}Waiting for other players{% endtrans %}</p>
   {% endif %}
 </div>
 
 <div class="canvas-container">
   {% if waiting == 1 %}
-    <div class="drawing">
-      <img src={{drawing}} alt="My drawing" />
-    </div>
+  <div class="drawing">
+    <img src={{drawing}} alt="My drawing" />
+  </div>
   {% else %}
-    <canvas id="canvas"></canvas>
-    <canvas id="drawCanvas"></canvas>
-  
+  <canvas id="canvas"></canvas>
+  <canvas id="drawCanvas"></canvas>
+
 
   <div class="btn-container">
     <button id="clear-canvas">{% trans %}Clear Canvas{% endtrans %}</button>
@@ -177,6 +286,7 @@
   </div>
 
   <div class="colors-container" id="colors-container">
+    <button class="new-palette" id="new-palette">Generate new palette</button>
     <div class="palette" id="colors-palette"></div>
     <div class="color-recap" id="color-recap"></div>
   </div>
@@ -194,444 +304,488 @@
 </div>
 
 <script>
-    // Hidden field and form button
-    let fieldHidden = document.getElementById('form_hidden');
-    let btnValidateForm = document.getElementById('form_validate');
+  // Hidden field and form button
+  let fieldHidden = document.getElementById('form_hidden');
+  let btnValidateForm = document.getElementById('form_validate');
 
-    const url = new URL('{{ mercure_hub }}')
+  const url = new URL('{{ mercure_hub }}')
 
-		// Search parameters 
-		url.searchParams.append('topic', '{{ mercure_host }}drawing/{{ game_id }}')
-		const eventSource = new EventSource(url);
+  // Search parameters
+  url.searchParams.append('topic', '{{ mercure_host }}drawing/{{ game_id }}')
+  const eventSource = new EventSource(url);
 
-		// The callback will be called every time an update is published
-		eventSource.onmessage = e => {
-		//	console.log(e); // do something with the payload
-			let data = JSON.parse(e.data)
-			if(data.subject == 'text'){
-                window.location.replace('{{ mercure_host }}text/{{ game_id }}')
-			}
-		}
-
-    // Shapes
-    let btnfreeLine = document.getElementById('draw-freeLine');
-    let btnLine = document.getElementById('draw-line');
-    let btnRectangle = document.getElementById('draw-rectangle');
-    let btnRectangleFill = document.getElementById('draw-rectangleFill');
-    let btnCircle = document.getElementById('draw-circle');
-    let btnCircleFill = document.getElementById('draw-circleFill');
-    let btnTriangle = document.getElementById('draw-triangle');
-    let btnTriangleFill = document.getElementById('draw-triangleFill');
-
-    // Colors
-    let colorsContainer = document.getElementById("colors-container");
-    let colorsPalette = document.getElementById("colors-palette");
-    let colorRecap = document.getElementById("color-recap");
-
-    // End drawing
-    // let endDrawing = document.getElementById("end-drawing");
-
-    // Clear and export
-    let btnClearCanvas = document.getElementById('clear-canvas');
-    let btnEraseCanvas = document.getElementById('erase-canvas');
-
-    // Audio
-    let audio = document.getElementById("myAudio");
-
-    // Slider
-    let slider = document.getElementById("myRange");
-    let output = document.getElementById("demo");
-
-    // Modal
-    let modal = document.getElementById('modal-dialog');
-    let title = document.getElementById('modal-title');
-    let btnYes = document.getElementById('btnYes');
-    let btnNo = document.getElementById('btnNo');
-
-    // Canvas part
-    let canvas = document.getElementById('canvas');
-    let drawCanvas = document.getElementById('drawCanvas');
-
-    // canvas.width = window.innerWidth;
-    // canvas.height = window.innerHeight - 100;
-
-    let ctx = canvas.getContext('2d', { alpha: true });
-    canvas.width = 600;
-    canvas.height = 400;
-    let rect = canvas.getBoundingClientRect();
-
-    let drawCtx = drawCanvas.getContext('2d', { alpha: true });
-    drawCanvas.width = canvas.width;
-    drawCanvas.height = canvas.height;
-
-    slider.value = 1;
-    output.innerHTML = slider.value;
-    let lineWidth = slider.value;
-
-    let drawingShapes = {
-      "erase": "erase",
-      "freeLine": "free",
-      "line": "line",
-      "rectangle": "rectangle",
-      "rectangleFill": "rectangleFill",
-      "circle": "circle",
-      "circleFill": "circleFill",
-      "triangle": "triangle",
-      "triangleFill": "triangleFill"
+  // The callback will be called every time an update is published
+  eventSource.onmessage = e => {
+    //	console.log(e); // do something with the payload
+    let data = JSON.parse(e.data)
+    if (data.subject == 'text') {
+      window.location.replace('{{ mercure_host }}text/{{ game_id }}')
     }
-    let currentDrawingShape = drawingShapes.triangle;
+  }
 
-    let currentColor = 'black';
-    colorRecap.style.backgroundColor = currentColor;
+  // Shapes
+  let btnfreeLine = document.getElementById('draw-freeLine');
+  let btnLine = document.getElementById('draw-line');
+  let btnRectangle = document.getElementById('draw-rectangle');
+  let btnRectangleFill = document.getElementById('draw-rectangleFill');
+  let btnCircle = document.getElementById('draw-circle');
+  let btnCircleFill = document.getElementById('draw-circleFill');
+  let btnTriangle = document.getElementById('draw-triangle');
+  let btnTriangleFill = document.getElementById('draw-triangleFill');
 
-    let mouse = {
-      startX: 0,
-      startY: 0,
-      x: 0,
-      y: 0,
-      isDown: false
-    }
+  // Colors
+  let btnNewPalette = document.getElementById("new-palette");
+  let colorsContainer = document.getElementById("colors-container");
+  let colorsPalette = document.getElementById("colors-palette");
+  let colorRecap = document.getElementById("color-recap");
 
-    function playAudio() { audio.play(); }
-    function pauseAudio() { audio.pause(); }
+  // End drawing
+  // let endDrawing = document.getElementById("end-drawing");
 
-    // Clear the canvas thanks to event
-    function clearCanvas() {
-      // let prompt = confirm("Want to clear the canvas ?");
-      // if (prompt) {
-      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // }
+  // Clear and export
+  let btnClearCanvas = document.getElementById('clear-canvas');
+  let btnEraseCanvas = document.getElementById('erase-canvas');
 
-      let clear = ctx.clearRect(0, 0, canvas.width, canvas.height);
-      displayModal("Would you delete the canvas ?", clear);
-      displayFlashMessage('Canvas cleared')
-    }
+  // Audio
+  let audio = document.getElementById("myAudio");
 
-    function eraseCanvas(event) {
+  // Slider
+  let slider = document.getElementById("myRange");
+  let output = document.getElementById("demo");
 
-      // ctx.globalCompositeOperation = "destination-out";
-      // ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2, false);
-      // // ctx.arc(mouse.startX,mouse.startY,8,0,Math.PI*2,false);
-      // ctx.fill();
-      // ctx.strokeStyle = currentColor;
-      // ctx.arc(x, y, 8, 0, Math.PI * 2, false);
+  // Modal
+  let modal = document.getElementById('modal-dialog');
+  let title = document.getElementById('modal-title');
+  let btnYes = document.getElementById('btnYes');
+  let btnNo = document.getElementById('btnNo');
 
-      // ctx.beginPath();
-      ctx.save()
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.beginPath();
-      ctx.lineWidth = lineWidth * 2;
-      // ctx.moveTo(mouse.startX, mouse.startY);
-      // ctx.lineTo(mouse.x, mouse.y);
-      // ctx.stroke();
-      ctx.arc(mouse.x, mouse.y, ctx.lineWidth, 0, Math.PI*2, true);
-      ctx.fill();
-      ctx.restore();
+  // Canvas part
+  let canvas = document.getElementById('canvas');
+  let drawCanvas = document.getElementById('drawCanvas');
 
-      // reset
-      ctx.globalCompositeOperation = 'source-over';
-      // mouse.startX = mouse.x;
-      // mouse.startY = mouse.y;
-    }
+  // canvas.width = window.innerWidth;
+  // canvas.height = window.innerHeight - 100;
 
-    function displayModal(str, action) {
-      if (str === undefined) {
-        modal.removeAttribute("open")
-      } else {
-        modal.setAttribute("open", "")
-      }
+  let ctx = canvas.getContext('2d', { alpha: true });
+  canvas.width = 600;
+  canvas.height = 400;
+  let rect = canvas.getBoundingClientRect();
 
-      title.innerText = str;
+  let drawCtx = drawCanvas.getContext('2d', { alpha: true });
+  drawCanvas.width = canvas.width;
+  drawCanvas.height = canvas.height;
 
-      btnYes.addEventListener('click', () => { modal.removeAttribute("open") });
-      btnNo.addEventListener('click', () => { alert("no") });
-    }
-    //displayModal();
+  slider.value = 1;
+  output.innerHTML = slider.value;
+  let lineWidth = slider.value;
 
-    function displayFlashMessage(message) {
-      document.getElementById('flashMessage').innerText = message;
-      document.getElementById('flashMessage').classList.add('isVisible')
-      setTimeout(() => {
-        document.getElementById('flashMessage').classList.remove('isVisible')
-      }, 3000);
-    }
+  let drawingShapes = {
+    "erase": "erase",
+    "freeLine": "free",
+    "line": "line",
+    "rectangle": "rectangle",
+    "rectangleFill": "rectangleFill",
+    "circle": "circle",
+    "circleFill": "circleFill",
+    "triangle": "triangle",
+    "triangleFill": "triangleFill"
+  }
+  let currentDrawingShape = drawingShapes.freeLine;
 
-    // Draw a line when mouse is pressed
-    function drawLine(ctx, x1, y1, x2, y2) {
-      ctx.beginPath();
-      ctx.strokeStyle = currentColor;
-      ctx.lineWidth = lineWidth;
-      ctx.lineCap = "round"; // butt / square
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-      ctx.closePath();
-    }
+  let divColors = [
+    [0, 0, 0],
+    [102, 102, 102],
+    [0, 80, 205],
+    [255, 255, 255],
+    [170, 170, 170],
+    [38, 201, 255],
+    [1, 116, 32],
+    [105, 21, 6],
+    [150, 65, 18],
+    [17, 176, 60],
+    [255, 0, 19],
+    [255, 120, 41],
+    [176, 112, 28],
+    [153, 0, 78],
+    [203, 90, 87],
+    [255, 193, 38],
+    [255, 0, 143],
+    [254, 175, 168]
+  ]
 
-    function drawRectangle(context, mode) {
-      if (mode === "line") {
-        context.strokeStyle = currentColor;
-        context.strokeRect(mouse.startX, mouse.startY, (mouse.x - mouse.startX), (mouse.y - mouse.startY));
-      } else if (mode === "fill") {
-        context.fillStyle = currentColor;
-        context.fillRect(mouse.startX, mouse.startY, (mouse.x - mouse.startX), (mouse.y - mouse.startY));
-      }
-    }
+  let currentColor = 'black';
+  colorRecap.style.backgroundColor = currentColor;
 
-    function drawTriangle(context, mode) {
-      context.beginPath();
-      context.moveTo(mouse.startX, mouse.startY);
-      let x2 = mouse.startX - (mouse.x - mouse.startX)
-      let x1 = mouse.startX + (mouse.x - mouse.startX)
-      let y1 = mouse.startY + (mouse.y - mouse.startY)
-      let y2 = mouse.startY + (mouse.y - mouse.startY)
-      context.lineTo(x1, y1); // cote bas droit
-      context.lineTo(x2, y2); // cote bas gauche
-      context.lineTo(mouse.startX, mouse.startY)
-      if (mode === "line") {
-        context.strokeStyle = currentColor;
+  let mouse = {
+    startX: 0,
+    startY: 0,
+    x: 0,
+    y: 0,
+    isDown: false
+  }
 
-        context.stroke();
-      } else if (mode === "fill") {
-        context.fillStyle = currentColor;
-        context.fill();
-      }
-    }
+  function playAudio() { audio.play(); }
+  function pauseAudio() { audio.pause(); }
 
-    function drawCircle(context, mode) {
-      let radius = Math.abs(mouse.x - mouse.startX)
-      context.beginPath();
-      if (mode === "line") {
-        context.strokeStyle = currentColor;
-        context.arc(mouse.startX, mouse.startY, radius, 0, 2 * Math.PI);
-        context.stroke();
-      } else if (mode === "fill") {
-        context.fillStyle = currentColor;
-        context.arc(mouse.startX, mouse.startY, Math.abs(radius), 0, 2 * Math.PI);
-        context.fill();
-      }
-    }
-
-    function drawOval(context) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.beginPath();
-      context.moveTo(mouse.x, mouse.y + (newY - y) / 2);
-      context.bezierCurveTo(mouse.x, mouse.y, newX, y, x, startY + (y - startY) / 2);
-      context.bezierCurveTo(mouse.x, mouse.y, startX, y, startX, startY + (y - startY) / 2);
-      context.closePath();
-      context.stroke();
-    }
-
-    function getMousePos(canvas, evt) {
-      let rect = canvas.getBoundingClientRect();
-      return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-      };
-    }
-
-    function states(context) {
-      switch (currentDrawingShape) {
-        case drawingShapes.erase:
-          eraseCanvas(context);
-          break;
-
-        case drawingShapes.freeLine:
-          let { x, y } = getMousePos(drawCanvas, event);
-          drawLine(ctx, mouse.startX, mouse.startY, x, y);
-          // Reset mouse start coordinates
-          mouse.startX = x;
-          mouse.startY = y;
-          break;
-
-        case drawingShapes.line:
-          drawLine(context, mouse.startX, mouse.startY, event.clientX - rect.x, event.clientY - rect.top);
-          break;
-
-        case drawingShapes.rectangle:
-          drawRectangle(context, "line");
-          break;
-
-        case drawingShapes.rectangleFill:
-          drawRectangle(context, "fill");
-          break;
-
-        case drawingShapes.circle:
-          drawCircle(context, "line");
-          break;
-
-        case drawingShapes.circleFill:
-          drawCircle(context, "fill");
-          break;
-
-        case drawingShapes.triangle:
-          drawTriangle(context, "line");
-          break;
-
-        case drawingShapes.triangleFill:
-          drawTriangle(context, "fill");
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    // Generate the color palette
-    for (let i = 0; i < 15; i++) {
-      // const element = array[i];
-      let color = document.createElement('div');
-
-      color.addEventListener('click', () => {
-        let color = event.target.style.backgroundColor;
-        colorRecap.style.backgroundColor = color;
-        currentColor = color;
-      });
-
-      color.classList.add('color');
-      color.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
-      colorsPalette.appendChild(color);
-    }
-
-    window.onclick = event => {
-      // if (event.target !== modal) {
-      //   modal.style.display = "none";
-      // }
-    }
-
-    // On resize
-    // window.resize = () => {
-    //   canvas.width = window.innerWidth;
-    //   canvas.height = window.innerHeight - 50;
+  // Clear the canvas thanks to event
+  function clearCanvas() {
+    // let prompt = confirm("Want to clear the canvas ?");
+    // if (prompt) {
+    //   ctx.clearRect(0, 0, canvas.width, canvas.height);
     // }
 
-    let shapePoints = [];
+    let clear = ctx.clearRect(0, 0, canvas.width, canvas.height);
+    displayModal("Would you delete the canvas ?", clear);
+    displayFlashMessage('Canvas cleared')
+  }
 
-    // Save the drawing to the hiden field
-    btnValidateForm.addEventListener('click', () => {
-      let img = canvas.toDataURL("image/png");
-      form_hidden.value = img;
-      displayFlashMessage("Dessin envoyé!")
-    });
-    
-    // When the mouse move
-    drawCanvas.addEventListener('mousemove', event => {
-      if (!mouse.isDown) return;
+  function eraseCanvas(event) {
 
-      // New mouse position - Difference between the new click and the position of the canvas
-      mouse.x = event.clientX - rect.left;
-      mouse.y = event.clientY - rect.top;
+    // ctx.globalCompositeOperation = "destination-out";
+    // ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2, false);
+    // // ctx.arc(mouse.startX,mouse.startY,8,0,Math.PI*2,false);
+    // ctx.fill();
+    // ctx.strokeStyle = currentColor;
+    // ctx.arc(x, y, 8, 0, Math.PI * 2, false);
 
-      // // To undo draw
-      // shapePoints.push(
-      //   {
-      //     x: mouse.x,
-      //     y: mouse.y,
-      //     lineWidth: lineWidth,
-      //     color: currentColor
-      //   }
-      // );
-      // console.log(shapePoints)
+    // ctx.beginPath();
+    ctx.save()
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.lineWidth = lineWidth * 2;
+    // ctx.moveTo(mouse.startX, mouse.startY);
+    // ctx.lineTo(mouse.x, mouse.y);
+    // ctx.stroke();
+    ctx.arc(mouse.x, mouse.y, ctx.lineWidth, 0, Math.PI * 2, true);
+    ctx.fill();
+    ctx.restore();
 
-      // Clear screen
-      drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-      states(drawCtx);
+    // reset
+    ctx.globalCompositeOperation = 'source-over';
+    // mouse.startX = mouse.x;
+    // mouse.startY = mouse.y;
+  }
 
-      // mouse.startX = mouse.x
-      // mouse.startY = mouse.y
-    });
-
-    function undoLastPoint() {
-      let lastPoint = shapePoints.pop();
-      // redoStack.unshift(lastPoint);
-
-      // currentDrawingShape = drawingShapes.rectangleFill;
+  function displayModal(str, action) {
+    if (str === undefined) {
+      modal.removeAttribute("open")
+    } else {
+      modal.setAttribute("open", "")
     }
 
-    // When whe press mouse
-    drawCanvas.addEventListener('mousedown', event => {
-      mouse.startX = event.clientX - rect.left;
-      mouse.startY = event.clientY - rect.top;
+    title.innerText = str;
 
-      mouse.isDown = true;
+    btnYes.addEventListener('click', () => { modal.removeAttribute("open") });
+    btnNo.addEventListener('click', () => { alert("no") });
+  }
+  //displayModal();
+
+  function displayFlashMessage(message) {
+    document.getElementById('flashMessage').innerText = message;
+    document.getElementById('flashMessage').classList.add('isVisible')
+    setTimeout(() => {
+      document.getElementById('flashMessage').classList.remove('isVisible')
+    }, 3000);
+  }
+
+  // Draw a line when mouse is pressed
+  function drawLine(ctx, x1, y1, x2, y2) {
+    ctx.beginPath();
+    ctx.strokeStyle = currentColor;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round"; // butt / square
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  function drawRectangle(context, mode) {
+    if (mode === "line") {
+      context.strokeStyle = currentColor;
+      context.strokeRect(mouse.startX, mouse.startY, (mouse.x - mouse.startX), (mouse.y - mouse.startY));
+    } else if (mode === "fill") {
+      context.fillStyle = currentColor;
+      context.fillRect(mouse.startX, mouse.startY, (mouse.x - mouse.startX), (mouse.y - mouse.startY));
+    }
+  }
+
+  function drawTriangle(context, mode) {
+    context.beginPath();
+    context.moveTo(mouse.startX, mouse.startY);
+    let x2 = mouse.startX - (mouse.x - mouse.startX)
+    let x1 = mouse.startX + (mouse.x - mouse.startX)
+    let y1 = mouse.startY + (mouse.y - mouse.startY)
+    let y2 = mouse.startY + (mouse.y - mouse.startY)
+    context.lineTo(x1, y1); // cote bas droit
+    context.lineTo(x2, y2); // cote bas gauche
+    context.lineTo(mouse.startX, mouse.startY)
+    if (mode === "line") {
+      context.strokeStyle = currentColor;
+
+      context.stroke();
+    } else if (mode === "fill") {
+      context.fillStyle = currentColor;
+      context.fill();
+    }
+  }
+
+  function drawCircle(context, mode) {
+    let radius = Math.abs(mouse.x - mouse.startX)
+    context.beginPath();
+    if (mode === "line") {
+      context.strokeStyle = currentColor;
+      context.arc(mouse.startX, mouse.startY, radius, 0, 2 * Math.PI);
+      context.stroke();
+    } else if (mode === "fill") {
+      context.fillStyle = currentColor;
+      context.arc(mouse.startX, mouse.startY, Math.abs(radius), 0, 2 * Math.PI);
+      context.fill();
+    }
+  }
+
+  function drawOval(context) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.beginPath();
+    context.moveTo(mouse.x, mouse.y + (newY - y) / 2);
+    context.bezierCurveTo(mouse.x, mouse.y, newX, y, x, startY + (y - startY) / 2);
+    context.bezierCurveTo(mouse.x, mouse.y, startX, y, startX, startY + (y - startY) / 2);
+    context.closePath();
+    context.stroke();
+  }
+
+  function getMousePos(canvas, evt) {
+    let rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+  }
+
+  function states(context) {
+    switch (currentDrawingShape) {
+      case drawingShapes.erase:
+        eraseCanvas(context);
+        break;
+
+      case drawingShapes.freeLine:
+        let { x, y } = getMousePos(drawCanvas, event);
+        drawLine(ctx, mouse.startX, mouse.startY, x, y);
+        // Reset mouse start coordinates
+        mouse.startX = x;
+        mouse.startY = y;
+        break;
+
+      case drawingShapes.line:
+        drawLine(context, mouse.startX, mouse.startY, event.clientX - rect.x, event.clientY - rect.top);
+        break;
+
+      case drawingShapes.rectangle:
+        drawRectangle(context, "line");
+        break;
+
+      case drawingShapes.rectangleFill:
+        drawRectangle(context, "fill");
+        break;
+
+      case drawingShapes.circle:
+        drawCircle(context, "line");
+        break;
+
+      case drawingShapes.circleFill:
+        drawCircle(context, "fill");
+        break;
+
+      case drawingShapes.triangle:
+        drawTriangle(context, "line");
+        break;
+
+      case drawingShapes.triangleFill:
+        drawTriangle(context, "fill");
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  btnNewPalette.addEventListener('click', () => {
+    // console.log(colorsPalette.childElementCount)
+    console.log(colorsPalette.childNodes)
+
+    colorsPalette.childNodes.forEach((div) => {
+      div.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
+    })
+
+
+
+      // for (let i = 0; i < 15; i++) {
+      //   let color = document.createElement('div');
+
+      //   color.addEventListener('click', () => {
+      //     let color = event.target.style.backgroundColor;
+      //     colorRecap.style.backgroundColor = color;
+      //     currentColor = color;
+      //   });
+
+      //   color.classList.add('color');
+      //   color.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+      //   colorsPalette.appendChild(color);
+      // }
+  });
+
+  // Generate the color palette
+  for (let i = 0; i < 15; i++) {
+    // const element = array[i];
+    let color = document.createElement('div');
+
+    color.addEventListener('click', () => {
+      let color = event.target.style.backgroundColor;
+      colorRecap.style.backgroundColor = color;
+      currentColor = color;
     });
 
-    // When mouse is released
-    drawCanvas.addEventListener('mouseup', event => {
-      // event.preventDefault();
-      // event.stopPropagation();
+    color.classList.add('color');
+    // color.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    // color.style.backgroundColor = "rgb(255,0,0)";
+    color.style.backgroundColor = `rgb(${divColors[i][0]}, ${divColors[i][1]}, ${divColors[i][2]})`;
+    colorsPalette.appendChild(color);
+  }
 
-      drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-      states(ctx);
+  window.onclick = event => {
+    // if (event.target !== modal) {
+    //   modal.style.display = "none";
+    // }
+  }
 
-      mouse.isDown = false;
-    });
+  // On resize
+  // window.resize = () => {
+  //   canvas.width = window.innerWidth;
+  //   canvas.height = window.innerHeight - 50;
+  // }
 
-    // Shapes
-    btnfreeLine.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.freeLine;
-      displayFlashMessage("Free line selected")
-    });
-    btnLine.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.line;
-      displayFlashMessage("Line selected")
-    });
-    btnCircle.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.circle;
-      displayFlashMessage("Circle selected")
-    });
-    btnCircleFill.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.circleFill;
-      displayFlashMessage("Circle fill selected")
-    });
-    btnRectangle.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.rectangle;
-      displayFlashMessage("Rectangle selected")
-    });
-    btnRectangleFill.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.rectangleFill;
-      displayFlashMessage("Rectangle fill selected")
-    });
-    btnTriangle.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.triangle;
-      displayFlashMessage("Triangle selected")
-    });
-    btnTriangleFill.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.triangleFill;
-      displayFlashMessage("Triangle fill selected")
-    });
+  let shapePoints = [];
 
-    // Clean completely the canvas
-    btnClearCanvas.addEventListener('click', clearCanvas);
+  // Save the drawing to the hiden field
 
-    // Erase the canvas with eraser
-    btnEraseCanvas.addEventListener('click', () => {
-      currentDrawingShape = drawingShapes.erase;
-      displayFlashMessage("Eraser selected")
-    });
+  // When the mouse move
+  drawCanvas.addEventListener('mousemove', event => {
+    if (!mouse.isDown) return;
 
-    // Slider stroke with
-    slider.addEventListener('input', event => {
-      output.innerHTML = event.target.value;
-      lineWidth = event.target.value;
-    });
-    // Shape width (old version)
-    // btnIncreaseWidth.addEventListener('click', () => {
-    //   (lineWidth < 10) ? lineWidth++ : 10;
-    //   displayFlashMessage(`The is width is now set up to ${lineWidth}`)
-    // });
+    // New mouse position - Difference between the new click and the position of the canvas
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;
 
-    // Ctrl + z undo
-    document.addEventListener('keydown', event => {
-      let ctrlKey = event.ctrlKey;
-      let zKey = event.key === 'z';
+    // // To undo draw
+    // shapePoints.push(
+    //   {
+    //     x: mouse.x,
+    //     y: mouse.y,
+    //     lineWidth: lineWidth,
+    //     color: currentColor
+    //   }
+    // );
+    // console.log(shapePoints)
 
-      if (ctrlKey && zKey) {
-        console.log("undo")
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        undoLastPoint()
-      }
-    });
+    // Clear screen
+    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    states(drawCtx);
+
+    // mouse.startX = mouse.x
+    // mouse.startY = mouse.y
+  });
+
+  function undoLastPoint() {
+    let lastPoint = shapePoints.pop();
+    // redoStack.unshift(lastPoint);
+
+    // currentDrawingShape = drawingShapes.rectangleFill;
+  }
+
+  // When whe press mouse
+  drawCanvas.addEventListener('mousedown', event => {
+    mouse.startX = event.clientX - rect.left;
+    mouse.startY = event.clientY - rect.top;
+
+    mouse.isDown = true;
+  });
+
+  // When mouse is released
+  drawCanvas.addEventListener('mouseup', event => {
+    // event.preventDefault();
+    // event.stopPropagation();
+
+    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    states(ctx);
+
+    mouse.isDown = false;
+  });
+
+  // Shapes
+  btnfreeLine.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.freeLine;
+    displayFlashMessage("Free line selected")
+  });
+  btnLine.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.line;
+    displayFlashMessage("Line selected")
+  });
+  btnCircle.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.circle;
+    displayFlashMessage("Circle selected")
+  });
+  btnCircleFill.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.circleFill;
+    displayFlashMessage("Circle fill selected")
+  });
+  btnRectangle.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.rectangle;
+    displayFlashMessage("Rectangle selected")
+  });
+  btnRectangleFill.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.rectangleFill;
+    displayFlashMessage("Rectangle fill selected")
+  });
+  btnTriangle.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.triangle;
+    displayFlashMessage("Triangle selected")
+  });
+  btnTriangleFill.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.triangleFill;
+    displayFlashMessage("Triangle fill selected")
+  });
+
+  // Clean completely the canvas
+  btnClearCanvas.addEventListener('click', clearCanvas);
+
+  // Erase the canvas with eraser
+  btnEraseCanvas.addEventListener('click', () => {
+    currentDrawingShape = drawingShapes.erase;
+    displayFlashMessage("Eraser selected")
+  });
+
+  // Slider stroke with
+  slider.addEventListener('input', event => {
+    output.innerHTML = event.target.value;
+    lineWidth = event.target.value;
+  });
+  // Shape width (old version)
+  // btnIncreaseWidth.addEventListener('click', () => {
+  //   (lineWidth < 10) ? lineWidth++ : 10;
+  //   displayFlashMessage(`The is width is now set up to ${lineWidth}`)
+  // });
+
+  // Ctrl + z undo
+  document.addEventListener('keydown', event => {
+    let ctrlKey = event.ctrlKey;
+    let zKey = event.key === 'z';
+
+    if (ctrlKey && zKey) {
+      console.log("undo")
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      undoLastPoint()
+    }
+  });
 
   // bkImageURL="url(http://cssdeck.com/uploads/media/items/3/3yiC6Yq.jpg)";
   // document.body.style.backgroundImage = bkImageURL;
