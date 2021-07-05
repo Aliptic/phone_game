@@ -2,6 +2,36 @@
 
 {% block title %}The Rumor{% endblock %}
 
+{% block head %}
+<style>
+    /* Style the tab buttons */
+    .tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+    }
+
+    /* Change background color of buttons on hover */
+    .tablink:hover {
+    background-color: #777;
+    }
+
+    /* Set default styles for tab content */
+    .tabcontent {
+    color: white;
+    display: none;
+    padding: 50px;
+    text-align: center;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 
 <div>
@@ -21,23 +51,114 @@
     </div>
     {% endif %}
     <div>
-        <h2>Classement</h2>
+        <h2>{% trans %}Ranking - Top 10{% endtrans %}</h2>
         <table>
-			<tr>
-				<th>{% trans %}Pseudo{% endtrans %}</th>
-                <th>Points</th>
-                <th>{% trans %}Games played{% endtrans %}</th>
-                <th>{% trans %}Total time played{% endtrans %}</th>
-		    </tr>
-        {% for r in ranking %}
-            <tr>
-			    <td>{{ r['pseudo'] }}</td>
-                <td>{{ r['nb_points'] }}</td>
-                <td>{{ r['nb_games_played'] }}</td>
-                <td>{{ (r['total_time_played']/60)|round(1, 'floor') }} min</td>
-		    </tr>
-        {% endfor %}
+            <thead>
+                <tr>
+                    <th>Pseudo</th>
+                    <th>
+                        <span>{% trans %}Games played{% endtrans %}
+                            <a href="#" onclick="openRank('GamesDesc', this, 'white')" id="defaultOpen">⏷</a>
+                            <a href="#" onclick="openRank('GamesAsc', this, 'white')">⏶</a>
+                        </span>
+                    </th>
+                    <th>
+                        <span>{% trans %}Points{% endtrans %}
+                            <a href="#" onclick="openRank('PointsDesc', this, 'white')">⏷</a>
+                            <a href="#" onclick="openRank('PointsAsc', this, 'white')">⏶</a>
+                        </span>
+                    </th>
+                    <th>
+                        <span>{% trans %}Played time{% endtrans %}
+                            <a href="#" onclick="openRank('TimeDesc', this, 'white')">⏷</a>
+                            <a href="#" onclick="openRank('TimeAsc', this, 'white')">⏶</a>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <div id="GamesDesc" class="tabcontent">
+                {% for r in ranking[0] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <div id="GamesAsc" class="tabcontent">
+                {% for r in ranking[1] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <div id="PointsDesc" class="tabcontent">
+                {% for r in ranking[2] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <div id="PointsAsc" class="tabcontent">
+                {% for r in ranking[3] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <div id="TimeDesc" class="tabcontent">
+                {% for r in ranking[4] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <div id="TimeAsc" class="tabcontent">
+                {% for r in ranking[5] %}
+                <tr>
+                    <td>{{ r['pseudo'] }}</td>
+                    <td>{{ r['nb_games_played'] }}</td>
+                    <td>{{ r['nb_points'] }}</td>
+                    <td>{{ r['total_time_played'] }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function openRank(Name,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(Name).style.display = "block";
+    elmnt.style.backgroundColor = color;
+
+    }
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
 {% endblock %}

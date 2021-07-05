@@ -43,16 +43,14 @@ class HomeController extends AbstractController
             }
         //    return $this->redirectToRoute('player_invite');
         }
-        // Retrieve everyone's stats ordered by nb games playes, nb points and total time played
-    
-        /*    dump($userRepository->rank('nb_games_played'));
-        dump($userRepository->rank('nb_points'));
-        dump($userRepository->rank('total_time_played'));
-    */   
+        // Retrieve everyone's stats ordered by nb games playes, nb points and total time played   
         $ranking=array(
-            $userRepository->rank('nb_games_played'),
-            $userRepository->rank('nb_points'),
-            $userRepository->rank('total_time_played')
+            $userRepository->rank('nb_games_played','DESC'),
+            $userRepository->rank('nb_games_played','ASC'),
+            $userRepository->rank('nb_points','DESC'),
+            $userRepository->rank('nb_points','ASC'),
+            $userRepository->rank('total_time_played','DESC'),
+            $userRepository->rank('total_time_played','ASC')
         );
         
         //    $message = $translator->trans('HomeController');
