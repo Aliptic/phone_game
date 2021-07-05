@@ -42,12 +42,12 @@
     {% if app.user %}
     <div>
         <h2>{% trans %}Game creation{% endtrans %}</h2>
+        {% if invitation == 1 %}
+        <div>
+            {% trans %}Invitation pending : {% endtrans %}<a href="{{ path('player_invite') }}?player={{ app.user.id }}"> {% trans %}Game{% endtrans %} {{ numGame }}</a>
+        </div>
+        {% endif %}
         <a href="{{ path('player_invite') }}?player={{ app.user.id }}">{% trans %}Start{% endtrans %}</a>
-    </div>
-    {% endif %}
-    {% if invitation == 1 %}
-    <div>
-        {% trans %}Invitation pending : {% endtrans %}<a href="{{ path('player_invite') }}?player={{ app.user.id }}"> {% trans %}Game{% endtrans %} {{ numGame }}</a>
     </div>
     {% endif %}
     <div>

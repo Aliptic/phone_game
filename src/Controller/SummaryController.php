@@ -17,7 +17,6 @@ class SummaryController extends AbstractController
     public function index(int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $connection = $entityManager->getConnection();
         
         // database query for Game table with id filter
         $game = $this->getDoctrine()
@@ -80,9 +79,6 @@ class SummaryController extends AbstractController
      */
     public function history(int $id): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $connection = $entityManager->getConnection();
-        
         // get histories
         $histories = $this->getDoctrine()
             ->getRepository(History::class)
@@ -127,19 +123,13 @@ class SummaryController extends AbstractController
                 // marque le joueur comme ayant voté
                 $history->SetHasVoted(1);
                 $entityManager->flush();
-                
-                return $this->redirectToRoute('summary', array(
-                    'id' => $gameId,
-                ));
             }
-            else{
-                return $this->redirectToRoute('summary', array(
-                    'id' => $gameId,
-                ));
-            }
+            
+            return $this->redirectToRoute('summary', array(
+                'id' => $gameId,
+            ));
+            
         }
-        else{
-            return $this->redirectToRoute('index', array());
-        }
+        return $this->redirectToRoute('index', array());
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\StaticPage;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StaticController extends AbstractController
 {
@@ -22,13 +22,9 @@ class StaticController extends AbstractController
                 'mentions' => $mentions,
             ]);
         }
-        
-        else{
-            return $this->render('mentions/index.html.twig', [
-                'mentions' => null,
-            ]);
-        }
-
+        return $this->render('mentions/index.html.twig', [
+            'mentions' => null,
+        ]);
     }
 
     /**
@@ -44,11 +40,9 @@ class StaticController extends AbstractController
                 'rules' => $rules,
             ]);
         }
-        else{
-            return $this->render('rules/index.html.twig', [
-                'rules' => null,
-            ]);
-        }
+        return $this->render('rules/index.html.twig', [
+            'rules' => null,
+        ]);
     }
 
     /**
@@ -64,10 +58,8 @@ class StaticController extends AbstractController
                 'team' => $team,
             ]);
         }
-        else{
-            return $this->render('team/index.html.twig', [
-                'team' => null,
-            ]);
-        }
+        return $this->render('team/index.html.twig', [
+            'team' => null,
+        ]);
     }
 }
