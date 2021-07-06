@@ -3,14 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Entity\User;
 use App\Entity\History;
-use App\Entity\Sentence;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,10 +19,14 @@ class TextController extends AbstractController
     /**
      * @Route("/start/{id}", name="start")
      */
-    public function start(Request $request, int $id, HubInterface $hub ): Response
+    public function start(Request $request, int $id, HubInterface $hub, TranslatorInterface $translator ): Response
     {
         // pass the number of step in session
         $this->get('session')->set('step', "1");
+
+        // retrieves the time defined for each step
+        $timer = $this->get('session')->get('timer');
+
         
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -47,6 +50,11 @@ class TextController extends AbstractController
 
         if ($formStart->isSubmitted()) {
             $phrase = $formStart->get('phrase')->getData();
+            if( is_null($phrase) ) {
+                $phrase = $translator->trans("Sorry, the player did not have time to enter a sentence");
+            } else {
+                $phrase = $formStart->get('phrase')->getData();
+            }
 
             $history=$this->getDoctrine()
             ->getRepository(History::class)
@@ -88,6 +96,7 @@ class TextController extends AbstractController
                     'formStart' => $formStart->createView(),
                     'game_id' => $id,
                     'waiting' => '1',
+                    'timer' => -1,
                 ]);
             }
             
@@ -97,6 +106,7 @@ class TextController extends AbstractController
             'formStart' => $formStart->createView(),
             'game_id' => $id,
             'waiting' => '0',
+            'timer' => $timer,
         ]);
     }
 
@@ -110,6 +120,9 @@ class TextController extends AbstractController
             $round ++;
             $this->get('session')->set('step', $round);
         }
+        
+        // retrieves the time defined for each step
+        $timer = $this->get('session')->get('timer');
         
         $entityManager = $this->getDoctrine()->getManager();
         $connection = $entityManager->getConnection();
@@ -220,6 +233,7 @@ class TextController extends AbstractController
                 'formText' => $formText->createView(),
                 'game_id' => $id,
                 'waiting' => '1',
+                'timer' => $timer,
             ]);   
         }
         return $this->render('text/text.html.twig', [
@@ -227,6 +241,7 @@ class TextController extends AbstractController
                 'formText' => $formText->createView(),
                 'game_id' => $id,
                 'waiting' => '0',
+                'timer' => $timer,
         ]);
     }
 }

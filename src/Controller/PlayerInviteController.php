@@ -84,6 +84,8 @@ class PlayerInviteController extends AbstractController
                 $game->setUsersId($idArray);
                 $entityManager->flush();
             }
+            // duration of game saved in session variable
+            $this->get('session')->set('timer', "120");
             
             // Send an event to the hub for a new player
             $url = $this->getParameter('mercure.host').'player/invite/'.$game->getId();
@@ -109,9 +111,10 @@ class PlayerInviteController extends AbstractController
         $token = random_bytes(5); 
         $token = bin2hex($token);
 
-        // token saved in session variable
+        // token, creator id and duration of game saved in session variables
         $this->get('session')->set('token', $token);
         $this->get('session')->set('creator', $this->getUser()->getId());
+        $this->get('session')->set('timer', "120");
 
         // new verification, if the player is not logged in
         if (!$this->getUser()) {

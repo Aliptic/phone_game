@@ -5,14 +5,26 @@
 {% endblock %}
 
 {% block body %}
+	{% if waiting == 0 %}
+	<p id="timer">{% trans %}Remaining time{% endtrans %}</p>
+	{% endif %}
+
     {{ form(formStart) }}
 
     {% if waiting == 1 %}
-		<p>{% trans %}Waiting for other players{% endtrans %}</p>
+	<p>{% trans %}Waiting for other players{% endtrans %}</p>
+	{% endif %}
+
+	{% if waiting == 0 %}
+	<script type="text/javascript">
+		// Set the date we're counting down to, need to be outside the include script because of twig variables
+		var countDownDate = new Date().getTime()+({{ timer }}*1000);
+		const music = new Audio('{{ url('index') }}/sound/bips.mp3');
+	</script>
+	<script type="text/javascript" src="{{ url('index') }}script/timer.js"></script>
 	{% endif %}
 
     <script type="text/javascript">
-	
 		// SSE
 		// Mercure hub url
 		const url = new URL('{{ mercure_hub }}')
@@ -23,7 +35,6 @@
 
 		// The callback will be called every time an update is published
 		eventSource.onmessage = e => {
-		//	console.log(e); // do something with the payload
 			let data = JSON.parse(e.data)
 			if(data.subject == 'draw'){
                 window.location.replace('{{ mercure_host }}drawing/{{ game_id }}')
