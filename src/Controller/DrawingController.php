@@ -21,6 +21,9 @@ class DrawingController extends AbstractController
      */
     public function index(Request $request, int $id, HubInterface $hub): Response
     {   
+        // retrieves the time defined for each step
+        $timer = $this->get('session')->get('timer');
+        
         // On vérifie que l'on ne vient pas du formulaire de cette même page
         $round = $this->get('session')->get('step');
         if(!isset($_POST['form'])){
@@ -135,6 +138,7 @@ class DrawingController extends AbstractController
                     'formDraw' => $formDraw->createView(),
                     'waiting' => '1',
                     'drawing' => $drawing,
+                    'timer' => $timer,
                 ]);
             }
         } 
@@ -144,6 +148,7 @@ class DrawingController extends AbstractController
             'sentence' => $sentenceOpponent,
             'formDraw' => $formDraw->createView(),
             'waiting' => '0',
+            'timer' => $timer,
         ]);
     }
 }

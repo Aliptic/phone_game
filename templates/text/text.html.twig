@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-	{% if waiting == 0 %}
-	<p id="timer">{% trans %}Remaining time{% endtrans %}</p>
-	{% endif %}
 	<div>
   		<img src={{ drawing }} alt={% trans %}The masterpiece{% endtrans %} />
 	</div>
+	{% if waiting == 0 %}
+	<p id="timer">{% trans %}Remaining time{% endtrans %}</p>
+	{% endif %}
     {{ form(formText) }}
 
     {% if waiting == 1 %}
