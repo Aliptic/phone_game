@@ -20,7 +20,7 @@ class DrawingController extends AbstractController
      * @Route("/drawing/{id}", name="drawing")
      */
     public function index(Request $request, int $id, HubInterface $hub): Response
-    {   
+    {
         // On vérifie que l'on ne vient pas du formulaire de cette même page
         $round = $this->get('session')->get('step');
         if(!isset($_POST['form'])){
@@ -36,10 +36,10 @@ class DrawingController extends AbstractController
         $statement = $connection->prepare($query);
         $statement->execute();
         $tabNbPlayers = $statement->fetch();
-        
+
         // Convert the array to string to number
         $nbPlayers = intval(implode(" ",$tabNbPlayers));
-        
+
         // Check if all the steps have been passed
         if($round > $nbPlayers) {
             return $this->redirectToRoute('summary', array(
@@ -51,7 +51,7 @@ class DrawingController extends AbstractController
         $game=$this->getDoctrine()
             ->getRepository(Game::class)
             ->findOneBy(array('id' => $id));
-        
+
         $playersList=$game->getUsersId();
 
         //position du joueur dans le classement des joueurs de cette partie
@@ -71,7 +71,7 @@ class DrawingController extends AbstractController
         $historyOpponent=$this->getDoctrine()
             ->getRepository(History::class)
             ->findOneBy(array('game_id' => $id,'user_id' => $opponentId));
-        
+
         // on retrouve finalement la bonne phrase à afficher
         $size=count($historyOpponent->getHistory());
         // on prend size-1 pour retomber sur la bonne phrase au cas où il s'agit d'une deuxieme phase de dessin
@@ -103,12 +103,12 @@ class DrawingController extends AbstractController
             $query = "SELECT history FROM history h WHERE game_id = ".$id;
             $statement = $connection->prepare($query);
             $statement->execute();
-            $histories = $statement->fetchAll();  
-            
+            $histories = $statement->fetchAll();
+
             $vide = 0;
             foreach($histories as $h) {
                 $hArray = json_decode($h['history'], true);
-                
+
                 if(!isset($hArray[$round-1])){
                     $vide++;
                 }
@@ -123,11 +123,11 @@ class DrawingController extends AbstractController
                     json_encode(array('subject' => 'text',))
                 );
                 $hub->publish($update);
-                
+
                 return $this->redirectToRoute('text',[
                     "id" => $id,
                 ]);
-            } else {    
+            } else {
                 // if a player has not still validated, it warns the other players
                 return $this->render('drawing/index.html.twig', [
                     'game_id' => $id,
@@ -137,7 +137,7 @@ class DrawingController extends AbstractController
                     'drawing' => $drawing,
                 ]);
             }
-        } 
+        }
 
         return $this->render('drawing/index.html.twig', [
             'game_id' => $id,
