@@ -12,7 +12,6 @@ var x = setInterval(function() {
 
     // Display the result in the element with id="timer"
     document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
-    console.log(distance)
     
     // Play a sound when there is less than 4 sec
     if (distance < 3000) {
