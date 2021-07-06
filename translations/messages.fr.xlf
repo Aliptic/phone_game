@@ -421,42 +421,6 @@
         <source>Clear Canvas</source>
         <target>Nettoyer la toile</target>
       </trans-unit>
-      <trans-unit id="aG7uPGz" resname="Eraser">
-        <source>Eraser</source>
-        <target>Gomme</target>
-      </trans-unit>
-      <trans-unit id="dd3GWx0" resname="Free Line">
-        <source>Free Line</source>
-        <target>Crayon</target>
-      </trans-unit>
-      <trans-unit id="14Us0NJ" resname="Line">
-        <source>Line</source>
-        <target>Ligne</target>
-      </trans-unit>
-      <trans-unit id="uT07zs." resname="Circle">
-        <source>Circle</source>
-        <target>Cercle</target>
-      </trans-unit>
-      <trans-unit id="mXdcvVO" resname="Circle fill">
-        <source>Circle fill</source>
-        <target>Cercle plein</target>
-      </trans-unit>
-      <trans-unit id="AwaZYij" resname="Rectangle">
-        <source>Rectangle</source>
-        <target>Rectangle</target>
-      </trans-unit>
-      <trans-unit id="y3C3Slb" resname="Rectangle fill">
-        <source>Rectangle fill</source>
-        <target>Rectangle plein</target>
-      </trans-unit>
-      <trans-unit id="oCUmkbX" resname="Triangle">
-        <source>Triangle</source>
-        <target>Triangle</target>
-      </trans-unit>
-      <trans-unit id="5ReZDOq" resname="Triangle Fill">
-        <source>Triangle Fill</source>
-        <target>Triangle plein</target>
-      </trans-unit>
       <trans-unit id="5AFMttn" resname="The Rumor - Game">
         <source>The Rumor - Game</source>
         <target>Le jeu du téléphone - Partie</target>

@@ -261,16 +261,16 @@
 
   <div class="btn-container">
     <button id="clear-canvas">{% trans %}Clear Canvas{% endtrans %}</button>
-    <button id="erase-canvas">{% trans %}Eraser{% endtrans %}</button>
+    <button id="erase-canvas"></button>
 
-    <button id="draw-freeLine">{% trans %}Free Line{% endtrans %}</button>
-    <button id="draw-line">{% trans %}Line{% endtrans %}</button>
-    <button id="draw-circle">{% trans %}Circle{% endtrans %}</button>
-    <button id="draw-circleFill">{% trans %}Circle fill{% endtrans %}</button>
-    <button id="draw-rectangle">{% trans %}Rectangle{% endtrans %}</button>
-    <button id="draw-rectangleFill">{% trans %}Rectangle fill{% endtrans %}</button>
-    <button id="draw-triangle">{% trans %}Triangle{% endtrans %}</button>
-    <button id="draw-triangleFill">{% trans %}Triangle Fill{% endtrans %}</button>
+    <button id="draw-freeLine"></button>
+    <button id="draw-line"></button>
+    <button id="draw-circle"></button>
+    <button id="draw-circleFill"></button>
+    <button id="draw-rectangle"></button>
+    <button id="draw-rectangleFill"></button>
+    <button id="draw-triangle"></button>
+    <button id="draw-triangleFill"></button>
     {{ form(formDraw) }}
 
     <div class="slider-container">
@@ -610,28 +610,9 @@
   }
 
   btnNewPalette.addEventListener('click', () => {
-    // console.log(colorsPalette.childElementCount)
-    console.log(colorsPalette.childNodes)
-
     colorsPalette.childNodes.forEach((div) => {
       div.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
     })
-
-
-
-    // for (let i = 0; i < 15; i++) {
-    //   let color = document.createElement('div');
-
-    //   color.addEventListener('click', () => {
-    //     let color = event.target.style.backgroundColor;
-    //     colorRecap.style.backgroundColor = color;
-    //     currentColor = color;
-    //   });
-
-    //   color.classList.add('color');
-    //   color.style.backgroundColor = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
-    //   colorsPalette.appendChild(color);
-    // }
   });
 
   // Generate the color palette
@@ -666,7 +647,12 @@
 
   let shapePoints = [];
 
-  // Save the drawing to the hiden field
+  // Save the drawing to the hiden
+  btnValidateForm.addEventListener('click', () => {
+    let img = canvas.toDataURL("image/png");
+    form_hidden.value = img;
+    displayFlashMessage("Dessin envoyé!")
+  });
 
   // When the mouse move
   drawCanvas.addEventListener('mousemove', event => {
