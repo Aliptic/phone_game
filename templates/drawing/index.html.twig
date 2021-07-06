@@ -307,8 +307,7 @@
 {% if waiting == 0 %}
 <script type="text/javascript">
     // Set the date we're counting down to, need to be outside the include script because of twig variables
-  //  var countDownDate = new Date().getTime()+({{ timer }}*1000);
-    var countDownDate = new Date().getTime()+(20*1000);
+    var countDownDate = new Date().getTime()+({{ timer }}*1000);
     const music = new Audio('{{ url('index') }}/sound/bips.mp3');
     // Update the count down every 1 second
 var x = setInterval(function() {
