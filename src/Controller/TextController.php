@@ -27,7 +27,6 @@ class TextController extends AbstractController
         // retrieves the time defined for each step
         $timer = $this->get('session')->get('timer');
 
-        
         $entityManager = $this->getDoctrine()->getManager();
 
         //get a new sentence as placeholder for the textField
