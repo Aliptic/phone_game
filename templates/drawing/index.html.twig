@@ -167,8 +167,18 @@
   transform: translate(-50%, -50%); */
   }
 
+  #clear-canvas::before {
+    background-image: url('{{ url('index') }}img/clean.png');
+    background-size: cover;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    left: 0;
+  }
+
   #erase-canvas::before {
-    background-image: url('./img/eraser.png');
+    background-image: url('{{ url('index') }}img/eraser.png');
     background-size: cover;
     display: inline-block;
     width: 30px;
@@ -178,7 +188,7 @@
   }
 
   #draw-freeLine::before {
-    background-image: url('./img/free.png');
+    background-image: url('{{ url('index') }}img/free.png');
     background-size: cover;
     display: inline-block;
     width: 30px;
@@ -260,9 +270,8 @@
 
 
   <div class="btn-container">
-    <button id="clear-canvas">{% trans %}Clear Canvas{% endtrans %}</button>
+    <button id="clear-canvas"></button>
     <button id="erase-canvas"></button>
-
     <button id="draw-freeLine"></button>
     <button id="draw-line"></button>
     <button id="draw-circle"></button>
