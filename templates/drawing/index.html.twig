@@ -6,6 +6,10 @@
 
 {% block body %}
 <style>
+  p {
+    text-align: center;
+  }
+
   .canvas-container {
     /* margin: 0; */
     position: absolute;
@@ -263,9 +267,6 @@
 <div class="main-wrapper">
   <div class="sentence-container">
     <h3>{% trans %}Try to draw this sentence:{% endtrans %}</h3>{{ sentence }}
-    {% if waiting == 1 %}
-    <p>{% trans %}Waiting for other players{% endtrans %}</p>
-    {% endif %}
   </div>
 
   <div class="canvas-container">
@@ -322,12 +323,14 @@
 
     <div id="img-result"></div>
   </div>
+  {% if waiting == 1 %}
+  <p>{% trans %}Waiting for other players{% endtrans %}</p>
+  {% endif %}
 </div>
 {% if waiting == 0 %}
 <script type="text/javascript">
     // Set the date we're counting down to, need to be outside the include script because of twig variables
-  //  var countDownDate = new Date().getTime()+({{ timer }}*1000);
-    var countDownDate = new Date().getTime()+(600*1000);
+    var countDownDate = new Date().getTime()+({{ timer }}*1000);
     const music = new Audio('{{ url('index') }}/sound/bips.mp3');
     // Update the count down every 1 second
 var x = setInterval(function() {

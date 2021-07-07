@@ -112,7 +112,7 @@ class TextController extends AbstractController
     /**
      * @Route("/text/{id}", name="text")
      */
-    public function text(Request $request, int $id, HubInterface $hub ): Response
+    public function text(Request $request, int $id, HubInterface $hub, TranslatorInterface $translator ): Response
     {
         $round = $this->get('session')->get('step');
         if(!isset($_POST['form'])){
@@ -184,6 +184,11 @@ class TextController extends AbstractController
 
         if ($formText->isSubmitted()) {
             $phrase = $formText->get('phrase')->getData();
+            if( is_null($phrase) ) {
+                $phrase = $translator->trans("Sorry, the player did not have time to enter a sentence");
+            } else {
+                $phrase = $formTextt->get('phrase')->getData();
+            }
 
             $history=$this->getDoctrine()
                 ->getRepository(History::class)

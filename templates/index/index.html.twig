@@ -63,6 +63,7 @@
             <table>
             <tr>
             <th>Pseudo</th>
+            <th></th>
             <th>
                 <span>{% trans %}Games played{% endtrans %}
                     <a href="#" onclick="openRank('GamesDesc', this, 'white')" id="defaultOpen">⏷</a>
@@ -85,9 +86,10 @@
             {% for ru in r[1] %}
             <tr>
                 <td>{{ ru['pseudo'] }}</td>
+                <td></td>
                 <td>{{ ru['nb_games_played'] }}</td>
                 <td>{{ ru['nb_points'] }}</td>
-                <td>{{ ru['total_time_played'] }}</td>
+                <td>{{ (ru['total_time_played']/60)|round(1, 'floor') }}min</td>
             </tr>
             {% endfor %}
             </table>

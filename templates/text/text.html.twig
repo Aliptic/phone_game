@@ -5,17 +5,37 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-  		<img src={{ drawing }} alt={% trans %}The masterpiece{% endtrans %} />
-	</div>
-	{% if waiting == 0 %}
-	<p id="timer">{% trans %}Remaining time{% endtrans %}</p>
-	{% endif %}
-    {{ form(formText) }}
+<style>
+    .main-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+        font: 18px / 1.5 sans-serif;
+    }
+    .main-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+    }
+</style>
 
-    {% if waiting == 1 %}
+<div class="main-wrapper">
+	<div>
+		<img src={{ drawing }} alt={% trans %}The masterpiece{% endtrans %} />
+	</div>
+	{{ form_start(formText) }}
+	{{ form_label(formText.phrase, 'Please enter your sentence'|trans ) }}
+	<br>
+	{{ form_widget(formText.phrase) }}
+	{{ form_widget(formText.validate, { 'label': 'Validate'|trans }) }}
+	{% if waiting == 0 %}
+	<span id="timer">{% trans %}Remaining time{% endtrans %}</span>
+	{% endif %}
+	{{ form_end(formText) }}
+
+	{% if waiting == 1 %}
 		<p>{% trans %}Waiting for other players{% endtrans %}</p>
 	{% endif %}
+</div>
 
 	{% if waiting == 0 %}
 	<script type="text/javascript">

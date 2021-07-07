@@ -613,6 +613,34 @@
         <source>Total time played</source>
         <target>Temps de jeu total</target>
       </trans-unit>
+      <trans-unit id="xdk4rhV" resname="Sorry, the player did not have time to enter a sentence">
+        <source>Sorry, the player did not have time to enter a sentence</source>
+        <target>Désolé, le joueur n'a pas eu le temps de saisir une phrase</target>
+      </trans-unit>
+      <trans-unit id="Kmzu0YV" resname="Admin actions">
+        <source>Admin actions</source>
+        <target>Actions d'administration</target>
+      </trans-unit>
+      <trans-unit id="n4EAxXR" resname="Edit the static pages">
+        <source>Edit the static pages</source>
+        <target>Editer les pages statiques</target>
+      </trans-unit>
+      <trans-unit id="Vs_cOcP" resname="Remaining time">
+        <source>Remaining time</source>
+        <target>Temps restant</target>
+      </trans-unit>
+      <trans-unit id="tJhShxx" resname="Ranking - Top 10">
+        <source>Ranking - Top 10</source>
+        <target>Classement - Top 10</target>
+      </trans-unit>
+      <trans-unit id="udhkzp4" resname="Played time">
+        <source>Played time</source>
+        <target>Temps de jeu</target>
+      </trans-unit>
+      <trans-unit id="bxMqWEu" resname="Please enter your sentence">
+        <source>Please enter your sentence</source>
+        <target>Veuillez saisir votre phrase</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
