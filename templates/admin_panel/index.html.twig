@@ -107,7 +107,7 @@
                     </td>
                     <td>{{ user.nbPoints }}</td>
                     <td>{{ user.nbGamesPlayed }}</td>
-                    <td>{{ user.totalTimePlayed }}</td>
+                    <td>{{ (user.totalTimePlayed/60)|round(1, 'floor') }} min</td>
                     <td>{{ user.isVerified ? '☑' : '☐' }}</td>
                     <td>
                         <a href="{{ path('user_show', {'id': user.id}) }}">

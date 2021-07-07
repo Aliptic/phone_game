@@ -5,10 +5,27 @@
 {% endblock %}
 
 {% block body %}
+<style>
+    input[type=text]{
+        border: 1px solid;
+        border-radius:7px;
+        height:18px;
+        width:200px;
+        margin:2px;
+    }
+
+    .main-wrapper {
+        margin: 2em auto;
+        max-width: 800px;
+        width: 50%;
+        padding-top:50px;
+        font: 18px / 1.5 sans-serif;
+    }
+</style>
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-
+    <div class="main-wrapper">
     <h1>{% trans %}Register{% endtrans %}</h1>
 
     {{ form_start(registrationForm) }}
@@ -20,4 +37,5 @@
         
         <button type="submit" class="btn">{% trans %}Register{% endtrans %}</button>
     {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

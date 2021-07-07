@@ -55,6 +55,8 @@
         {% endif %}
         <a href="{{ path('player_invite') }}?player={{ app.user.id }}">{% trans %}Start{% endtrans %}</a>
     </div>
+    {% else %}
+        <a href="{{ path('app_login') }}">{% trans %}You must be logged in order to play.{% endtrans %}</a>
     {% endif %}
     <div>
         <h2>{% trans %}Ranking - Top 10{% endtrans %}</h2>
@@ -89,7 +91,7 @@
                 <td></td>
                 <td>{{ ru['nb_games_played'] }}</td>
                 <td>{{ ru['nb_points'] }}</td>
-                <td>{{ (ru['total_time_played']/60)|round(1, 'floor') }}min</td>
+                <td>{{ (ru['total_time_played']/60)|round(1, 'floor') }} min</td>
             </tr>
             {% endfor %}
             </table>

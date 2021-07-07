@@ -435,7 +435,7 @@
       </trans-unit>
       <trans-unit id="SeNwhJX" resname="Welcome to this wonderfull game">
         <source>Welcome to this wonderfull game</source>
-        <target>Bienvenue dans ce merveilleux jeu</target>
+        <target>Bienvenue dans ce merveilleux jeu!</target>
       </trans-unit>
       <trans-unit id="uP.uepq" resname="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.">
         <source>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere perspiciatis repudiandae magnam nulla veniam voluptatibus.</source>
@@ -640,6 +640,14 @@
       <trans-unit id="bxMqWEu" resname="Please enter your sentence">
         <source>Please enter your sentence</source>
         <target>Veuillez saisir votre phrase</target>
+      </trans-unit>
+      <trans-unit id="AQxpYRw" resname="You must be logged in order to play.">
+        <source>You must be logged in order to play.</source>
+        <target>Vous devez être connecté pour pouvoir jouer.</target>
+      </trans-unit>
+      <trans-unit id="Hug0Ixh" resname="Don't have an account yet?">
+        <source>Don't have an account yet?</source>
+        <target>Vous n'avez pas encore de compte?</target>
       </trans-unit>
     </body>
   </file>

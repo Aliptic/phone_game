@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block body %}
+<style>
+
+.main-wrapper {
+    margin: 2em auto;
+    max-width: 800px;
+    width: 50%;
+    padding-top:50px;
+    font: 18px / 1.5 sans-serif;
+}
+</style>
+
+<div class="main-wrapper">
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -19,11 +31,12 @@
     <h1 class="h3 mb-3 font-weight-normal">{% trans %}Please sign in{% endtrans %}</h1>
     <label for="inputEmail">{% trans %}Email{% endtrans %}</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <br>
     <label for="inputPassword">{% trans %}Password{% endtrans %}</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+    <br>
     <a href="{{ path('app_forgot_password_request') }}">{% trans %}Forgot password?{% endtrans %}</a>
-
+    
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
@@ -42,5 +55,8 @@
     <button class="btn btn-lg btn-primary" type="submit">
         {% trans %}Sign in{% endtrans %}
     </button>
+    <br><br>
+    <a href="{{ path('app_register') }}">{% trans %}Don't have an account yet?{% endtrans %}</a>
 </form>
+</div>
 {% endblock %}
