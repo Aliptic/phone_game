@@ -130,28 +130,30 @@
     {% endfor %}
 </div>
 
-<!-- Voting section -->
-<div class="summary-votes">
-  <h3>
-    {% trans %}It's your time to vote!{% endtrans %}
-    <br>
-    {{ sentenceVote }}
-  </h3>
-  {% for id in ids %}
-    {% if id[0] != myId %}
-      {% if hasVoted == 0 %}
-      <a class="button" href="{{ path('votefor', {'id': id[0],'gameId': game_id}) }}">
-        {{ id[1] }}
-      </a>
-      {% else %}
-        <span class="button-grey" > {{ id[1] }} </span>
+{% if hasVoted == 1 %}
+    <h3>{% trans %}Thank you for voting!{% endtrans %}</h3>
+    <a href="{{ path('index') }}">{% trans %}Start a new game{% endtrans %}</a>
+{% else %}
+  <!-- Voting section -->
+  <div class="summary-votes">
+    <h3>
+      {% trans %}It's your time to vote!{% endtrans %}
+      <br>
+      {{ sentenceVote }}
+    </h3>
+    {% for id in ids %}
+      {% if id[0] != myId %}
+        {% if hasVoted == 0 %}
+        <a class="button" href="{{ path('votefor', {'id': id[0],'gameId': game_id}) }}">
+          {{ id[1] }}
+        </a>
+        {% else %}
+          <span class="button-grey" > {{ id[1] }} </span>
+        {% endif %}
       {% endif %}
-    {% endif %}
-  {% endfor %}
-  {% if hasVoted == 1 %}
-    <br><span>{% trans %}Thank you for voting!{% endtrans %}</span>
-  {% endif %}
-</div>
+    {% endfor %}
+  </div>
+{% endif %}
 <script>
     // let tabs = document.querySelectorAll('.tablinks')
 

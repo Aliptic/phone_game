@@ -26,6 +26,12 @@
         box-sizing: border-box;
     }
 
+    input[type=text]{
+        border: 1px solid;
+        height:30px;
+        width:330px;
+    }
+
     .wrapper {
         display: flex;
         flex-direction: column;
@@ -108,7 +114,7 @@
 
     .footer {
         flex: row;
-        background-color: #001b58;
+        background-color: #318CE7;
 
     }
 
@@ -127,9 +133,14 @@
     }
 
     .footer a {
-        color: #ffffff;
+        display: inline-block;
+        padding: .5em 1.5em;
+        font-size: 1em;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        color: #dfefff;
         text-decoration: none;
-        font-size: 0.83em;
+        
     }
 
     .footer-nav a {
@@ -200,16 +211,15 @@
                         {# Est ce que l'utilisateur est connecté #}
                         {% if app.user %}
                         <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">{% trans %}My account{% endtrans %}</a>
+                        {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
+                        {% endif %}
                         <li><a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a></li>
                         </li>
                         {% else %}
                         <li><a href="{{ path('app_register') }}">{% trans %}Sign up{% endtrans %}</a></li>
                         <li><a href="{{ path('app_login') }}">{% trans %}Log in{% endtrans %}</a></li>
-                        {% endif %}
-
-                        {# Est ce que l'utilisteur a le droit d'avoir le panneau d'admin #}
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('admin_panel') }}">{% trans %}Admin panel{% endtrans %}</a></li>
                         {% endif %}
                     </ul>
                 </nav>

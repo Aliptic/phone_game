@@ -2,7 +2,7 @@
 
 {% block title %}The Rumor{% endblock %}
 
-{% block head %}
+{% block body %}
 <style>
     /* Style the tab buttons */
     .tablink {
@@ -24,17 +24,23 @@
 
     /* Set default styles for tab content */
     .tabcontent {
-    color: white;
+    color: black;
     display: none;
     padding: 50px;
     text-align: center;
     }
+    .main-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+        font: 18px / 1.5 sans-serif;
+    }
+    .main-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+    }
 </style>
-{% endblock %}
-
-{% block body %}
-
-<div>
+<div class="main-wrapper">
     <div>
         <h1>{% trans %}The Rumor{% endtrans %}</h1>
         <p>{% trans %}Welcome to this wonderfull game{% endtrans %}</p>

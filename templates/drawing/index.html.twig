@@ -12,7 +12,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
+    width: 1200px;
 
     display: flex;
     justify-content: center;
@@ -250,73 +250,84 @@
   .slider-container {
     margin-left: 40px;
   }
+  .main-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+    }
+    .main-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+    }
 </style>
-<div class="sentence-container">
-  <h3>{% trans %}Try to draw this sentence:{% endtrans %}</h3><br>{{ sentence }}
-
-  {% if waiting == 1 %}
-  <p>{% trans %}Waiting for other players{% endtrans %}</p>
-  {% endif %}
-</div>
-
-<div class="canvas-container">
-  {% if waiting == 1 %}
-  <div class="drawing">
-    <img src={{drawing}} alt="My drawing" />
+<div class="main-wrapper">
+  <div class="sentence-container">
+    <h3>{% trans %}Try to draw this sentence:{% endtrans %}</h3>{{ sentence }}
+    {% if waiting == 1 %}
+    <p>{% trans %}Waiting for other players{% endtrans %}</p>
+    {% endif %}
   </div>
-  {% else %}
-  <canvas id="canvas"></canvas>
-  <canvas id="drawCanvas"></canvas>
 
-
-  <div class="btn-container">
-    <button id="clear-canvas"></button>
-    <button id="erase-canvas"></button>
-    <button id="draw-freeLine"></button>
-    <button id="draw-line"></button>
-    <button id="draw-circle"></button>
-    <button id="draw-circleFill"></button>
-    <button id="draw-rectangle"></button>
-    <button id="draw-rectangleFill"></button>
-    <button id="draw-triangle"></button>
-    <button id="draw-triangleFill"></button>
-
-    <div class="slider-container">
-      <input type="range" min="1" max="10" value="1" class="slider" id="myRange">
-      <span>Value: <span id="demo"></span></span>
+  <div class="canvas-container">
+    {% if waiting == 1 %}
+    <div class="drawing">
+      <img src={{drawing}} alt="My drawing" />
     </div>
-    {{ form(formDraw) }}
-    <p id="timer">{% trans %}Remaining time{% endtrans %}</p>
-    
+    {% else %}
+    <canvas id="canvas"></canvas>
+    <canvas id="drawCanvas"></canvas>
 
-    <!-- <div id="hex">HEX: <input type="text"></input></div>
-    <div id="rgb">RGB: <input type="text"></input></div>
-    <button onclick="playAudio()" type="button">Play Audio</button>
-    <button onclick="pauseAudio()" type="button">Pause Audio</button>
-    <button id="flash">Show flash message</button> -->
-  </div>
 
-  <div class="colors-container" id="colors-container">
-    <button class="new-palette" id="new-palette">Generate new palette</button>
-    <div class="palette" id="colors-palette"></div>
-    <div class="color-recap" id="color-recap"></div>
-  </div>
-  <div class="flash-message" id="flashMessage" data-duration="5000">
-    <p>This is a flash message</p>
-  </div>
-  {% endif %}
-  <dialog open id="modal-dialog">
-    <div class='modal-title' id="modal-title">Would you...?</div>
-    <input type='button' value='yes' id='btnYes' />
-    <input type='button' value='no' id='btnNo' />
-  </dialog>
+    <div class="btn-container">
+      <button id="clear-canvas"></button>
+      <button id="erase-canvas"></button>
+      <button id="draw-freeLine"></button>
+      <button id="draw-line"></button>
+      <button id="draw-circle"></button>
+      <button id="draw-circleFill"></button>
+      <button id="draw-rectangle"></button>
+      <button id="draw-rectangleFill"></button>
+      <button id="draw-triangle"></button>
+      <button id="draw-triangleFill"></button>
 
-  <div id="img-result"></div>
+      <div class="slider-container">
+        <input type="range" min="1" max="10" value="1" class="slider" id="myRange">
+        <span>Value: <span id="demo"></span></span>
+      </div>
+      {{ form(formDraw) }}
+      <p id="timer">{% trans %}Remaining time{% endtrans %}</p>
+      
+
+      <!-- <div id="hex">HEX: <input type="text"></input></div>
+      <div id="rgb">RGB: <input type="text"></input></div>
+      <button onclick="playAudio()" type="button">Play Audio</button>
+      <button onclick="pauseAudio()" type="button">Pause Audio</button>
+      <button id="flash">Show flash message</button> -->
+    </div>
+
+    <div class="colors-container" id="colors-container">
+      <button class="new-palette" id="new-palette">Generate new palette</button>
+      <div class="palette" id="colors-palette"></div>
+      <div class="color-recap" id="color-recap"></div>
+    </div>
+    <div class="flash-message" id="flashMessage" data-duration="5000">
+      <p>This is a flash message</p>
+    </div>
+    {% endif %}
+    <dialog open id="modal-dialog">
+      <div class='modal-title' id="modal-title">Would you...?</div>
+      <input type='button' value='yes' id='btnYes' />
+      <input type='button' value='no' id='btnNo' />
+    </dialog>
+
+    <div id="img-result"></div>
+  </div>
 </div>
 {% if waiting == 0 %}
 <script type="text/javascript">
     // Set the date we're counting down to, need to be outside the include script because of twig variables
-    var countDownDate = new Date().getTime()+({{ timer }}*1000);
+  //  var countDownDate = new Date().getTime()+({{ timer }}*1000);
+    var countDownDate = new Date().getTime()+(600*1000);
     const music = new Audio('{{ url('index') }}/sound/bips.mp3');
     // Update the count down every 1 second
 var x = setInterval(function() {
