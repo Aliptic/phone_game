@@ -187,7 +187,7 @@ class TextController extends AbstractController
             if( is_null($phrase) ) {
                 $phrase = $translator->trans("Sorry, the player did not have time to enter a sentence");
             } else {
-                $phrase = $formTextt->get('phrase')->getData();
+                $phrase = $formText->get('phrase')->getData();
             }
 
             $history=$this->getDoctrine()
