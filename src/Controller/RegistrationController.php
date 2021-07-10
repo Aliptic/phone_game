@@ -63,6 +63,9 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
+            $message = $this->translator->trans('An email has been sent to your address, please check your mailbox.');
+            $this->addFlash('success', $message);
+
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
