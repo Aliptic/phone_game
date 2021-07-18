@@ -22,8 +22,9 @@
 	</style>
 
 	<div class="main-wrapper">
+		<div>
 		<!-- Test if a player is invited and the link is correct -->
-		{% if token and game_id > 0 %}
+			{% if token and game_id > 0 %}
 			<h1>{% trans %}Waiting room{% endtrans %}</h1>
 			<h2>{% trans %}Game{% endtrans %}
 				{{ game_id }}</h2>
@@ -51,15 +52,25 @@
 			<br>
 			<a href="/game/{{ game_id }}">{% trans %}Start{% endtrans %}</a>
 			{% endif %}
-
+		</div>
+		<div>
+			<h2>Chat</h2>
+			<div class="chat">
+    		</div>
+			<form id="chat-form" method="post">
+				<input type="text" name="message" placeholder="Enter a message..." maxlength="500" autocomplete="off">
+				<button type="submit">{% trans %}Send{% endtrans %}</button>
+ 			</form>
+		</div>
+	</div>
+	{% else %}
+		{% if game_id == 0 %}
+			<h3>{% trans %}Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :){% endtrans %}</h3>
+			<a href="{{ path('index') }}">{% trans %}Start a new game{% endtrans %}</a>
 		{% else %}
-			{% if game_id == 0 %}
-				<h3>{% trans %}Sorry, this game link is invalid or expired, you should verify your link or create a game on your own :){% endtrans %}</h3>
-				<a href="{{ path('index') }}">{% trans %}Start a new game{% endtrans %}</a>
-			{% else %}
-				<h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
-			{% endif %}
+			<h1>{% trans %}Error generating token, please contact admin{% endtrans %}</h1>
 		{% endif %}
+	{% endif %}
 	</div>
 
 	<script type="text/javascript">
@@ -81,7 +92,7 @@
 		// SSE
 		// Mercure hub url
 		const url = new URL('{{ mercure_hub }}');
-		console.log(url)
+	//	console.log(url)
 
 		// Search parameters 
 		url.searchParams.append('topic', '{{ mercure_host }}player/invite/{{ game_id }}');
@@ -94,12 +105,34 @@
 			if(data.subject == 'player'){
 				document.querySelector('table').insertAdjacentHTML('beforeend', `<tr><td>${data.player}</td></tr>`)
 			}
-
+			if(data.subject == 'chat'){
+				document.querySelector('div.chat').insertAdjacentHTML('beforeend', `${data.player} : ${data.message}<br>`)
+			}
 			if(data.subject == 'start'){
 			//	document.querySelector('button').insertAdjacentHTML('afterend', `Compte à rebours`)
 				window.location.replace('{{ mercure_host }}start/{{ game_id }}');
 			}
 		}
+
+		document.getElementById("chat-form").addEventListener("submit", function(event) {
+			event.preventDefault();
+
+			var message_element = document.getElementsByTagName("input")[0];
+			var message = message_element.value;
+
+			if (message.toString().length) {
+				var username = localStorage.getItem("username");
+				
+				var data = {
+					type: "message",
+					username: username,
+					message: message
+				};
+
+				websocket.send(JSON.stringify(data));
+				message_element.value = "";
+			}
+		}, false);
 	</script>
 	
 {% endblock %}
